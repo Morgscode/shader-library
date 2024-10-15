@@ -3,3 +3,17 @@
   padding: 0px;
   margin: 0px;
 }
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  line-height: 1;
+  color: #333333;
+  background-color: #F9F9F9;
+}
+
+p, ol, ul, li {
+  margin-bottom: 1rem;
+}
+
+

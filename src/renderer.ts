@@ -21,7 +21,7 @@ export default class Renderer {
     async init() {
        if (!this._app) return;
        this._app.appendChild(this._threejs.domElement);
-       window.addEventListener('resize', this._onWindowResize);
+       window.addEventListener('resize', (e) => this._onWindowResize(e));
        this._camera.position.set(0, 0, 1);
        await this.shader()
        this._raf();
@@ -31,6 +31,7 @@ export default class Renderer {
         const vsh = await fetch(this._vsh);
         const fsh = await fetch(this._fsh);
 
+        // https://threejs.org/docs/#api/en/materials/ShaderMaterial
         const material = new THREE.ShaderMaterial({
             uniforms: {},
             vertexShader: await vsh.text(),
