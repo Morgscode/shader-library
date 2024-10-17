@@ -13,7 +13,7 @@ export default class Renderer {
         this._app = document.querySelector("#app");
         this._threejs = new THREE.WebGLRenderer();
         this._scene = new THREE.Scene();
-        this._camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 1000);
+        this._camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 2000);
         this._vsh = `./shaders/${vsh}`;
         this._fsh = `./shaders/${fsh}`;
     }
@@ -38,6 +38,7 @@ export default class Renderer {
             fragmentShader: await fsh.text()
         });
 
+        // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
         const geometry = new THREE.PlaneGeometry(1, 1);
         const plane = new THREE.Mesh(geometry, material);
         plane.position.set(0.5, 0.5, 0);
