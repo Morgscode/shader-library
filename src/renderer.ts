@@ -21,6 +21,14 @@ export default class Renderer {
         this.fsh = shader.fragment;
     }
 
+    getApp() {
+        return this.app;
+    }
+
+    setApp(element: HTMLDivElement) {
+        this.app = element;
+    }
+
     init() {
        if (!this.app) throw new Error('Renderer initiated without a DOM Element');
        this.app.appendChild(this.threejs.domElement);
@@ -60,13 +68,4 @@ export default class Renderer {
             this.animate();
         })
     }
-
-    getApp() {
-        return this.app;
-    }
-
-    setApp(element: HTMLDivElement) {
-        this.app = element;
-    }
-
 }
