@@ -9,9 +9,11 @@ export default class Renderer {
     private textureLoader: THREE.TextureLoader;
     private vsh: string;
     private fsh: string;
+    private startTime: DOMHighResTimeStamp;
     private app: HTMLDivElement | null;
     private material?: THREE.ShaderMaterial;
     private texture?: string;
+
 
     constructor(shader: Shader, selector: string = "#app") {
         this.app = document.querySelector(selector);
@@ -22,6 +24,7 @@ export default class Renderer {
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
         this.texture = shader.texture;
+        this.startTime = performance.now();
     }
 
     getApp() {
@@ -69,12 +72,17 @@ export default class Renderer {
     private uniforms() {
         return {
             u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
-            u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(null)
+            u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(0.0),
+            u_time: new THREE.Uniform(0.0)
         }
     }
 
     private animate() {
         requestAnimationFrame(() => {
+            const elapsed = performance.now() - this.startTime
+            if (this.material) {
+                this.material.uniforms.u_time.value = elapsed;
+            }
             this.threejs.render(this.scene, this.camera);
             this.animate();
         })
