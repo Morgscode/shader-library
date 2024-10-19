@@ -5,6 +5,7 @@ export default class Renderer {
     _threejs: THREE.WebGLRenderer;
     _scene: THREE.Scene;
     _camera: THREE.Camera;
+    _textureLoader: THREE.TextureLoader;
     _vsh: string;
     _fsh: string;
     _app: HTMLDivElement | null;
@@ -14,8 +15,9 @@ export default class Renderer {
         this._threejs = new THREE.WebGLRenderer();
         this._scene = new THREE.Scene();
         this._camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 2000);
-        this._vsh = `./shaders/${vsh}`;
-        this._fsh = `./shaders/${fsh}`;
+        this._textureLoader = new THREE.TextureLoader()
+        this._vsh = vsh;
+        this._fsh = fsh;
     }
 
     async init() {
@@ -28,14 +30,15 @@ export default class Renderer {
     }
 
     async shader() {
-        const vsh = await fetch(this._vsh);
-        const fsh = await fetch(this._fsh);
+        const texture = this._textureLoader.load('./assets/images/trippy-ground.png');
 
         // https://threejs.org/docs/#api/en/materials/ShaderMaterial
         const material = new THREE.ShaderMaterial({
-            uniforms: {},
-            vertexShader: await vsh.text(),
-            fragmentShader: await fsh.text()
+            uniforms: {
+                diffuse: {value: texture}
+            },
+            vertexShader: this._vsh,
+            fragmentShader: this._fsh
         });
 
         // https://threejs.org/docs/#api/en/geometries/PlaneGeometry

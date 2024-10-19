@@ -1,14 +1,8 @@
 import Renderer from "./renderer";
 import './style.css';
+import * as shaders from './shaders/index';
 
-const shaders = {
-    'first': {
-        vertex: "first/vertex.glsl",
-        fragment: "first/fragment.glsl"
-    }
-}
-
-const shader = shaders['first'];
+const shader = shaders["textures"];
 
 const shaderRenderer = new Renderer(shader.vertex, shader.fragment);
 shaderRenderer.init();
