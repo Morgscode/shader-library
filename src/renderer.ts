@@ -3,15 +3,15 @@ import type { Shader } from "./shaders";
 
 export default class Renderer {
 
-    threejs: THREE.WebGLRenderer;
-    scene: THREE.Scene;
-    camera: THREE.Camera;
-    textureLoader: THREE.TextureLoader;
-    vsh: string;
-    fsh: string;
-    app: HTMLDivElement | null;
-    material?: THREE.ShaderMaterial;
-    texture?: string;
+    private threejs: THREE.WebGLRenderer;
+    private scene: THREE.Scene;
+    private camera: THREE.Camera;
+    private textureLoader: THREE.TextureLoader;
+    private vsh: string;
+    private fsh: string;
+    private app: HTMLDivElement | null;
+    private material?: THREE.ShaderMaterial;
+    private texture?: string;
 
     constructor(shader: Shader, selector: string = "#app") {
         this.app = document.querySelector(selector);
@@ -32,6 +32,14 @@ export default class Renderer {
         this.app = htmlDivEl;
     }
 
+    getTexture() {
+        return this.texture;
+    }
+
+    setTexture(texture: string) {
+        this.texture = texture
+    }
+
     init() {
        if (!this.app) throw new Error('Renderer initiated without a DOM Element');
        this.app.appendChild(this.threejs.domElement);
@@ -41,7 +49,7 @@ export default class Renderer {
        this.animate();
     }
 
-    shader() {
+    private shader() {
         // https://threejs.org/docs/#api/en/materials/ShaderMaterial
         this.material = new THREE.ShaderMaterial({
             uniforms: {
@@ -60,19 +68,20 @@ export default class Renderer {
         this.onWindowResize(null);
     }
 
-    onWindowResize(_: UIEvent | null) {
+    private onWindowResize(_: UIEvent | null) {
         this.material && this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
         this.threejs.setSize(window.innerWidth, window.innerHeight);
     }
 
-    animate() {
+    private animate() {
         requestAnimationFrame(() => {
             this.threejs.render(this.scene, this.camera);
             this.animate();
         })
     }
 
-    loadTexture() {
-        return this.textureLoader.load('./assets/images/trippy-ground.png');
+    private loadTexture() {
+        if (!this.texture) throw new Error('Tried to load an undefined texture')
+        return this.textureLoader.load(this.texture);
     }
 }
