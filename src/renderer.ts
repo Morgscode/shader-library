@@ -12,7 +12,7 @@ export default class Renderer {
     private startTime: DOMHighResTimeStamp;
     private uniforms: Record<string, THREE.Uniform>;
     private htmlDomElement: HTMLElement | null;
-    private material?: THREE.ShaderMaterial;
+    private material: THREE.ShaderMaterial | null;
     private texture?: string;
 
     constructor(shader: Shader, selector: string = "#app") {
@@ -24,6 +24,7 @@ export default class Renderer {
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
         this.texture = shader.texture;
+        this.material = null;
         this.startTime = performance.now();
         this.uniforms = this._initUniforms();
     }
@@ -57,7 +58,7 @@ export default class Renderer {
     }
 
     setUniform(key: string, value: THREE.Uniform) {
-        this.uniforms[key] = value;
+        this.uniforms[key] = value
     }
 
     init() {
@@ -69,7 +70,7 @@ export default class Renderer {
         this.animate();
     }
 
-    public _initUniforms() {
+    private _initUniforms() {
         return {
             u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
             u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(0.0),
@@ -97,9 +98,7 @@ export default class Renderer {
     private animate() {
         requestAnimationFrame(() => {
             const elapsed = performance.now() - this.startTime
-            if (this.material) {
-                this.material.uniforms.u_time.value = elapsed;
-            }
+            this.material!.uniforms.u_time.value = elapsed;
             this.threejs.render(this.scene, this.camera);
             this.animate();
         })
@@ -111,7 +110,7 @@ export default class Renderer {
     }
 
     private onWindowResize(_: UIEvent | null) {
-        this.material && this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+        this.material && this.material.uniforms.u_resolution.value.set(new THREE.Vector2(window.innerWidth, window.innerHeight));
         this.threejs.setSize(window.innerWidth, window.innerHeight);
     }
 }
