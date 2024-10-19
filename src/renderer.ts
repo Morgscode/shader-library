@@ -41,21 +41,19 @@ export default class Renderer {
     }
 
     init() {
-       if (!this.app) throw new Error('Renderer initiated without a DOM Element');
-       this.app.appendChild(this.threejs.domElement);
-       window.addEventListener('resize', (e) => this.onWindowResize(e));
-       this.camera.position.set(0, 0, 1);
-       this.shader();
-       this.animate();
+        if (!this.app) throw new Error('Renderer initiated without a DOM Element');
+        this.app.appendChild(this.threejs.domElement);
+        window.addEventListener('resize', (e) => this.onWindowResize(e));
+        this.camera.position.set(0, 0, 1);
+        this.shader();
+        this.animate();
     }
 
     private shader() {
         // https://threejs.org/docs/#api/en/materials/ShaderMaterial
+
         this.material = new THREE.ShaderMaterial({
-            uniforms: {
-                u_resolution:  new THREE.Uniform( new THREE.Vector2(window.innerWidth, window.innerHeight) ),
-                u_diffuse: new THREE.Uniform(  this.loadTexture() )
-            },
+            uniforms: this.uniforms(),
             vertexShader: this.vsh,
             fragmentShader: this.fsh
         });
@@ -68,9 +66,11 @@ export default class Renderer {
         this.onWindowResize(null);
     }
 
-    private onWindowResize(_: UIEvent | null) {
-        this.material && this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
-        this.threejs.setSize(window.innerWidth, window.innerHeight);
+    private uniforms() {
+        return {
+            u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
+            u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(null)
+        }
     }
 
     private animate() {
@@ -83,5 +83,10 @@ export default class Renderer {
     private loadTexture() {
         if (!this.texture) throw new Error('Tried to load an undefined texture')
         return this.textureLoader.load(this.texture);
+    }
+
+    private onWindowResize(_: UIEvent | null) {
+        this.material && this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+        this.threejs.setSize(window.innerWidth, window.innerHeight);
     }
 }
