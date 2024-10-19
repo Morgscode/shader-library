@@ -10,13 +10,13 @@ export default class Renderer {
     private vsh: string;
     private fsh: string;
     private startTime: DOMHighResTimeStamp;
-    private app: HTMLDivElement | null;
+    private uniforms: Record<string, THREE.Uniform>;
+    private htmlDomElement: HTMLElement | null;
     private material?: THREE.ShaderMaterial;
     private texture?: string;
 
-
     constructor(shader: Shader, selector: string = "#app") {
-        this.app = document.querySelector(selector);
+        this.htmlDomElement = document.querySelector(selector);
         this.threejs = new THREE.WebGLRenderer();
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 2000);
@@ -25,14 +25,15 @@ export default class Renderer {
         this.fsh = shader.fragment;
         this.texture = shader.texture;
         this.startTime = performance.now();
+        this.uniforms = this._initUniforms();
     }
 
-    getApp() {
-        return this.app;
+    getHtmlDomElement() {
+        return this.htmlDomElement;
     }
 
-    setApp(htmlDivEl: HTMLDivElement) {
-        this.app = htmlDivEl;
+    setHtmlDomElement(htmlDivEl: HTMLDivElement) {
+        this.htmlDomElement = htmlDivEl;
     }
 
     getTexture() {
@@ -43,20 +44,44 @@ export default class Renderer {
         this.texture = texture
     }
 
+    getUniforms() {
+        return this.uniforms;
+    }
+
+    setUniforms(uniforms: Record<string, THREE.Uniform>) {
+        this.uniforms = uniforms;
+    }
+
+    getUniform(key: string) {
+        return this.uniforms[key];
+    }
+
+    setUniform(key: string, value: THREE.Uniform) {
+        this.uniforms[key] = value;
+    }
+
     init() {
-        if (!this.app) throw new Error('Renderer initiated without a DOM Element');
-        this.app.appendChild(this.threejs.domElement);
+        if (!this.htmlDomElement) throw new Error('Renderer initiated without a DOM Element');
+        this.htmlDomElement.appendChild(this.threejs.domElement);
         window.addEventListener('resize', (e) => this.onWindowResize(e));
         this.camera.position.set(0, 0, 1);
         this.shader();
         this.animate();
     }
 
+    public _initUniforms() {
+        return {
+            u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
+            u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(0.0),
+            u_time: new THREE.Uniform(0.0)
+        };
+    }
+
     private shader() {
         // https://threejs.org/docs/#api/en/materials/ShaderMaterial
 
         this.material = new THREE.ShaderMaterial({
-            uniforms: this.uniforms(),
+            uniforms: this.getUniforms(),
             vertexShader: this.vsh,
             fragmentShader: this.fsh
         });
@@ -67,14 +92,6 @@ export default class Renderer {
         plane.position.set(0.5, 0.5, 0);
         this.scene.add(plane);
         this.onWindowResize(null);
-    }
-
-    private uniforms() {
-        return {
-            u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
-            u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(0.0),
-            u_time: new THREE.Uniform(0.0)
-        }
     }
 
     private animate() {
