@@ -12,7 +12,7 @@ uniform vec4 u_tint;
 //     gl_FragColor = texture2D(u_diffuse, vec2(1.0 - v_uv.x,  1.0 - v_uv.y));
 // }
 
-// tint the image using "
+// tint the image using "modulation" 
 void main() {
     vec4 diffuse_sample = texture2D(u_diffuse, vec2(1.0 - v_uv.x,  1.0 - v_uv.y));
     gl_FragColor = diffuse_sample * u_tint;
