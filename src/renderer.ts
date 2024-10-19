@@ -12,7 +12,7 @@ export default class Renderer {
     private startTime: DOMHighResTimeStamp;
     private uniforms: Record<string, THREE.Uniform>;
     private htmlDomElement: HTMLElement | null;
-    private material: THREE.ShaderMaterial | null;
+    private material: THREE.ShaderMaterial;
     private texture?: string;
 
     constructor(shader: Shader, selector: string = "#app") {
@@ -24,7 +24,7 @@ export default class Renderer {
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
         this.texture = shader.texture;
-        this.material = null;
+        this.material = new THREE.ShaderMaterial();
         this.startTime = performance.now();
         this.uniforms = this._initUniforms();
     }
@@ -74,19 +74,16 @@ export default class Renderer {
         return {
             u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
             u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(0.0),
-            u_time: new THREE.Uniform(0.0)
+            u_time: new THREE.Uniform(0.0),
+            u_tint: new THREE.Uniform(new THREE.Vector4(1.0, 0.0, 0.0, 1.0))
         };
     }
 
     private shader() {
         // https://threejs.org/docs/#api/en/materials/ShaderMaterial
-
-        this.material = new THREE.ShaderMaterial({
-            uniforms: this.getUniforms(),
-            vertexShader: this.vsh,
-            fragmentShader: this.fsh
-        });
-
+        this.material.uniforms = this.getUniforms();
+        this.material.vertexShader = this.vsh;
+        this.material.fragmentShader = this.fsh;
         // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
         const geometry = new THREE.PlaneGeometry(1, 1);
         const plane = new THREE.Mesh(geometry, this.material);
