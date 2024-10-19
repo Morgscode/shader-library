@@ -10,6 +10,8 @@ export default class Renderer {
     vsh: string;
     fsh: string;
     app: HTMLDivElement | null;
+    material?: THREE.ShaderMaterial;
+    texture?: string;
 
     constructor(shader: Shader, selector: string = "#app") {
         this.app = document.querySelector(selector);
@@ -19,14 +21,15 @@ export default class Renderer {
         this.textureLoader = new THREE.TextureLoader();
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
+        this.texture = shader.texture;
     }
 
     getApp() {
         return this.app;
     }
 
-    setApp(element: HTMLDivElement) {
-        this.app = element;
+    setApp(htmlDivEl: HTMLDivElement) {
+        this.app = htmlDivEl;
     }
 
     init() {
@@ -39,12 +42,11 @@ export default class Renderer {
     }
 
     shader() {
-        const texture = this.textureLoader.load('./assets/images/trippy-ground.png');
-
         // https://threejs.org/docs/#api/en/materials/ShaderMaterial
-        const material = new THREE.ShaderMaterial({
+        this.material = new THREE.ShaderMaterial({
             uniforms: {
-                diffuse: {value: texture}
+                u_resolution:  new THREE.Uniform( new THREE.Vector2(window.innerWidth, window.innerHeight) ),
+                u_diffuse: new THREE.Uniform(  this.loadTexture() )
             },
             vertexShader: this.vsh,
             fragmentShader: this.fsh
@@ -52,13 +54,14 @@ export default class Renderer {
 
         // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
         const geometry = new THREE.PlaneGeometry(1, 1);
-        const plane = new THREE.Mesh(geometry, material);
+        const plane = new THREE.Mesh(geometry, this.material);
         plane.position.set(0.5, 0.5, 0);
         this.scene.add(plane);
         this.onWindowResize(null);
     }
 
     onWindowResize(_: UIEvent | null) {
+        this.material && this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
         this.threejs.setSize(window.innerWidth, window.innerHeight);
     }
 
@@ -67,5 +70,9 @@ export default class Renderer {
             this.threejs.render(this.scene, this.camera);
             this.animate();
         })
+    }
+
+    loadTexture() {
+        return this.textureLoader.load('./assets/images/trippy-ground.png');
     }
 }

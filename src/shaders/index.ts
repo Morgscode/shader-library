@@ -6,6 +6,7 @@ import textureFragment from  './textures/fragment.glsl';
 export type Shader = {
     vertex: string;
     fragment: string;
+    texture?: string;
 }
 
 export const first: Shader = {
@@ -16,5 +17,5 @@ export const first: Shader = {
 export const textures: Shader = {
     vertex: textureVertex,
     fragment: textureFragment,
+    texture: './assets/images/trippy-ground.png'
 }
-
