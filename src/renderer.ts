@@ -11,22 +11,22 @@ export default class Renderer {
     fsh: string;
     app: HTMLDivElement | null;
 
-    constructor(shader: Shader) {
-        this.app = document.querySelector("#app");
+    constructor(shader: Shader, selector: string = "#app") {
+        this.app = document.querySelector(selector);
         this.threejs = new THREE.WebGLRenderer();
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 2000);
-        this.textureLoader = new THREE.TextureLoader()
+        this.textureLoader = new THREE.TextureLoader();
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
     }
 
     init() {
-       if (!this.app) return;
+       if (!this.app) throw new Error('Renderer initiated without a DOM Element');
        this.app.appendChild(this.threejs.domElement);
        window.addEventListener('resize', (e) => this.onWindowResize(e));
        this.camera.position.set(0, 0, 1);
-       this.shader()
+       this.shader();
        this.animate();
     }
 
@@ -59,6 +59,14 @@ export default class Renderer {
             this.threejs.render(this.scene, this.camera);
             this.animate();
         })
+    }
+
+    getApp() {
+        return this.app;
+    }
+
+    setApp(element: HTMLDivElement) {
+        this.app = element;
     }
 
 }
