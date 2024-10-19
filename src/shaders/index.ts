@@ -3,13 +3,18 @@ import firstFragment from './first/fragment.glsl';
 import textureVertex from './textures/vertex.glsl';
 import textureFragment from  './textures/fragment.glsl';
 
-export const first = {
+export type Shader = {
+    vertex: string;
+    fragment: string;
+}
+
+export const first: Shader = {
     vertex: firstVertex,
     fragment: firstFragment,
 }
 
-export const textures = {
+export const textures: Shader = {
     vertex: textureVertex,
-    fragment: textureFragment
+    fragment: textureFragment,
 }
 

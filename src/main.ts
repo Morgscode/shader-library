@@ -1,8 +1,7 @@
 import Renderer from "./renderer";
-import './style.css';
 import * as shaders from './shaders/index';
+import './style.css';
 
-const shader = shaders["textures"];
-
-const shaderRenderer = new Renderer(shader.vertex, shader.fragment);
+const shader = shaders["first"];
+const shaderRenderer = new Renderer(shader);
 shaderRenderer.init();

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import type { Shader } from "./shaders";
 
 export default class Renderer {
 
@@ -10,14 +11,14 @@ export default class Renderer {
     _fsh: string;
     _app: HTMLDivElement | null;
 
-    constructor(vsh: string, fsh: string) {
+    constructor(shader: Shader) {
         this._app = document.querySelector("#app");
         this._threejs = new THREE.WebGLRenderer();
         this._scene = new THREE.Scene();
         this._camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 2000);
         this._textureLoader = new THREE.TextureLoader()
-        this._vsh = vsh;
-        this._fsh = fsh;
+        this._vsh = shader.vertex;
+        this._fsh = shader.fragment;
     }
 
     async init() {
