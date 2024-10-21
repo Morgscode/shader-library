@@ -42,7 +42,7 @@ varying vec2 v_uv;
 //     gl_FragColor = vec4(v_uv.x, v_uv.y, abs(cos(v_uv.x * v_uv.y * u_time * 130.0)), 1.0);
 // }
 
-// vertical / horizonal noise
+// vertical / horizontal noise
 void main() { 
     gl_FragColor = vec4(v_uv.x, v_uv.y, abs(cos(v_uv.y * v_uv.y * u_time * 260.0)), 1.0);
 }

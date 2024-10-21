@@ -75,7 +75,7 @@ export default class Renderer {
             u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
             u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(0.0),
             u_time: new THREE.Uniform(0.0),
-            u_tint: new THREE.Uniform(new THREE.Vector4(1.0, 0.0, 0.0, 1.0))
+            u_tint: new THREE.Uniform(new THREE.Vector4(1.0, 1.0, 1.0, 1.0))
         };
     }
 
