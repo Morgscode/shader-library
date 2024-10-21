@@ -48,6 +48,11 @@ varying vec2 v_uv;
 // }
 
 // look through the void 
+// void main() { 
+//     gl_FragColor = vec4(v_uv.x, v_uv.y, tan(v_uv.y * v_uv.x * u_time), 1.0);
+// }
+
+// dmt like
 void main() { 
-    gl_FragColor = vec4(v_uv.x, v_uv.y, tan(v_uv.y * v_uv.y * u_time), 1.0);
+    gl_FragColor = vec4(v_uv.x, v_uv.y, tan(v_uv.y * v_uv.x * u_time), 1.0);
 }
