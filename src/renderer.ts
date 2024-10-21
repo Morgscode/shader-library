@@ -98,7 +98,7 @@ export default class Renderer {
             this.material.uniforms.u_time.value = elapsed;
             this.threejs.render(this.scene, this.camera);
             this.animate();
-        })
+        });
     }
 
     private loadTexture() {

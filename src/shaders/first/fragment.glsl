@@ -29,15 +29,20 @@ varying vec2 v_uv;
 
 // get trippy with it
 // void main() {
-//     gl_FragColor = vec4(v_uv.y, cos(sqrt(u_time / 127.5)), v_uv.x, 1.0);
+//     gl_FragColor = vec4(v_uv.y, abs(sin(u_time)), v_uv.x, 1.0);
 // }
 
 // animate to beats per minute
 // void main() {
-//     gl_FragColor = vec4(v_uv.x, v_uv.y, abs(sin(u_time / 128.0)), 1.0);
+//     gl_FragColor = vec4(v_uv.x, v_uv.y, abs(sin(u_time * 126.0)), 1.0);
 // }
 
 // animate some noise to the gradients
-void main() {
-    gl_FragColor = vec4(v_uv.x, v_uv.y, abs(sin(v_uv.x * v_uv.y * u_time * 130.0)), 1.0);
+// void main() { 
+//     gl_FragColor = vec4(v_uv.x, v_uv.y, abs(cos(v_uv.x * v_uv.y * u_time * 130.0)), 1.0);
+// }
+
+// vertical / horizonal noise
+void main() { 
+    gl_FragColor = vec4(v_uv.x, v_uv.y, abs(cos(v_uv.y * v_uv.y * u_time * 260.0)), 1.0);
 }
