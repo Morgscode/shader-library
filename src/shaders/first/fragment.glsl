@@ -38,11 +38,11 @@ varying vec2 v_uv;
 // }
 
 // animate some noise to the gradients
-// void main() { 
-//     gl_FragColor = vec4(v_uv.x, v_uv.y, abs(cos(v_uv.x * v_uv.y * u_time * 130.0)), 1.0);
-// }
+void main() { 
+    gl_FragColor = vec4(v_uv.x, abs(tan(v_uv.y * v_uv.x * u_time * 130.0)), v_uv.y, 1.0);
+}
 
 // vertical / horizontal noise
-void main() { 
-    gl_FragColor = vec4(v_uv.x, v_uv.y, cos(v_uv.x * v_uv.x * u_time * 130.0), 1.0);
-}
+// void main() { 
+//     gl_FragColor = vec4(v_uv.x, v_uv.y, cos(v_uv.x * v_uv.x * u_time * 130.0), 1.0);
+// }
