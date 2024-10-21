@@ -14,7 +14,7 @@ export const first: Shader = {
     fragment: firstFragment,
 }
 
-export const textures: Shader = {
+export const texture: Shader = {
     vertex: textureVertex,
     fragment: textureFragment,
     texture: './assets/images/space-pidgeons.webp'
