@@ -34,7 +34,7 @@ varying vec2 v_uv;
 
 // animate to beats per minute
 // void main() {
-//     gl_FragColor = vec4(v_uv.x, abs(sin(u_time * 126.0)), v_uv.y, 1.0);
+//     gl_FragColor = vec4(v_uv.x, abs(sin(u_time / 130.0)), v_uv.y, 1.0);
 // }
 
 // animate some noise to the gradients
@@ -42,7 +42,12 @@ varying vec2 v_uv;
 //     gl_FragColor = vec4(v_uv.x, abs(tan(v_uv.y * v_uv.x * u_time * 130.0)), v_uv.y, 1.0);
 // }
 
-// vertical / horizontal noise
+// stripes 
+// void main() { 
+//     gl_FragColor = vec4(v_uv.x, v_uv.y, tan(v_uv.y + v_uv.y * u_time / 130.0), 1.0);
+// }
+
+// look through the void 
 void main() { 
-    gl_FragColor = vec4(v_uv.x, v_uv.y, abs(tan(v_uv.y * v_uv.y * u_time * 126.0)), 1.0);
+    gl_FragColor = vec4(v_uv.x, v_uv.y, tan(v_uv.y * v_uv.y * u_time), 1.0);
 }
