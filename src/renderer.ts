@@ -3,16 +3,16 @@ import type { Shader } from "./shaders";
 
 export default class Renderer {
 
+    private htmlDomElement: HTMLElement | null;
     private threejs: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private camera: THREE.Camera;
     private textureLoader: THREE.TextureLoader;
+    private material: THREE.ShaderMaterial;
     private vsh: string;
     private fsh: string;
     private startTime: DOMHighResTimeStamp;
     private uniforms: Record<string, THREE.Uniform>;
-    private htmlDomElement: HTMLElement | null;
-    private material: THREE.ShaderMaterial;
     private texture?: string;
 
     constructor(shader: Shader, selector: string = "#app") {
@@ -21,12 +21,12 @@ export default class Renderer {
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 2000);
         this.textureLoader = new THREE.TextureLoader();
+        this.material = new THREE.ShaderMaterial();
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
-        this.texture = shader.texture;
-        this.material = new THREE.ShaderMaterial();
         this.startTime = performance.now();
         this.uniforms = this._initUniforms();
+        this.texture = shader.texture;
     }
 
     getHtmlDomElement() {
