@@ -1,7 +1,7 @@
 import firstVertex from './first/vertex.glsl';
 import firstFragment from './first/fragment.glsl';
 import textureVertex from './textures/vertex.glsl';
-import textureFragment from  './textures/fragment.glsl';
+import textureFragment from './textures/fragment.glsl';
 
 export type Shader = {
     vertex: string;
@@ -17,5 +17,5 @@ export const first: Shader = {
 export const textures: Shader = {
     vertex: textureVertex,
     fragment: textureFragment,
-    texture: './assets/images/trippy-ground.png'
+    texture: './assets/images/space-pidgeons.webp'
 }

@@ -25,8 +25,8 @@ export default class Renderer {
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
         this.startTime = performance.now();
-        this.uniforms = this._initUniforms();
         this.texture = shader.texture;
+        this.uniforms = this._initUniforms();
     }
 
     getHtmlDomElement() {
@@ -70,16 +70,16 @@ export default class Renderer {
         this.animate();
     }
 
-    private _initUniforms() {
+    protected _initUniforms() {
         return {
             u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
             u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(0.0),
             u_time: new THREE.Uniform(0.0),
-            u_tint: new THREE.Uniform(new THREE.Vector4(1.0, 1.0, 1.0, 1.0))
+            u_tint: new THREE.Uniform(new THREE.Vector4(0.0, 1.0, 1.0, 1.0))
         };
     }
 
-    private shader() {
+    protected shader() {
         // https://threejs.org/docs/#api/en/materials/ShaderMaterial
         this.material.uniforms = this.getUniforms();
         this.material.vertexShader = this.vsh;
@@ -92,7 +92,7 @@ export default class Renderer {
         this.onWindowResize(null);
     }
 
-    private animate() {
+    protected animate() {
         requestAnimationFrame(() => {
             const elapsed = performance.now() - this.startTime
             this.material.uniforms.u_time.value = elapsed;
@@ -101,12 +101,12 @@ export default class Renderer {
         });
     }
 
-    private loadTexture() {
+    protected loadTexture() {
         if (!this.texture) throw new Error('Tried to load an undefined texture')
         return this.textureLoader.load(this.texture);
     }
 
-    private onWindowResize(_: UIEvent | null) {
+    protected onWindowResize(_: UIEvent | null) {
         this.material && this.material.uniforms.u_resolution.value.set(new THREE.Vector2(window.innerWidth, window.innerHeight));
         this.threejs.setSize(window.innerWidth, window.innerHeight);
     }

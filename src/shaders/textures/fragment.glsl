@@ -7,9 +7,9 @@ uniform vec4 u_tint;
 //     gl_FragColor = texture2D(u_diffuse, v_uv);
 // }
 
-// flip the image horizontally
+// flip the image
 // void main() {
-//     gl_FragColor = texture2D(u_diffuse, vec2(1.0 - v_uv.x,  1.0 - v_uv.y));
+//     gl_FragColor = texture2D(u_diffuse, vec2(1.0 - v_uv.x, 1.0 - v_uv.y));
 // }
 
 // tint the image using "modulation" 
