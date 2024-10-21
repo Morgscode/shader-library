@@ -95,7 +95,7 @@ export default class Renderer {
     private animate() {
         requestAnimationFrame(() => {
             const elapsed = performance.now() - this.startTime
-            this.material!.uniforms.u_time.value = elapsed;
+            this.material.uniforms.u_time.value = elapsed;
             this.threejs.render(this.scene, this.camera);
             this.animate();
         })
