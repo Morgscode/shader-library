@@ -16,13 +16,13 @@ varying vec2 v_uv;
 
 // tint the image using "modulation" 
 // void main() {
-//     vec4 diffuse_sample = texture2D(u_diffuse, v_uv);
+//     vec4 diffuse_sample = texture2D(u_diffuse, vec2(1.0 - v_uv.x, 1.0 - v_uv.y));
 //     gl_FragColor = diffuse_sample * u_tint;
 // }
 
 // blend texture with color and variations
 // void main() {
-//     vec4 diffuse_sample = texture2D(u_diffuse, v_uv);
+//     vec4 diffuse_sample = texture2D(u_diffuse, vec2(1.0 - v_uv.x, 1.0 - v_uv.y));
 //     gl_FragColor = diffuse_sample * vec4(v_uv.x, abs(sin(u_time / 1300.0)), v_uv.y, 1.0);
 // }
 
@@ -40,7 +40,7 @@ varying vec2 v_uv;
 
 // addressing with mirrored repeat wrapping
 // void main() {
-//     vec2 uv_x2 = abs(mod(v_uv * 2.0, 2.0) - 1.0); // Mirror wrapping logic
+//     vec2 uv_x2 = abs(mod(v_uv * 2.0, 2.0) - 1.0);
 //     gl_FragColor = texture2D(u_diffuse, uv_x2);
 // }
 
