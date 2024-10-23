@@ -45,13 +45,13 @@ varying vec2 v_uv;
 // }
 
 // colorful zoom in/out effect
-// void main() {
-//     vec2 uv = mod(v_uv * abs(sin(u_time / 13000.0)), 1.0);
-//     gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, abs(sin(u_time / 1300.0)), v_uv.y, 1.0);
-// }
+void main() {
+    vec2 uv = 1.0 - mod(v_uv * sin(u_time / 10000.0), 1.0);
+    gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, abs(sin(u_time * 130.0)), v_uv.y, 1.0);
+}
 
 // distored/flickering
-void main() {
-    vec2 uv = abs(mod(v_uv / abs(tan(u_time)) / 2.0, 2.0));
-    gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, abs(sin(u_time / 130.0)), v_uv.y, 1.0);
-}
+// void main() {
+//     vec2 uv = abs(mod(v_uv / abs(tan(u_time)) / 2.0, 2.0));
+//     gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, abs(sin(u_time / 130.0)), v_uv.y, 1.0);
+// }
