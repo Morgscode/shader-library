@@ -56,5 +56,3 @@ varying vec2 v_uv;
 void main() { 
     gl_FragColor = vec4(v_uv.x, tan(v_uv.y + v_uv.y * u_time), v_uv.y, 1.0);
 }
-
-

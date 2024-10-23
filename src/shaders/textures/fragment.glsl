@@ -54,4 +54,4 @@ varying vec2 v_uv;
 void main() {
     vec2 uv = mod(v_uv / abs(sin(u_time * 130.0)) / 2.0, 2.0);
     gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, abs(sin(u_time / 130.0)), v_uv.y, 1.0);
-}
+} 
