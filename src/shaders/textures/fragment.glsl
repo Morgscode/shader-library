@@ -40,12 +40,18 @@ varying vec2 v_uv;
 
 // addressing with mirrored repeat wrapping
 // void main() {
-//     vec2 uv_x2 = abs(mod(v_uv * 4.0, 2.0) - 1.0); // Mirror wrapping logic
+//     vec2 uv_x2 = abs(mod(v_uv * 2.0, 2.0) - 1.0); // Mirror wrapping logic
 //     gl_FragColor = texture2D(u_diffuse, uv_x2);
 // }
 
 // colorful zoom in/out effect
+// void main() {
+//     vec2 uv = mod(v_uv * abs(sin(u_time / 13000.0)), 1.0);
+//     gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, abs(sin(u_time / 1300.0)), v_uv.y, 1.0);
+// }
+
+// distored/flickering
 void main() {
-    vec2 uv = mod(v_uv * abs(sin(u_time / 13000.0)), 1.0);
-    gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, abs(sin(u_time / 1300.0)), v_uv.y, 1.0);
+    vec2 uv = abs(mod(v_uv / abs(tan(u_time)) / 2.0, 2.0));
+    gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, abs(sin(u_time / 130.0)), v_uv.y, 1.0);
 }

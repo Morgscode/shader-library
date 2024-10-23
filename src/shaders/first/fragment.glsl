@@ -34,9 +34,9 @@ varying vec2 v_uv;
 // }
 
 // animate to beats per minute
-void main() {
-    gl_FragColor = vec4(v_uv.x, abs(tan(u_time * 130.0)), v_uv.y, 1.0);
-}
+// void main() {
+//     gl_FragColor = vec4(v_uv.x, abs(tan(u_time * 130.0)), v_uv.y, 1.0);
+// }
 
 // bpm noise 
 // void main() { 
@@ -54,8 +54,8 @@ void main() {
 // }
 
 // warp speed
-// void main() { 
-//     gl_FragColor = vec4(v_uv.x, tan(v_uv.y + v_uv.y * u_time), v_uv.y, 1.0);
-// }
+void main() { 
+    gl_FragColor = vec4(v_uv.x, tan(v_uv.y + v_uv.y * u_time), v_uv.y, 1.0);
+}
 
 
