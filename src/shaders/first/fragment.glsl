@@ -1,5 +1,4 @@
 uniform float u_time;
-uniform sampler2D u_diffuse;
 
 varying vec2 v_uv;
 
