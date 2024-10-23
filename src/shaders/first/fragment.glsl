@@ -1,4 +1,6 @@
 uniform float u_time;
+uniform sampler2D u_diffuse;
+
 varying vec2 v_uv;
 
 // render solid red
@@ -33,7 +35,7 @@ varying vec2 v_uv;
 
 // animate to beats per minute
 void main() {
-    gl_FragColor = vec4(v_uv.x, abs(sin(u_time * 130.0)), v_uv.y, 1.0);
+    gl_FragColor = vec4(v_uv.x, abs(tan(u_time * 130.0)), v_uv.y, 1.0);
 }
 
 // bpm noise 

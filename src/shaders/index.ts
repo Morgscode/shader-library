@@ -17,5 +17,5 @@ export const first: Shader = {
 export const texture: Shader = {
     vertex: textureVertex,
     fragment: textureFragment,
-    texture: './assets/images/space-pidgeons.webp'
+    texture: './assets/images/galactic-core.webp'
 }

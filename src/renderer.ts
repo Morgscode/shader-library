@@ -13,7 +13,7 @@ export default class Renderer {
     private fsh: string;
     private startTime: DOMHighResTimeStamp;
     private uniforms: Record<string, THREE.Uniform>;
-    private texture?: string;
+    private texture?: string | THREE.Texture;
 
     constructor(shader: Shader, selector: string = "#app") {
         this.htmlDomElement = document.querySelector(selector);
@@ -73,7 +73,7 @@ export default class Renderer {
     protected _initUniforms() {
         return {
             u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
-            u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(0.0),
+            u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(new THREE.Vector4(0.0, 0.0, 0.0, 1.0)),
             u_time: new THREE.Uniform(0.0),
             u_tint: new THREE.Uniform(new THREE.Vector4(0.0, 1.0, 1.0, 1.0))
         };
@@ -101,9 +101,11 @@ export default class Renderer {
         });
     }
 
-    protected loadTexture() {
+    protected loadTexture(magFilter: THREE.MagnificationTextureFilter = THREE.LinearFilter) {
         if (!this.texture) throw new Error('Tried to load an undefined texture')
-        return this.textureLoader.load(this.texture);
+        this.texture = this.textureLoader.load(this.texture as string);
+        this.texture.magFilter = magFilter;
+        return this.texture;
     }
 
     protected onWindowResize(_: UIEvent | null) {
