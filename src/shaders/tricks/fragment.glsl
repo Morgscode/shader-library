@@ -22,25 +22,47 @@ varying vec2 v_uv;
 //     gl_FragColor = vec4(mix(vec3(1.0, 0.0, 0.0), vec3(0.0,0.0,1.0), smoothstep(0.0, 1.0, v_uv.x)), 1.0);
 // }
 
-// drawing lines
+// draw a straight vertical line
+// void main() {
+//     vec3 color = vec3(0.0);
+//     float line = smoothstep(0.0001, 0.005, abs(v_uv.x - 0.5));
+//     color = vec3(line);
+
+//     color = mix(vec3(0.0), color, vec3(line));
+//     gl_FragColor = vec4(color, 1.0);
+// }
+
+// void animation
 void main() {
     vec3 color = vec3(0.0);
+    float line = smoothstep(0.0, 1.0, abs(v_uv.x - 0.5));
+    color = abs(sin(vec3(line) * u_time * 130.0));
 
-    float line = smoothstep(0.0001, 0.005, abs(v_uv.y - 0.5));
-    float linearLine = smoothstep(0.0, 0.0075, abs(v_uv.y - mix(0.5, 1.0, v_uv.x)));
-    float smoothLine = smoothstep(0.0, 0.0075, abs(v_uv.y - mix(0.0, 0.5, smoothstep(0.0, 1.0, v_uv.x))));
-
-    color = vec3(line);
-
-    if (v_uv.y > 0.5) {
-        color = mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 0.0, 1.0), v_uv.x);
-    } else {
-        color = mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 0.0, 1.0), smoothstep(0.0, 1.0, v_uv.x));
-    }
-
-    color = mix(vec3(1.0, 1.0, 1.0), color, vec3(line));
-    color = mix(vec3(1.0, 1.0, 1.0), color, linearLine);
-    color = mix(vec3(1.0, 1.0, 1.0), color, smoothLine);
-
+    color = mix(vec3(0.0), color, vec3(line));
     gl_FragColor = vec4(color, 1.0);
 }
+
+// drawing lines
+// void main() {
+//     vec3 color = vec3(0.0);
+
+//     float line = smoothstep(0.0001, 0.005, abs(v_uv.y - 0.5));
+//     float linearLine = smoothstep(0.0, 0.0075, abs(v_uv.y - mix(0.5, 1.0, v_uv.x)));
+//     float smoothLine = smoothstep(0.0, 0.0075, abs(v_uv.y - mix(0.0, 0.5, smoothstep(0.0, 1.0, v_uv.x))));
+
+//     color = vec3(line);
+
+//     if (v_uv.y > 0.5) {
+//         color = mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 0.0, 1.0), v_uv.x);
+//     } else {
+//         color = mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 0.0, 1.0), smoothstep(0.0, 1.0, v_uv.x));
+//     }
+
+//     color = mix(vec3(1.0, 1.0, 1.0), color, vec3(line));
+//     color = mix(vec3(1.0, 1.0, 1.0), color, linearLine);
+//     color = mix(vec3(1.0, 1.0, 1.0), color, smoothLine);
+
+//     gl_FragColor = vec4(color, 1.0);
+// }
+
+
