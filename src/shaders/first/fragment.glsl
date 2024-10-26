@@ -37,22 +37,12 @@ varying vec2 v_uv;
 //     gl_FragColor = vec4(v_uv.x, abs(tan(u_time * 130.0)), v_uv.y, 1.0);
 // }
 
-// bpm noise 
-// void main() { 
-//     gl_FragColor = vec4(v_uv.x, abs(tan(v_uv.y * v_uv.x * u_time * 13.0)), v_uv.y, 1.0);
-// }
-
 // dmt like
 // void main() { 
-//     gl_FragColor = vec4(v_uv.x, abs(tan(v_uv.y * v_uv.x * u_time)), v_uv.y, 1.0);
+//     gl_FragColor = vec4(v_uv.x, abs(tan(v_uv.y * v_uv.x * u_time * 130.0)), v_uv.y, 1.0);
 // }
 
 // bpm progressive horizontal noise
-// void main() {  
-//     gl_FragColor = vec4(v_uv.x, abs(sin(v_uv.y + v_uv.y * u_time * 130000.0)), v_uv.y, 1.0);
-// }
-
-// warp speed
-void main() { 
-    gl_FragColor = vec4(v_uv.x, tan(v_uv.y + v_uv.y * u_time), v_uv.y, 1.0);
+void main() {  
+    gl_FragColor = vec4(v_uv.x, abs(sin(v_uv.y + v_uv.y * u_time * 130.0)), v_uv.y, 1.0);
 }
