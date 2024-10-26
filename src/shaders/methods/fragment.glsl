@@ -12,12 +12,23 @@ float remap(float v, float inMin, float inMax, float outMin, float outMax) {
     return mix(outMin, outMax, t);
 }
 
-void main() {
-    vec3 color = vec3(0.0);
-    float t = sin(u_time);
-    t = remap(t, -1.0, 1.0, 0.0, 1.0);
+// steady fade in/out
+// void main() {
+//     vec3 color = vec3(0.0);
+//     float t = sin(u_time);
+//     t = remap(t, -1.0, 1.0, 0.0, 1.0);
 
+//     color = vec3(t);
+
+//     gl_FragColor = vec4(color, 1);
+// }
+
+// static bars
+void main() {
+    vec3 color = vec3(0.5);
+
+    float t = sin(v_uv.y * 100.0);
     color = vec3(t);
 
-    gl_FragColor = vec4(color, 1);
+    gl_FragColor = vec4(color, 1.0);
 }
