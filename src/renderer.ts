@@ -6,7 +6,7 @@ export default class Renderer {
     private htmlDomElement: HTMLElement | null;
     private threejs: THREE.WebGLRenderer;
     private scene: THREE.Scene;
-    private camera: THREE.Camera;
+    private camera: THREE.OrthographicCamera;
     private textureLoader: THREE.TextureLoader;
     private material: THREE.ShaderMaterial;
     private vsh: string;
@@ -60,7 +60,7 @@ export default class Renderer {
     }
 
     setUniform(key: string, value: THREE.Uniform) {
-        this.uniforms[key] = value
+        this.uniforms[key] = value;
     }
 
     init() {
