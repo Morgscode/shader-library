@@ -11,7 +11,8 @@ export default class Renderer {
     private material: THREE.ShaderMaterial;
     private vsh: string;
     private fsh: string;
-    private startTime: DOMHighResTimeStamp;
+    private lastFrameTime: DOMHighResTimeStamp;
+    private elapsedTime: number;
     private uniforms: Record<string, THREE.Uniform>;
     private texture?: string | THREE.Texture;
 
@@ -24,7 +25,8 @@ export default class Renderer {
         this.material = new THREE.ShaderMaterial();
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
-        this.startTime = performance.now();
+        this.lastFrameTime = performance.now();
+        this.elapsedTime = 0;
         this.texture = shader.texture;
         this.uniforms = this._initUniforms();
     }
@@ -72,7 +74,7 @@ export default class Renderer {
 
     protected _initUniforms() {
         return {
-            u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
+            u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth * 1.0, window.innerHeight * 1.0)),
             u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(new THREE.Vector4(0.0, 0.0, 0.0, 1.0)),
             u_time: new THREE.Uniform(0.0),
             u_tint: new THREE.Uniform(new THREE.Vector4(0.0, 1.0, 1.0, 1.0))
@@ -94,8 +96,11 @@ export default class Renderer {
 
     protected animate() {
         requestAnimationFrame(() => {
-            const elapsed = performance.now() - this.startTime
-            this.material.uniforms.u_time.value = elapsed;
+            const currentTime = performance.now();
+            const deltaTime = (currentTime - this.lastFrameTime) / 1000;
+            this.lastFrameTime = currentTime;
+            this.elapsedTime += deltaTime;
+            this.material.uniforms.u_time.value = this.elapsedTime;
             this.threejs.render(this.scene, this.camera);
             this.animate();
         });
@@ -109,7 +114,7 @@ export default class Renderer {
     }
 
     protected onWindowResize(_: UIEvent | null) {
-        this.material && this.material.uniforms.u_resolution.value.set(new THREE.Vector2(window.innerWidth, window.innerHeight));
+        this.material && this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
         this.threejs.setSize(window.innerWidth, window.innerHeight);
     }
 }

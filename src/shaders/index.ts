@@ -4,6 +4,8 @@ import textureVertex from './textures/vertex.glsl';
 import textureFragment from './textures/fragment.glsl';
 import trickVertex from './tricks/vertex.glsl';
 import trickFragment from './tricks/fragment.glsl'
+import methodVertex from './methods/vertex.glsl';
+import methodFragment from './methods/fragment.glsl';
 
 export type Shader = {
     vertex: string;
@@ -25,4 +27,10 @@ export const texture: Shader = {
 export const tricks: Shader = {
     vertex: trickVertex,
     fragment: trickFragment,
+}
+
+export const methods: Shader = {
+    vertex: methodVertex,
+    fragment: methodFragment,
+    texture: './assets/images/galactic-core.webp'
 }
