@@ -1,6 +1,3 @@
-// all uniforms and attributes are supplied by THREE.JS
-// https://threejs.org/docs/#api/en/materials/ShaderMaterial
-
 varying vec2 v_uv;
 
 void main() {

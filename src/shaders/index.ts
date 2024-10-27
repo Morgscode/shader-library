@@ -18,7 +18,7 @@ export const first: Shader = {
     fragment: firstFragment,
 }
 
-export const texture: Shader = {
+export const textures: Shader = {
     vertex: textureVertex,
     fragment: textureFragment,
     texture: './assets/images/galactic-core.webp'

@@ -25,9 +25,9 @@ export default class Renderer {
         this.material = new THREE.ShaderMaterial();
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
+        this.texture = shader.texture;
         this.lastFrameTime = performance.now();
         this.elapsedTime = 0;
-        this.texture = shader.texture;
         this.uniforms = this._initUniforms();
     }
 
