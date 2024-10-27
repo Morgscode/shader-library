@@ -34,15 +34,15 @@ varying vec2 v_uv;
 
 // animate to beats per minute
 // void main() {
-//     gl_FragColor = vec4(v_uv.x, abs(sin(u_time * 135.0)), v_uv.y, 1.0);
+//     gl_FragColor = vec4(v_uv.x, sin(u_time * 135.0), v_uv.y, 1.0);
 // }
 
 // dmt like
-// void main() { 
-//     gl_FragColor = vec4(v_uv.x, abs(sin(v_uv.y * v_uv.x * u_time * 125.0)), v_uv.y, 1.0);
-// }
+void main() { 
+    gl_FragColor = vec4(v_uv.x, abs(sin(v_uv.y * v_uv.x * u_time * 125.0)), v_uv.y, 1.0);
+}
 
 // bpm progressive horizontal noise
-void main() {  
-    gl_FragColor = vec4(v_uv.x, abs(sin(fract(v_uv.y * u_time) * 130.0)), v_uv.y, 1.0);
-}
+// void main() {  
+//     gl_FragColor = vec4(v_uv.x, abs(sin(fract(v_uv.y * u_time) * 125.0)), v_uv.y, 1.0);
+// }
