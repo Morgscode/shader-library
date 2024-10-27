@@ -37,7 +37,7 @@ varying vec2 v_uv;
 //     gl_FragColor = vec4(v_uv.x, abs(sin(u_time * 135.0)), v_uv.y, 1.0);
 // }
 
-// // dmt like
+// dmt like
 // void main() { 
 //     gl_FragColor = vec4(v_uv.x, abs(sin(v_uv.y * v_uv.x * u_time * 125.0)), v_uv.y, 1.0);
 // }

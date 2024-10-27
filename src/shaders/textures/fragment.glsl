@@ -44,14 +44,14 @@ varying vec2 v_uv;
 //     gl_FragColor = texture2D(u_diffuse, uv_x2);
 // }
 
-// colorful zoom in/out effect
+// trippy zoom effects and texture flips
 // void main() {
 //     vec2 uv = 1.0 - mod(v_uv * sin(u_time / 5.0), 1.0);
-//     gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, abs(sin(u_time * 135.0)), v_uv.y, 1.0);
+//     gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, abs(sin(u_time * 123.0)), v_uv.y, 1.0);
 // }
 
 // bpm distortion/flickering 
 void main() {
-    vec2 uv = mod(v_uv / sin(u_time * 135.0) / 5.0, 2.0);
+    vec2 uv = mod(v_uv / fract(sin(u_time * 135.0)) / 5.0, 2.0);
     gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, sin(u_time * 135.0), v_uv.y, 1.0);
 } 
