@@ -52,6 +52,6 @@ varying vec2 v_uv;
 
 // bpm distortion/flickering 
 void main() {
-    vec2 uv = mod(v_uv / fract(sin(u_time * 125.0)) / 5.0, 2.0);
-    gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, sin(u_time * 125.0), v_uv.y, 1.0);
+    vec2 uv = mod(v_uv / fract(sin(u_time * 130.0)) / 5.0, 2.0);
+    gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, sin(u_time * 130.0), v_uv.y, 1.0);
 } 

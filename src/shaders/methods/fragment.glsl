@@ -24,11 +24,22 @@ float remap(float v, float inMin, float inMax, float outMin, float outMax) {
 // }
 
 // static bars
+// void main() {
+//     vec3 color = vec3(0.5);
+
+//     float t = sin(v_uv.y * 100.0);
+//     color = vec3(t);
+
+//     gl_FragColor = vec4(color, 1.0) ;
+// }
+
+// project challenge
 void main() {
     vec3 color = vec3(0.5);
-
+    
+    vec4 diffuse_sample = texture2D(u_diffuse, v_uv);
     float t = sin(v_uv.y * 100.0);
-    color = vec3(t);
-
-    gl_FragColor = vec4(color, 1.0);
+    color = cos(vec3(t) * sin(u_time * v_uv.y));
+   
+    gl_FragColor = vec4(color, 1.0) * diffuse_sample;
 }

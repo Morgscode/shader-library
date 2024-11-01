@@ -117,4 +117,5 @@ export default class Renderer {
         this.material && this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
         this.threejs.setSize(window.innerWidth, window.innerHeight);
     }
+
 }
