@@ -44,9 +44,9 @@ varying vec2 v_uv;
 //     gl_FragColor = texture2D(u_diffuse, uv_x2);
 // }
 
-// zoom out repeated effect 
+// zoom in/out repeating effect 
 // void main() {
-//     vec2 uv = mod((v_uv - 0.5) * u_time + 0.5, 1.0);
+//     vec2 uv = mod((v_uv - 0.5) * abs(sin(u_time)) + 0.5, 1.0);
 //     gl_FragColor = texture2D(u_diffuse, uv);
 // }
 
@@ -60,4 +60,4 @@ varying vec2 v_uv;
 void main() {
     vec2 uv = mod((v_uv - 0.5) * sin(u_time * 130.0) + 0.5, 2.0);
     gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, sin(u_time * 130.0), v_uv.y, 1.0);
-} 
+}
