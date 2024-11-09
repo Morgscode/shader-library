@@ -3,9 +3,9 @@ uniform float u_time;
 varying vec2 v_uv;
 
 // render solid red
-// void main() {
-//     gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
-// }
+void main() {
+    gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+}
 
 // render a gradient of black to white
 // void main() {
@@ -43,6 +43,6 @@ varying vec2 v_uv;
 // }
 
 // dmt like
-void main() { 
-    gl_FragColor = vec4(v_uv.x, sin(v_uv.y * v_uv.x * u_time * 1300.0), v_uv.y, 1.0);
-}
+// void main() { 
+//     gl_FragColor = vec4(v_uv.x, sin(v_uv.y * v_uv.x * u_time * 1300.0), v_uv.y, 1.0);
+// }

@@ -1,11 +1,13 @@
-import firstVertex from './first/vertex.glsl';
-import firstFragment from './first/fragment.glsl';
+import colorVertex from './colors/vertex.glsl';
+import colorFragment from './colors/fragment.glsl';
 import textureVertex from './textures/vertex.glsl';
 import textureFragment from './textures/fragment.glsl';
 import trickVertex from './tricks/vertex.glsl';
 import trickFragment from './tricks/fragment.glsl'
 import methodVertex from './methods/vertex.glsl';
 import methodFragment from './methods/fragment.glsl';
+import drawingVertex from './drawing/vertex.glsl';
+import drawingFragment from './drawing/fragment.glsl';
 
 export type Shader = {
     vertex: string;
@@ -13,9 +15,9 @@ export type Shader = {
     texture?: string;
 }
 
-export const first: Shader = {
-    vertex: firstVertex,
-    fragment: firstFragment,
+export const colors: Shader = {
+    vertex: colorVertex,
+    fragment: colorFragment,
 }
 
 export const textures: Shader = {
@@ -32,5 +34,11 @@ export const tricks: Shader = {
 export const methods: Shader = {
     vertex: methodVertex,
     fragment: methodFragment,
+    texture: './assets/images/galactic-core.webp'
+}
+
+export const drawing: Shader = {
+    vertex: drawingVertex,
+    fragment: drawingFragment,
     texture: './assets/images/galactic-core.webp'
 }

@@ -4,9 +4,9 @@ uniform vec2 u_resolution;
 varying vec2 v_uv;
 
 // step changes
-// void main() {
-//     gl_FragColor = vec4(vec3(step(0.5,v_uv.x), v_uv), 1.0);
-// }
+void main() {
+    gl_FragColor = vec4(vec3(step(0.5,v_uv.x), v_uv), 1.0);
+}
 
 // smoothstep 
 // void main() {
@@ -72,29 +72,29 @@ varying vec2 v_uv;
 // }
 
 // resoloution independant grid
-void main() {
-    vec3 color = vec3(1.0);
-    vec2 center = v_uv - 0.5;
+// void main() {
+//     vec3 color = vec3(1.0);
+//     vec2 center = v_uv - 0.5;
     
-    vec2 cell = abs(fract(center * u_resolution / 100.0) - 0.5);
+//     vec2 cell = abs(fract(center * u_resolution / 100.0) - 0.5);
     
-    float dist = 1.0 - 2.0 * max(cell.x, cell.y);
-    float line = smoothstep(0.0, 0.05, dist);
+//     float dist = 1.0 - 2.0 * max(cell.x, cell.y);
+//     float line = smoothstep(0.0, 0.05, dist);
 
-    float xAxis = smoothstep(0.0, 0.002, abs(v_uv.y - 0.5));
-    float yAxis = smoothstep(0.0, 0.002, abs(v_uv.x - 0.5));
+//     float xAxis = smoothstep(0.0, 0.002, abs(v_uv.y - 0.5));
+//     float yAxis = smoothstep(0.0, 0.002, abs(v_uv.x - 0.5));
 
-    vec2 pos = center * u_resolution / 100.0;
-    float val_1 = pos.x;
-    float val_2 = abs(pos.x);
-    float functionLine1 = smoothstep(0.0, 0.075, abs(pos.y - val_1));
-    float functionLine2 = smoothstep(0.0, 0.075, abs(pos.y - val_2));
+//     vec2 pos = center * u_resolution / 100.0;
+//     float val_1 = pos.x;
+//     float val_2 = abs(pos.x);
+//     float functionLine1 = smoothstep(0.0, 0.075, abs(pos.y - val_1));
+//     float functionLine2 = smoothstep(0.0, 0.075, abs(pos.y - val_2));
 
-    color = mix(vec3(0.0), color, line);
-    color = mix(vec3(1.0, 1.0, 0.0), color, xAxis);
-    color = mix(vec3(1.0, 1.0, 0.0), color, yAxis);
-    color = mix(vec3(0.0, 1.0, 1.0), color, functionLine1);
-    color = mix(vec3(0.0, 1.0, 1.0), color, functionLine2);
+//     color = mix(vec3(0.0), color, line);
+//     color = mix(vec3(1.0, 1.0, 0.0), color, xAxis);
+//     color = mix(vec3(1.0, 1.0, 0.0), color, yAxis);
+//     color = mix(vec3(0.0, 1.0, 1.0), color, functionLine1);
+//     color = mix(vec3(0.0, 1.0, 1.0), color, functionLine2);
 
-    gl_FragColor = vec4(color, 1.0);
-}
+//     gl_FragColor = vec4(color, 1.0);
+// }

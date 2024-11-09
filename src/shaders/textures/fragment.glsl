@@ -5,9 +5,9 @@ uniform vec4 u_tint;
 varying vec2 v_uv;
 
 // render an image 
-// void main() {
-//     gl_FragColor = texture2D(u_diffuse, v_uv);
-// }
+void main() {
+    gl_FragColor = texture2D(u_diffuse, v_uv);
+}
 
 // flip the image
 // void main() {
@@ -57,7 +57,7 @@ varying vec2 v_uv;
 // }
 
 // bpm mixed effects 
-void main() {
-    vec2 uv = mod((v_uv - 0.5) * sin(u_time * 130.0) + 0.5, 2.0);
-    gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, sin(u_time * 130.0), v_uv.y, 1.0);
-}
+// void main() {
+//     vec2 uv = mod((v_uv - 0.5) * sin(u_time * 130.0) + 0.5, 2.0);
+//     gl_FragColor = texture2D(u_diffuse, uv) * vec4(v_uv.x, sin(u_time * 130.0), v_uv.y, 1.0);
+// }
