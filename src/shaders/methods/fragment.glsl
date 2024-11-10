@@ -33,7 +33,7 @@ void main() {
 //     gl_FragColor = vec4(color, 1.0) ;
 // }
 
-// project challenge
+// gradual noise over texture
 // void main() {
 //     vec3 color = vec3(0.5);
     

@@ -43,7 +43,7 @@ void main() {
 //     gl_FragColor = vec4(l, l, l, 1.0);
 // }
 
-// hypnotic
+// animate some circle geomtry
 // void main() {
 //     vec2 uv = v_uv * 2.0 - 1.0;
 //     uv.x *= u_resolution.x / u_resolution.y;
@@ -68,7 +68,7 @@ vec3 palette(float t) {
     return a + b * cos(6.283185 * (c * t + d));
 }
 
-// procedural geomtery
+// procedural geomtery with color palette
 // void main() {
 //     vec2 uv = v_uv * 2.0 - 1.0;
 //     uv.x *= u_resolution.x / u_resolution.y;
