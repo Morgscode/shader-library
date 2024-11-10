@@ -1,4 +1,4 @@
-#define PI 3.14159265359
+#define PI 3.1415926535
 
 uniform float u_time;
 uniform vec2 u_resolution;
@@ -59,13 +59,12 @@ vec3 palette(float t) {
     vec3 c = vec3(1.0, 1.0, 1.0);
     vec3 d = vec3(0.0, 0.333, 0.667);
 
-    return a + b * cos(6.283185 * (c * t + d));
+    return a + b * cos((PI * 2.0) * (c * t + d));
 }
 
-// color pallette based animation
+// color pallette animation
 void main() { 
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
-    vec3 color = palette(length(uv) + (u_time * 1.30));
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(palette(length(uv) + u_time), 1.0);
 }
