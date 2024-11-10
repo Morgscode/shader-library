@@ -6,9 +6,9 @@ uniform vec2 u_resolution;
 varying vec2 v_uv;
 
 // render solid red
-void main() {
-    gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
-}
+// void main() {
+//     gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+// }
 
 // render a gradient of black to white
 // void main() {
@@ -52,3 +52,20 @@ void main() {
 //     gl_FragColor = vec4(uv.x, sin(uv.x * uv.y * pow(u_time, PI) * 1.30), uv.y, 1.0);
 // }
 
+// cosine based palette
+vec3 palette(float t) {
+    vec3 a = vec3(0.5, 0.5, 0.5);
+    vec3 b = vec3(0.75, 0.75, 0.75);
+    vec3 c = vec3(1.0, 1.0, 1.0);
+    vec3 d = vec3(0.0, 0.333, 0.667);
+
+    return a + b * cos(6.283185 * (c * t + d));
+}
+
+// color pallette based animation
+void main() { 
+    vec2 uv = v_uv * 2.0 - 1.0;
+    uv.x *= u_resolution.x / u_resolution.y;
+    vec3 color = palette(length(uv) + (u_time * 1.30));
+    gl_FragColor = vec4(color, 1.0);
+}
