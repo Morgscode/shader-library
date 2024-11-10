@@ -1,11 +1,14 @@
+#define PI 3.14159265359
+
 uniform float u_time;
+uniform vec2 u_resolution;
 
 varying vec2 v_uv;
 
 // render solid red
-void main() {
-    gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
-}
+// void main() {
+//     gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+// }
 
 // render a gradient of black to white
 // void main() {
@@ -39,10 +42,61 @@ void main() {
 
 // bpm progressive horizontal noise
 // void main() {  
-//     gl_FragColor = vec4(v_uv.x, sin(v_uv.y * u_time * 13.0), v_uv.y, 1.0);
+//     gl_FragColor = vec4(v_uv.x, sin(v_uv.y * u_time * 130.0), v_uv.y, 1.0);
 // }
 
 // dmt like
 // void main() { 
-//     gl_FragColor = vec4(v_uv.x, sin(v_uv.y * v_uv.x * u_time * 1300.0), v_uv.y, 1.0);
+//     vec2 uv = v_uv * 2.0 - 1.0;
+//     uv.x *= u_resolution.x / u_resolution.y;
+//     gl_FragColor = vec4(uv.x, sin(uv.x * uv.y * pow(u_time, PI) * 1.30), uv.y, 1.0);
 // }
+
+// hypnotic
+// void main() {
+//     vec2 uv = v_uv * 2.0 - 1.0;
+//     uv.x *= u_resolution.x / u_resolution.y;
+
+//     float l = length(uv);
+
+//     l = sin(l * 8.0 + u_time) / 8.0;
+//     l = abs(l);
+
+//     l = smoothstep(0.0, 0.1, l);
+
+//     gl_FragColor = vec4(l, l, l, 1.0);
+// }
+
+// cosine based palette
+vec3 palette(float t) {
+    vec3 a = vec3(0.5, 0.5, 0.5);
+    vec3 b = vec3(0.5, 0.5, 0.5);
+    vec3 c = vec3(1.0, 1.0, 1.0);
+    vec3 d = vec3(0.0, 0.3, 0.6);
+
+    return a + b * cos(6.283185 * (c * t + d));
+}
+
+// procedural geomtery
+void main() {
+    vec2 uv = v_uv * 2.0 - 1.0;
+    uv.x *= u_resolution.x / u_resolution.y;
+    vec2 l_uv = uv;
+    vec3 final = vec3(0.0);
+
+    for (float i = 0.0; i < 3.0; i++) {
+        uv = fract(uv * PI) - 0.5;
+
+        float l = length(uv) * exp(-length(l_uv));
+        vec3 color = palette(length(l_uv) + i * 0.4 + u_time * 1.30);
+
+        l = sin(l * 8.0 + u_time) / 8.0;
+        l = abs(l);
+
+        l = pow(0.01 / l, 1.5);
+
+        final += color * l;
+    }
+
+    gl_FragColor = vec4(final, 1.0);
+}
