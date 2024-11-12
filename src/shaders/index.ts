@@ -8,11 +8,14 @@ import methodVertex from './methods/vertex.glsl';
 import methodFragment from './methods/fragment.glsl';
 import drawingVertex from './drawing/vertex.glsl';
 import drawingFragment from './drawing/fragment.glsl';
+import lightingVertex from './lighting/vertex.glsl';
+import lightingFragment from './lighting/fragment.glsl';
 
 export type Shader = {
     vertex: string;
     fragment: string;
     texture?: string;
+    cubeTexture?: string;
 }
 
 export const colors: Shader = {
@@ -41,4 +44,11 @@ export const drawing: Shader = {
     vertex: drawingVertex,
     fragment: drawingFragment,
     texture: './assets/images/galactic-core.webp'
+}
+
+export const lighting: Shader = {
+    vertex: lightingVertex,
+    fragment: lightingFragment,
+    texture: './assets/images/galactic-core.webp',
+    cubeTexture: './assets/images/stone-tile-wall.jpg',
 }

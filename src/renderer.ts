@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import type { Shader } from "./shaders";
 
 export default class Renderer {
@@ -8,6 +9,7 @@ export default class Renderer {
     private scene: THREE.Scene;
     private camera: THREE.OrthographicCamera;
     private textureLoader: THREE.TextureLoader;
+    private cubeTextureLoader: THREE.CubeTextureLoader;
     private material: THREE.ShaderMaterial;
     private vsh: string;
     private fsh: string;
@@ -15,6 +17,7 @@ export default class Renderer {
     private elapsedTime: number;
     private uniforms: Record<string, THREE.Uniform>;
     private texture?: string | THREE.Texture;
+    private cubeTexture?: string | THREE.CubeTexture;
 
     constructor(shader: Shader, selector: string = "#app") {
         this.htmlDomElement = document.querySelector(selector);
@@ -22,10 +25,12 @@ export default class Renderer {
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 2000);
         this.textureLoader = new THREE.TextureLoader();
+        this.cubeTextureLoader = new THREE.CubeTextureLoader();
         this.material = new THREE.ShaderMaterial();
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
         this.texture = shader.texture;
+        this.cubeTexture = shader.cubeTexture;
         this.lastFrameTime = performance.now();
         this.elapsedTime = 0;
         this.uniforms = this._initUniforms();
@@ -86,11 +91,26 @@ export default class Renderer {
         this.material.uniforms = this.getUniforms();
         this.material.vertexShader = this.vsh;
         this.material.fragmentShader = this.fsh;
+
         // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
         const geometry = new THREE.PlaneGeometry(1, 1);
         const plane = new THREE.Mesh(geometry, this.material);
         plane.position.set(0.5, 0.5, 0);
         this.scene.add(plane);
+
+        if (this.cubeTexture) {
+            const texture = this.cubeTexture as string;
+            this.cubeTexture = this.cubeTextureLoader.load([
+                texture,
+                texture,
+                texture,
+                texture,
+                texture,
+                texture,
+            ]);
+            this.scene.background = this.cubeTexture;
+        }
+
         this.onWindowResize(null);
     }
 
