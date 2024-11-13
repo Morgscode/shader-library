@@ -1,13 +1,14 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import type { Shader } from "./shaders";
+import type { Shader, CameraType } from "./shaders";
 
 export default class Renderer {
 
     private htmlDomElement: HTMLElement | null;
     private threejs: THREE.WebGLRenderer;
     private scene: THREE.Scene;
-    private camera: THREE.OrthographicCamera;
+    private camera: THREE.Camera | THREE.OrthographicCamera | THREE.PerspectiveCamera;
+    private cameraType: CameraType;
     private textureLoader: THREE.TextureLoader;
     private cubeTextureLoader: THREE.CubeTextureLoader;
     private material: THREE.ShaderMaterial;
@@ -17,13 +18,14 @@ export default class Renderer {
     private elapsedTime: number;
     private uniforms: Record<string, THREE.Uniform>;
     private texture?: string | THREE.Texture;
-    private cubeTexture?: string | THREE.CubeTexture;
+    private cubeTexture?: Array<string> | THREE.CubeTexture;
 
     constructor(shader: Shader, selector: string = "#app") {
         this.htmlDomElement = document.querySelector(selector);
         this.threejs = new THREE.WebGLRenderer();
         this.scene = new THREE.Scene();
-        this.camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 2000);
+        this.camera = new THREE.Camera();
+        this.cameraType = shader.cameraType;
         this.textureLoader = new THREE.TextureLoader();
         this.cubeTextureLoader = new THREE.CubeTextureLoader();
         this.material = new THREE.ShaderMaterial();
@@ -72,8 +74,8 @@ export default class Renderer {
         if (!this.htmlDomElement) throw new Error('Renderer initiated without a DOM Element');
         this.htmlDomElement.appendChild(this.threejs.domElement);
         window.addEventListener('resize', (e) => this.onWindowResize(e));
-        this.camera.position.set(0, 0, 1);
-        this.shader();
+        this.initCamera();
+        this.initShader();
         this.animate();
     }
 
@@ -86,7 +88,17 @@ export default class Renderer {
         };
     }
 
-    protected shader() {
+    protected initCamera() {
+        if (this.cameraType === "orthographic") {
+            this.camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 1000);
+            this.camera.position.set(0, 0, 1);
+        } else if (this.cameraType === "perspective") {
+            this.camera = new THREE.PerspectiveCamera(60, 1920.0 / 1080.0, 0.1, 1000.0);
+            this.camera.position.set(1, 0, 3);
+        }
+    }
+
+    protected initShader() {
         // https://threejs.org/docs/#api/en/materials/ShaderMaterial
         this.material.uniforms = this.getUniforms();
         this.material.vertexShader = this.vsh;
@@ -99,15 +111,7 @@ export default class Renderer {
         this.scene.add(plane);
 
         if (this.cubeTexture) {
-            const texture = this.cubeTexture as string;
-            this.cubeTexture = this.cubeTextureLoader.load([
-                texture,
-                texture,
-                texture,
-                texture,
-                texture,
-                texture,
-            ]);
+            this.cubeTexture = this.cubeTextureLoader.load(this.cubeTexture as Array<string>);
             this.scene.background = this.cubeTexture;
         }
 
