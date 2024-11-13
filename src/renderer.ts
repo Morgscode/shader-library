@@ -146,6 +146,4 @@ export default class Renderer {
         this.threejs.setSize(window.innerWidth, window.innerHeight);
     }
 
-
-
 }
