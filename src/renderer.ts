@@ -8,9 +8,9 @@ export default class Renderer {
     private threejs: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private camera: THREE.OrthographicCamera | THREE.PerspectiveCamera;
+    private material: THREE.ShaderMaterial;
     private textureLoader: THREE.TextureLoader;
     private cubeTextureLoader: THREE.CubeTextureLoader;
-    private material: THREE.ShaderMaterial;
     private vsh: string;
     private fsh: string;
     private lastFrameTime: DOMHighResTimeStamp;
@@ -24,16 +24,16 @@ export default class Renderer {
         this.threejs = new THREE.WebGLRenderer();
         this.scene = new THREE.Scene();
         this.camera = this.initCamera(shader.cameraType);
+        this.material = new THREE.ShaderMaterial();
         this.textureLoader = new THREE.TextureLoader();
         this.cubeTextureLoader = new THREE.CubeTextureLoader();
-        this.material = new THREE.ShaderMaterial();
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
         this.texture = shader.texture;
         this.cubeTexture = shader.cubeTexture;
         this.lastFrameTime = performance.now();
         this.elapsedTime = 0;
-        this.uniforms = this._initUniforms();
+        this.uniforms = this.initUniforms();
     }
 
     getHtmlDomElement() {
@@ -71,12 +71,17 @@ export default class Renderer {
     render() {
         if (!this.htmlDomElement) throw new Error('Renderer initiated without a DOM Element');
         this.htmlDomElement.appendChild(this.threejs.domElement);
-        window.addEventListener('resize', (e) => this.onWindowResize(e));
+        window.addEventListener('resize', (e) => this.resize(e));
         this.initShader();
         this.animate();
     }
 
-    protected _initUniforms() {
+    resize(_: UIEvent | null) {
+        this.material && this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+        this.threejs.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    protected initUniforms() {
         return {
             u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
             u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(new THREE.Vector4(0.0, 0.0, 0.0, 1.0)),
@@ -112,7 +117,7 @@ export default class Renderer {
             this.loadCubeTexture();
         }
 
-        this.onWindowResize(null);
+        this.resize(null);
     }
 
     protected animate() {
@@ -134,16 +139,12 @@ export default class Renderer {
         return this.texture;
     }
 
-    protected loadCubeTexture() {
+    protected loadCubeTexture(magFilter: THREE.MagnificationTextureFilter = THREE.LinearFilter) {
         if (!this.cubeTexture) throw new Error('Tried to load an undefined cube texture')
         this.cubeTexture = this.cubeTextureLoader.load(this.cubeTexture as Array<string>);
         this.scene.background = this.cubeTexture;
+        this.cubeTexture.magFilter = magFilter;
         return this.cubeTexture;
-    }
-
-    protected onWindowResize(_: UIEvent | null) {
-        this.material && this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
-        this.threejs.setSize(window.innerWidth, window.innerHeight);
     }
 
 }

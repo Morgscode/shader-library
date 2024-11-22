@@ -66,5 +66,5 @@ vec3 palette(float t) {
 void main() { 
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
-    gl_FragColor = vec4(palette(length(uv) + u_time), 1.0);
+    gl_FragColor = vec4(palette(length(uv) + u_time / 0.130), 1.0);
 }
