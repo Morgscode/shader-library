@@ -142,8 +142,8 @@ export default class Renderer {
     protected loadCubeTexture(magFilter: THREE.MagnificationTextureFilter = THREE.LinearFilter) {
         if (!this.cubeTexture) throw new Error('Tried to load an undefined cube texture')
         this.cubeTexture = this.cubeTextureLoader.load(this.cubeTexture as Array<string>);
-        this.scene.background = this.cubeTexture;
         this.cubeTexture.magFilter = magFilter;
+        this.scene.background = this.cubeTexture;
         return this.cubeTexture;
     }
 
