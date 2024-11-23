@@ -79,12 +79,12 @@ void main() {
         uv = fract(uv * 2.0) - 0.5;
 
         float l = length(uv) * exp(-length(l_uv));
-        vec3 color = palette(length(l_uv) + i * 0.2 + u_time);
+        vec3 color = palette(length(l_uv) + (i * PI) + u_time);
 
-        l = sin(l * 8.0 + u_time) / 8.0;
+        l = sin(l * 8.0 + 1.0 - (u_time * 12.8)) / 8.0;
         l = abs(l);
 
-        l = pow(0.01 / l, 1.5);
+        l = mod(0.01 / l, 1.5);
 
         final += color * l;
     }
