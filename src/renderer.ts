@@ -40,7 +40,7 @@ export default class Renderer {
         this.plane = shader.plane;
         this.lastFrameTime = performance.now();
         this.elapsedTime = 0;
-        this.controls = shader.controls;
+        this.controls = shader.controls ? this.initControls() : false;
         this.uniforms = this.initUniforms();
     }
 
@@ -110,9 +110,10 @@ export default class Renderer {
     }
 
     protected initControls() {
-        this.controls = new OrbitControls(this.camera, this.htmlDomElement);
-        this.controls.target.set(0,0,0);
-        this.controls.update();
+        const controls = new OrbitControls(this.camera, this.htmlDomElement);
+        controls.target.set(0,0,0);
+        controls.update();
+        return controls; 
     }
 
     protected initShader() {
@@ -131,10 +132,6 @@ export default class Renderer {
 
         if (this.model) {
             this.loadModel();
-        }
-
-        if (this.controls) {
-            this.initControls();
         }
 
         this.resize(null);
