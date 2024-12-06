@@ -81,7 +81,7 @@ void main() {
         float l = length(uv) * exp(-length(l_uv));
         vec3 color = palette(length(l_uv) + (i * PI) + u_time);
 
-        l = sin(l * 8.0 + 1.0 - (u_time * 12.8)) / 8.0;
+        l = sin(l * 8.0 + 1.0 - (u_time * 1.28)) / 8.0;
         l = abs(l);
 
         l = mod(0.01 / l, 1.5);

@@ -9,6 +9,7 @@ export default class Renderer {
     private scene: THREE.Scene;
     private camera: THREE.OrthographicCamera | THREE.PerspectiveCamera;
     private material: THREE.ShaderMaterial;
+    private gltfLoader: GLTFLoader
     private textureLoader: THREE.TextureLoader;
     private cubeTextureLoader: THREE.CubeTextureLoader;
     private vsh: string;
@@ -18,6 +19,7 @@ export default class Renderer {
     private uniforms: Record<string, THREE.Uniform>;
     private texture?: string | THREE.Texture;
     private cubeTexture?: Array<string> | THREE.CubeTexture;
+    private model?: string;
 
     constructor(shader: Shader, selector: string = "#app") {
         this.htmlDomElement = document.querySelector(selector);
@@ -27,10 +29,12 @@ export default class Renderer {
         this.material = new THREE.ShaderMaterial();
         this.textureLoader = new THREE.TextureLoader();
         this.cubeTextureLoader = new THREE.CubeTextureLoader();
+        this.gltfLoader = new GLTFLoader();
         this.vsh = shader.vertex;
         this.fsh = shader.fragment;
         this.texture = shader.texture;
         this.cubeTexture = shader.cubeTexture;
+        this.model = shader.model;
         this.lastFrameTime = performance.now();
         this.elapsedTime = 0;
         this.uniforms = this.initUniforms();
@@ -108,6 +112,7 @@ export default class Renderer {
         this.material.fragmentShader = this.fsh;
 
         // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
+
         const geometry = new THREE.PlaneGeometry(1, 1);
         const plane = new THREE.Mesh(geometry, this.material);
         plane.position.set(0.5, 0.5, 0);
@@ -115,6 +120,10 @@ export default class Renderer {
 
         if (this.cubeTexture) {
             this.loadCubeTexture();
+        }
+
+        if (this.model) {
+            this.loadModel();
         }
 
         this.resize(null);
@@ -145,6 +154,16 @@ export default class Renderer {
         this.cubeTexture.magFilter = magFilter;
         this.scene.background = this.cubeTexture;
         return this.cubeTexture;
+    }
+
+    protected loadModel() {
+        if (!this.model) throw new Error("Tried to load an undefined model");
+        this.gltfLoader.load(this.model, (gltf) => {
+            gltf.scene.traverse(c => {
+                c.material = this.material
+            });
+            this.scene.add(gltf.scene);
+        });
     }
 
 }

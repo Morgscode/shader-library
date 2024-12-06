@@ -68,4 +68,5 @@ export const lighting: Shader = {
         './assets/shader-resources/01/Cold_Sunset__Cam_0_Front+Z.png',
         './assets/shader-resources/01/Cold_Sunset__Cam_1_Back-Z.png',
     ],
+    model: './assets/shader-resources/01/suzanne.glb'
 }
