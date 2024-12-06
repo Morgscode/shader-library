@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
 import type { Shader, CameraType } from "./shaders";
 
 export default class Renderer {
@@ -17,6 +17,7 @@ export default class Renderer {
     private lastFrameTime: DOMHighResTimeStamp;
     private elapsedTime: number;
     private uniforms: Record<string, THREE.Uniform>;
+    private controls: boolean | OrbitControls;
     private texture?: string | THREE.Texture;
     private cubeTexture?: Array<string> | THREE.CubeTexture;
     private model?: string;
@@ -39,6 +40,7 @@ export default class Renderer {
         this.plane = shader.plane;
         this.lastFrameTime = performance.now();
         this.elapsedTime = 0;
+        this.controls = shader.controls;
         this.uniforms = this.initUniforms();
     }
 
@@ -107,6 +109,12 @@ export default class Renderer {
         return camera;
     }
 
+    protected initControls() {
+        this.controls = new OrbitControls(this.camera, this.htmlDomElement);
+        this.controls.target.set(0,0,0);
+        this.controls.update();
+    }
+
     protected initShader() {
         // https://threejs.org/docs/#api/en/materials/ShaderMaterial
         this.material.uniforms = this.getUniforms();
@@ -123,6 +131,10 @@ export default class Renderer {
 
         if (this.model) {
             this.loadModel();
+        }
+
+        if (this.controls) {
+            this.initControls();
         }
 
         this.resize(null);

@@ -17,6 +17,7 @@ export type Shader = {
     vertex: string;
     fragment: string;
     cameraType: CameraType;
+    controls: boolean;
     plane?: boolean;
     texture?: string;
     cubeTexture?: Array<string>;
@@ -27,6 +28,7 @@ export const colors: Shader = {
     vertex: colorVertex,
     fragment: colorFragment,
     cameraType: "orthographic",
+    controls: false,
     plane: true,
 }
 
@@ -34,6 +36,7 @@ export const textures: Shader = {
     vertex: textureVertex,
     fragment: textureFragment,
     cameraType: "orthographic",
+    controls: false,
     plane: true,
     texture: './assets/images/galactic-core.webp'
 }
@@ -42,6 +45,7 @@ export const tricks: Shader = {
     vertex: trickVertex,
     fragment: trickFragment,
     cameraType: "orthographic",
+    controls: false,
     plane: true,
 }
 
@@ -49,6 +53,7 @@ export const methods: Shader = {
     vertex: methodVertex,
     fragment: methodFragment,
     cameraType: "orthographic",
+    controls: false,
     plane: true,
     texture: './assets/images/galactic-core.webp'
 }
@@ -57,6 +62,7 @@ export const drawing: Shader = {
     vertex: drawingVertex,
     fragment: drawingFragment,
     cameraType: "orthographic",
+    controls: false,
     plane: true,
     texture: './assets/images/galactic-core.webp'
 }
@@ -65,6 +71,7 @@ export const lighting: Shader = {
     vertex: lightingVertex,
     fragment: lightingFragment,
     cameraType: "perspective",
+    controls: true,
     plane: false,
     texture: './assets/images/galactic-core.webp',
     cubeTexture: [

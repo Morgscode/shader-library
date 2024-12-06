@@ -2,7 +2,7 @@ varying vec2 v_uv;
 
 // ambient lighting
 void main() {
-    vec3 base = vec3(0.0);
+    vec3 base = vec3(0.5);
     vec3 lighting = vec3(0.0);
     vec3 ambient = vec3(0.5);
     lighting = ambient;
