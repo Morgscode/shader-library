@@ -1,5 +1,5 @@
 uniform float u_time;
-uniform sampler2D u_diffuse;
+uniform sampler2D u_texturemap;
 
 varying vec2 v_uv;
 
@@ -37,7 +37,7 @@ void main() {
 // void main() {
 //     vec3 color = vec3(0.5);
     
-//     vec4 diffuse_sample = texture2D(u_diffuse, v_uv);
+//     vec4 diffuse_sample = texture2D(u_texturemap, v_uv);
 //     float t = sin(v_uv.y * 500.0);
 //     color = cos(vec3(t) * sin(u_time * v_uv.y));
    

@@ -81,6 +81,12 @@ export default class Renderer {
         this.htmlDomElement.appendChild(this.threejs.domElement);
         window.addEventListener('resize', (e) => this.resize(e));
         this.initShader();
+        if (this.plane) {
+            this.addPlane();
+        }
+        if (this.model) {
+            this.loadModel();
+        }
         this.resize(null);
         this.animate();
     }
@@ -92,11 +98,11 @@ export default class Renderer {
 
     protected initUniforms() {
         return {
-            u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
-            u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(new THREE.Vector4(0.0, 0.0, 0.0, 1.0)),
             u_time: new THREE.Uniform(0.0),
+            u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
+            u_texturemap: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(new THREE.Vector3(0.0, 0.0, 0.0)),
+            u_specmap: this.cubeTexture ? new THREE.Uniform(this.loadCubeTexture()) : new THREE.Uniform(new THREE.Vector3(0.0, 0.0, 0.0)),
             u_tint: new THREE.Uniform(new THREE.Vector4(0.0, 1.0, 1.0, 1.0)),
-            u_specmap: this.cubeTexture ? new THREE.Uniform(this.loadCubeTexture()) : new THREE.Uniform(new THREE.Vector4(0.0, 0.0, 0.0, 1.0))
         };
     }
 
@@ -123,14 +129,6 @@ export default class Renderer {
         this.material.uniforms = this.getUniforms();
         this.material.vertexShader = this.vsh;
         this.material.fragmentShader = this.fsh;
-
-        if (this.plane) {
-            this.addPlane();
-        }
-
-        if (this.model) {
-            this.loadModel();
-        }
     }
 
     protected animate() {
