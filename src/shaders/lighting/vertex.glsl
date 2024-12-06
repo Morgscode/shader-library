@@ -1,3 +1,5 @@
+uniform samplerCube u_specmap;
+
 varying vec2 v_uv;
 varying vec3 v_normal;
 varying vec3 v_position;

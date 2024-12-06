@@ -40,8 +40,8 @@ export default class Renderer {
         this.plane = shader.plane;
         this.lastFrameTime = performance.now();
         this.elapsedTime = 0;
-        this.controls = shader.controls ? this.initControls() : false;
         this.uniforms = this.initUniforms();
+        this.controls = shader.controls && this.initControls();
     }
 
     getHtmlDomElement() {
@@ -81,6 +81,7 @@ export default class Renderer {
         this.htmlDomElement.appendChild(this.threejs.domElement);
         window.addEventListener('resize', (e) => this.resize(e));
         this.initShader();
+        this.resize(null);
         this.animate();
     }
 
@@ -94,7 +95,8 @@ export default class Renderer {
             u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
             u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(new THREE.Vector4(0.0, 0.0, 0.0, 1.0)),
             u_time: new THREE.Uniform(0.0),
-            u_tint: new THREE.Uniform(new THREE.Vector4(0.0, 1.0, 1.0, 1.0))
+            u_tint: new THREE.Uniform(new THREE.Vector4(0.0, 1.0, 1.0, 1.0)),
+            u_specmap: new THREE.Uniform(this.scene.background)
         };
     }
 
@@ -133,8 +135,6 @@ export default class Renderer {
         if (this.model) {
             this.loadModel();
         }
-
-        this.resize(null);
     }
 
     protected animate() {

@@ -1,3 +1,5 @@
+uniform samplerCube u_specmap;
+
 varying vec2 v_uv;
 varying vec3 v_normal;
 varying vec3 v_position;
@@ -81,8 +83,43 @@ vec3 linearTosRGB(vec3 value ) {
 // }
 
 // phong specular
+// void main() {
+//     vec3 base = vec3(0.5);
+//     vec3 lighting = vec3(0.0);
+//     vec3 normal = normalize(v_normal);
+//     vec3 viewDirection = normalize(cameraPosition - v_position);
+
+//     vec3 ambient = vec3(0.5);
+
+//     vec3 sColor = vec3(0.0, 0.3, 0.6);
+//     vec3 gColor = vec3(0.6, 0.3, 0.1);
+
+//     float hemiMix = remap(normal.y, -1.0, 1.0, 0.0, 1.0);
+//     vec3 hemi = mix(gColor, sColor, hemiMix);
+
+//     vec3 lightDirection = normalize(vec3(1.0, 1.0, 1.0));
+//     vec3 lightColor = vec3(1.0, 1.0, 0.9);
+//     float dotProduct = max(0.0, dot(lightDirection, normal));
+
+//     vec3 diffuse = dotProduct * lightColor;
+
+//     vec3 r = normalize(reflect(-lightDirection, normal));
+//     float phongValue = max(0.0, dot(viewDirection, r));
+
+//     vec3 specular = vec3(phongValue);
+
+//     lighting = ambient + 0.0 + hemi * 0.0 + diffuse * 1.0;
+
+//     vec3 color = base * lighting + specular;
+
+//     color = linearTosRGB(color);
+
+//     gl_FragColor = vec4(color, 1.0);
+// }
+
+// specular IBL
 void main() {
-    vec3 base = vec3(0.5);
+    vec3 base = vec3(0.25, 0.0, 0.0);
     vec3 lighting = vec3(0.0);
     vec3 normal = normalize(v_normal);
     vec3 viewDirection = normalize(cameraPosition - v_position);
@@ -106,11 +143,17 @@ void main() {
 
     vec3 specular = vec3(phongValue);
 
+    vec3 iblCord = normalize(reflect(-viewDirection, normal));
+    vec3 iblSample = textureCube(u_specmap, iblCord).xyz;
+
+    specular += iblSample * 0.5;
+
     lighting = ambient + 0.0 + hemi * 0.0 + diffuse * 1.0;
 
     vec3 color = base * lighting + specular;
 
-    color = linearTosRGB(color);
+    //color = linearTosRGB(color);
+    color = pow(color, vec3(1.0 / 2.2));
 
     gl_FragColor = vec4(color, 1.0);
 }
