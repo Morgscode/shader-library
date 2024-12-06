@@ -20,6 +20,7 @@ export default class Renderer {
     private texture?: string | THREE.Texture;
     private cubeTexture?: Array<string> | THREE.CubeTexture;
     private model?: string;
+    private plane?: boolean;
 
     constructor(shader: Shader, selector: string = "#app") {
         this.htmlDomElement = document.querySelector(selector);
@@ -35,6 +36,7 @@ export default class Renderer {
         this.texture = shader.texture;
         this.cubeTexture = shader.cubeTexture;
         this.model = shader.model;
+        this.plane = shader.plane;
         this.lastFrameTime = performance.now();
         this.elapsedTime = 0;
         this.uniforms = this.initUniforms();
@@ -111,12 +113,9 @@ export default class Renderer {
         this.material.vertexShader = this.vsh;
         this.material.fragmentShader = this.fsh;
 
-        // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
-
-        const geometry = new THREE.PlaneGeometry(1, 1);
-        const plane = new THREE.Mesh(geometry, this.material);
-        plane.position.set(0.5, 0.5, 0);
-        this.scene.add(plane);
+        if (this.plane) {
+            this.addPlane();
+        }
 
         if (this.cubeTexture) {
             this.loadCubeTexture();
@@ -154,6 +153,14 @@ export default class Renderer {
         this.cubeTexture.magFilter = magFilter;
         this.scene.background = this.cubeTexture;
         return this.cubeTexture;
+    }
+
+    protected addPlane() {
+        // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
+        const geometry = new THREE.PlaneGeometry(1, 1);
+        const plane = new THREE.Mesh(geometry, this.material);
+        plane.position.set(0.5, 0.5, 0);
+        this.scene.add(plane);
     }
 
     protected loadModel() {

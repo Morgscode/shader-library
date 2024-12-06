@@ -17,6 +17,7 @@ export type Shader = {
     vertex: string;
     fragment: string;
     cameraType: CameraType;
+    plane?: boolean;
     texture?: string;
     cubeTexture?: Array<string>;
     model?: string;
@@ -25,26 +26,30 @@ export type Shader = {
 export const colors: Shader = {
     vertex: colorVertex,
     fragment: colorFragment,
-    cameraType: "orthographic"
+    cameraType: "orthographic",
+    plane: true,
 }
 
 export const textures: Shader = {
     vertex: textureVertex,
     fragment: textureFragment,
     cameraType: "orthographic",
+    plane: true,
     texture: './assets/images/galactic-core.webp'
 }
 
 export const tricks: Shader = {
     vertex: trickVertex,
     fragment: trickFragment,
-    cameraType: "orthographic"
+    cameraType: "orthographic",
+    plane: true,
 }
 
 export const methods: Shader = {
     vertex: methodVertex,
     fragment: methodFragment,
     cameraType: "orthographic",
+    plane: true,
     texture: './assets/images/galactic-core.webp'
 }
 
@@ -52,6 +57,7 @@ export const drawing: Shader = {
     vertex: drawingVertex,
     fragment: drawingFragment,
     cameraType: "orthographic",
+    plane: true,
     texture: './assets/images/galactic-core.webp'
 }
 
@@ -59,6 +65,7 @@ export const lighting: Shader = {
     vertex: lightingVertex,
     fragment: lightingFragment,
     cameraType: "perspective",
+    plane: false,
     texture: './assets/images/galactic-core.webp',
     cubeTexture: [
         './assets/shader-resources/01/Cold_Sunset__Cam_2_Left+X.png',
