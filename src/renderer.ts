@@ -96,7 +96,7 @@ export default class Renderer {
             u_diffuse: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(new THREE.Vector4(0.0, 0.0, 0.0, 1.0)),
             u_time: new THREE.Uniform(0.0),
             u_tint: new THREE.Uniform(new THREE.Vector4(0.0, 1.0, 1.0, 1.0)),
-            u_specmap: new THREE.Uniform(this.scene.background)
+            u_specmap: this.cubeTexture ? new THREE.Uniform(this.loadCubeTexture()) : new THREE.Uniform(new THREE.Vector4(0.0, 0.0, 0.0, 1.0))
         };
     }
 
@@ -113,9 +113,9 @@ export default class Renderer {
 
     protected initControls() {
         const controls = new OrbitControls(this.camera, this.htmlDomElement);
-        controls.target.set(0,0,0);
+        controls.target.set(0, 0, 0);
         controls.update();
-        return controls; 
+        return controls;
     }
 
     protected initShader() {
@@ -126,10 +126,6 @@ export default class Renderer {
 
         if (this.plane) {
             this.addPlane();
-        }
-
-        if (this.cubeTexture) {
-            this.loadCubeTexture();
         }
 
         if (this.model) {

@@ -132,7 +132,7 @@ void main() {
     float hemiMix = remap(normal.y, -1.0, 1.0, 0.0, 1.0);
     vec3 hemi = mix(gColor, sColor, hemiMix);
 
-    vec3 lightDirection = normalize(vec3(1.0, 1.0, 1.0));
+    vec3 lightDirection = normalize(vec3(1.0));
     vec3 lightColor = vec3(1.0, 1.0, 0.9);
     float dotProduct = max(0.0, dot(lightDirection, normal));
 
