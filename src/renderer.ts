@@ -184,5 +184,4 @@ export default class Renderer {
             this.scene.add(gltf.scene);
         });
     }
-
 }
