@@ -1,6 +1,6 @@
 varying vec3 v_normal; 
 varying vec3 v_position;
-varying vec4 v_color;
+varying vec3 v_color;
 
 uniform float u_time;
 
@@ -86,12 +86,30 @@ float easeInOutBounce(float x) {
 // }
 
 // easing functions
+// void main() {
+//     vec3 localSpacePosition = position;
+
+//     localSpacePosition *= easeOutBounce(clamp(u_time - 2.0, 0.0, 1.0));
+
+//     gl_Position = projectionMatrix * modelViewMatrix * vec4(localSpacePosition, 1.0);
+//     v_normal = (modelMatrix * vec4(normal, 0.0)).xyz;
+//     v_position = (modelMatrix * vec4(position, 1.0)).xyz;
+// }
+
+// 
 void main() {
     vec3 localSpacePosition = position;
 
-    localSpacePosition *= easeOutBounce(clamp(u_time - 2.0, 0.0, 1.0));
+    float t = sin(localSpacePosition.y * 20.0 + u_time * 10.0);
+    t = remap(t, -1.0, 1.0, 0.0, 0.2);
+    localSpacePosition += normal * t;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(localSpacePosition, 1.0);
     v_normal = (modelMatrix * vec4(normal, 0.0)).xyz;
     v_position = (modelMatrix * vec4(position, 1.0)).xyz;
+    v_color = mix(
+      vec3(0.0, 0.0, 0.5),
+      vec3(0.1, 0.5, 0.8),
+      smoothstep(0.0, 0.2, t)
+    );
 }

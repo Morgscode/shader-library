@@ -82,6 +82,8 @@ export default class Renderer {
 
     setControls(controls: OrbitControls) {
         this.controls = controls;
+        this.controls.target.set(0, 0, 0);
+        this.controls.update();
     }
 
     render() {

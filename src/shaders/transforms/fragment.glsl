@@ -2,7 +2,7 @@ uniform samplerCube u_specmap;
 
 varying vec3 v_normal;
 varying vec3 v_position;
-varying vec4 v_color;
+varying vec3 v_color;
 
 float inverseLerp(float v, float minVal, float maxVal) {
     return (v - minVal) / (maxVal - minVal);
@@ -22,9 +22,9 @@ vec3 linearTosRGB(vec3 value ) {
 
 // specular IBL with fresnel
 void main() {
-    vec3 base = vec3(0.25, 0.0, 0.0);
+    vec3 base = v_color.xyz;
     vec3 lighting = vec3(0.0);
-    vec3 normal = normalize(v_normal);
+    vec3 normal = normalize(cross(dFdx(v_position.xyz), dFdy(v_position.xyz)));
     vec3 viewDirection = normalize(cameraPosition - v_position);
 
     vec3 ambient = vec3(0.5);
