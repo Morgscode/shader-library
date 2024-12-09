@@ -118,18 +118,19 @@ export default class Renderer {
         return camera;
     }
 
-    protected initGeometry(type: string = "plane") {
-        if (type === "plane") {
-            // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
-            const geometry = new THREE.PlaneGeometry(1, 1);
-            const mesh = new THREE.Mesh(geometry, this.material);
-            mesh.position.set(0.5, 0.5, 0);
-            this.scene.add(mesh);
-        } else if (type === "box") {
+    protected initGeometry(option: GeometryOption = "plane") {
+        if (option === "box") {
             const geometry = new THREE.BoxGeometry(1, 1);
             const mesh = new THREE.Mesh(geometry, this.material);
             this.scene.add(mesh);
+            return mesh;
         }
+        // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
+        const geometry = new THREE.PlaneGeometry(1, 1);
+        const mesh = new THREE.Mesh(geometry, this.material);
+        mesh.position.set(0.5, 0.5, 0);
+        this.scene.add(mesh);
+        return mesh;
     }
 
     protected initControls() {
