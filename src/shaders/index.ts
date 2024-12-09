@@ -10,8 +10,8 @@ import drawingVertex from './drawing/vertex.glsl';
 import drawingFragment from './drawing/fragment.glsl';
 import lightingVertex from './lighting/vertex.glsl';
 import lightingFragment from './lighting/fragment.glsl';
-import vertexVertex from './vertex/vertex.glsl';
-import vertexFragment from './vertex/fragment.glsl';
+import transformVertex from './transforms/vertex.glsl';
+import transformFragment from './transforms/fragment.glsl';
 
 export type CameraType = "orthographic" | "perspective";
 export type GeometryOption = undefined | "plane" | "box" | "icosahedrone";
@@ -88,9 +88,9 @@ export const lighting: Shader = {
     model: './assets/shader-resources/01/suzanne.glb'
 }
 
-export const vertex: Shader = {
-    vertex: vertexVertex,
-    fragment: vertexFragment,
+export const transforms: Shader = {
+    vertex: transformVertex,
+    fragment: transformFragment,
     cameraType: "perspective",
     geometry: "icosahedrone",
     controls: true,

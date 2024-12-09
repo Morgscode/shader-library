@@ -126,7 +126,6 @@ export default class Renderer {
             camera.position.set(0, 0, 1);
             return camera;
         }
-
     }
 
     protected initGeometry(option: GeometryOption = "plane") {
