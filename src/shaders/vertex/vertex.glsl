@@ -85,17 +85,13 @@ float easeInOutBounce(float x) {
 //     v_position = (modelMatrix * vec4(position, 1.0)).xyz;
 // }
 
-// 
+// easing functions
 void main() {
     vec3 localSpacePosition = position;
+
+    localSpacePosition *= easeOutBounce(clamp(u_time - 2.0, 0.0, 1.0));
+
     gl_Position = projectionMatrix * modelViewMatrix * vec4(localSpacePosition, 1.0);
-    
     v_normal = (modelMatrix * vec4(normal, 0.0)).xyz;
     v_position = (modelMatrix * vec4(position, 1.0)).xyz;
-
-    vec3 red = vec3(1.0, 0.0, 0.0);
-    vec3 blue = vec3(0.0, 0.0, 1.0);
-
-    float t = remap(v_position.x, -0.5, 0.5, 0.0, 1.0);
-    v_color = vec4(mix(red, blue, t), t);
 }
