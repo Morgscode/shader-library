@@ -21,14 +21,14 @@ vec3 linearTosRGB(vec3 value ) {
 }
 
 // ambient lighting
-// void main() {
-//     vec3 base = vec3(0.5);
-//     vec3 lighting = vec3(0.0);
-//     vec3 ambient = vec3(0.5);
-//     lighting = ambient;
-//     vec3 color = base * lighting;
-//     gl_FragColor = vec4(color, 1.0);
-// }
+void main() {
+    vec3 base = vec3(0.5);
+    vec3 lighting = vec3(0.0);
+    vec3 ambient = vec3(0.5);
+    lighting = ambient;
+    vec3 color = base * lighting;
+    gl_FragColor = vec4(color, 1.0);
+}
 
 // hemisphere lighting
 // void main() {
@@ -161,43 +161,43 @@ vec3 linearTosRGB(vec3 value ) {
 // }
 
 // cel shading (toon ligting)
-void main() {
-    vec3 base = vec3(0.5);
-    vec3 lighting = vec3(0.0);
-    vec3 normal = normalize(v_normal);
-    vec3 viewDirection = normalize(cameraPosition - v_position);
+// void main() {
+//     vec3 base = vec3(0.5);
+//     vec3 lighting = vec3(0.0);
+//     vec3 normal = normalize(v_normal);
+//     vec3 viewDirection = normalize(cameraPosition - v_position);
 
-    vec3 sColor = vec3(0.0, 0.3, 0.6);
-    vec3 gColor = vec3(0.6, 0.3, 0.1);
+//     vec3 sColor = vec3(0.0, 0.3, 0.6);
+//     vec3 gColor = vec3(0.6, 0.3, 0.1);
 
-    float hemiMix = remap(normal.y, -1.0, 1.0, 0.0, 1.0);
-    vec3 hemi = mix(gColor, sColor, hemiMix);
+//     float hemiMix = remap(normal.y, -1.0, 1.0, 0.0, 1.0);
+//     vec3 hemi = mix(gColor, sColor, hemiMix);
 
-    vec3 lightDirection = normalize(vec3(1.0));
-    vec3 lightColor = vec3(1.0, 1.0, 0.9);
-    float dotProduct = max(0.0, dot(lightDirection, normal));
+//     vec3 lightDirection = normalize(vec3(1.0));
+//     vec3 lightColor = vec3(1.0, 1.0, 0.9);
+//     float dotProduct = max(0.0, dot(lightDirection, normal));
 
-    dotProduct *= smoothstep(0.5, 0.505, dotProduct);
+//     dotProduct *= smoothstep(0.5, 0.505, dotProduct);
 
-    vec3 specular = vec3(0.0);
-    vec3 diffuse = dotProduct * lightColor;
+//     vec3 specular = vec3(0.0);
+//     vec3 diffuse = dotProduct * lightColor;
 
-    vec3 reflection = normalize(reflect(-lightDirection, normal));
-    float phongValue =  max(0.0, dot(viewDirection, reflection));
-    phongValue = pow(phongValue, 128.0);
+//     vec3 reflection = normalize(reflect(-lightDirection, normal));
+//     float phongValue =  max(0.0, dot(viewDirection, reflection));
+//     phongValue = pow(phongValue, 128.0);
 
-    float fresnel = 1.0 - max(0.0, dot(viewDirection, normal));
-    fresnel = pow(fresnel, 2.0);
-    fresnel *= step(0.5, fresnel);
+//     float fresnel = 1.0 - max(0.0, dot(viewDirection, normal));
+//     fresnel = pow(fresnel, 2.0);
+//     fresnel *= step(0.5, fresnel);
 
-    specular += phongValue;
-    specular = smoothstep(0.5, 0.51, specular);
+//     specular += phongValue;
+//     specular = smoothstep(0.5, 0.51, specular);
 
-    lighting = hemi * (fresnel + 0.2) + diffuse * 0.8;
+//     lighting = hemi * (fresnel + 0.2) + diffuse * 0.8;
 
-    vec3 color = base * lighting + specular;
+//     vec3 color = base * lighting + specular;
 
-    color = linearTosRGB(color);
+//     color = linearTosRGB(color);
 
-    gl_FragColor = vec4(color, 1.0);
-}
+//     gl_FragColor = vec4(color, 1.0);
+// }

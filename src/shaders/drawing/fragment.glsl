@@ -11,14 +11,14 @@ float plot(vec2 st, float pct) {
 }
 
 // draw a striaght line
-// void main() {
-//     vec3 color = vec3(v_uv.x);
+void main() {
+    vec3 color = vec3(v_uv.x);
 
-//     float line = smoothstep(0.02, 0.0, abs(v_uv.x - v_uv.y));
-//     color = (1.0 - line) * color + line * vec3(0.0, 1.0, 0.0);
+    float line = smoothstep(0.02, 0.0, abs(v_uv.x - v_uv.y));
+    color = (1.0 - line) * color + line * vec3(0.0, 1.0, 0.0);
 
-//     gl_FragColor = vec4(color, 1.0);
-// }
+    gl_FragColor = vec4(color, 1.0);
+}
  
 // draw a curved line
 // void main() {
@@ -69,25 +69,25 @@ vec3 palette(float t) {
 }
 
 // procedural geomtery with color palette
-void main() {
-    vec2 uv = v_uv * 2.0 - 1.0;
-    uv.x *= u_resolution.x / u_resolution.y;
-    vec2 l_uv = uv;
-    vec3 final = vec3(0.0);
+// void main() {
+//     vec2 uv = v_uv * 2.0 - 1.0;
+//     uv.x *= u_resolution.x / u_resolution.y;
+//     vec2 l_uv = uv;
+//     vec3 final = vec3(0.0);
 
-    for (float i = 0.0; i < 3.0; i++) {
-        uv = fract(uv * 2.0) - 0.5;
+//     for (float i = 0.0; i < 3.0; i++) {
+//         uv = fract(uv * 2.0) - 0.5;
 
-        float l = length(uv) * exp(-length(l_uv));
-        vec3 color = palette(length(l_uv) + (i * PI) + u_time);
+//         float l = length(uv) * exp(-length(l_uv));
+//         vec3 color = palette(length(l_uv) + (i * PI) + u_time);
 
-        l = sin(l * 8.0 + 1.0 - (u_time * 1.28)) / 8.0;
-        l = abs(l);
+//         l = sin(l * 8.0 + 1.0 - (u_time * 1.28)) / 8.0;
+//         l = abs(l);
 
-        l = mod(0.01 / l, 1.5);
+//         l = mod(0.01 / l, 1.5);
 
-        final += color * l;
-    }
+//         final += color * l;
+//     }
 
-    gl_FragColor = vec4(final, 1.0);
-}
+//     gl_FragColor = vec4(final, 1.0);
+// }
