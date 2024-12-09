@@ -20,7 +20,6 @@ vec3 linearTosRGB(vec3 value ) {
     return mix(v2, v1, lt);
 }
 
-
 void main() {
     vec3 base = v_color.xyz;
 
