@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
-import type { Shader, CameraType } from "./shaders";
+import type { Shader, CameraType, GeometryOption } from "./shaders";
 
 export default class Renderer {
 
@@ -9,6 +9,8 @@ export default class Renderer {
     private scene: THREE.Scene;
     private camera: THREE.OrthographicCamera | THREE.PerspectiveCamera;
     private material: THREE.ShaderMaterial;
+    private geometry: false | GeometryOption;
+    private controls: boolean | OrbitControls;
     private gltfLoader: GLTFLoader
     private textureLoader: THREE.TextureLoader;
     private cubeTextureLoader: THREE.CubeTextureLoader;
@@ -17,11 +19,10 @@ export default class Renderer {
     private lastFrameTime: DOMHighResTimeStamp;
     private elapsedTime: number;
     private uniforms: Record<string, THREE.Uniform>;
-    private controls: boolean | OrbitControls;
     private texture?: string | THREE.Texture;
     private cubeTexture?: Array<string> | THREE.CubeTexture;
     private model?: string;
-    private plane?: boolean;
+
 
     constructor(shader: Shader, selector: string = "#app") {
         this.htmlDomElement = document.querySelector(selector);
@@ -37,7 +38,7 @@ export default class Renderer {
         this.texture = shader.texture;
         this.cubeTexture = shader.cubeTexture;
         this.model = shader.model;
-        this.plane = shader.plane;
+        this.geometry = shader.geometry;
         this.lastFrameTime = performance.now();
         this.elapsedTime = 0;
         this.uniforms = this.initUniforms();
@@ -81,8 +82,8 @@ export default class Renderer {
         this.htmlDomElement.appendChild(this.threejs.domElement);
         window.addEventListener('resize', (e) => this.resize(e));
         this.initShader();
-        if (this.plane) {
-            this.addPlane();
+        if (this.geometry) {
+            this.initGeometry(this.geometry);
         }
         if (this.model) {
             this.loadModel();
@@ -115,6 +116,20 @@ export default class Renderer {
         const camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 1000);
         camera.position.set(0, 0, 1);
         return camera;
+    }
+
+    protected initGeometry(type: string = "plane") {
+        if (type === "plane") {
+            // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
+            const geometry = new THREE.PlaneGeometry(1, 1);
+            const mesh = new THREE.Mesh(geometry, this.material);
+            mesh.position.set(0.5, 0.5, 0);
+            this.scene.add(mesh);
+        } else if (type === "box") {
+            const geometry = new THREE.BoxGeometry(1, 1);
+            const mesh = new THREE.Mesh(geometry, this.material);
+            this.scene.add(mesh);
+        }
     }
 
     protected initControls() {
@@ -156,14 +171,6 @@ export default class Renderer {
         this.cubeTexture.magFilter = magFilter;
         this.scene.background = this.cubeTexture;
         return this.cubeTexture;
-    }
-
-    protected addPlane() {
-        // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
-        const geometry = new THREE.PlaneGeometry(1, 1);
-        const plane = new THREE.Mesh(geometry, this.material);
-        plane.position.set(0.5, 0.5, 0);
-        this.scene.add(plane);
     }
 
     protected loadModel() {
