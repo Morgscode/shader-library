@@ -14,7 +14,7 @@ import vertexVertex from './vertex/vertex.glsl';
 import vertexFragment from './vertex/fragment.glsl';
 
 export type CameraType = "orthographic" | "perspective";
-export type GeometryOption = undefined | "plane" | "box";
+export type GeometryOption = undefined | "plane" | "box" | "icosahedrone";
 
 export type Shader = {
     vertex: string;
@@ -92,7 +92,7 @@ export const vertex: Shader = {
     vertex: vertexVertex,
     fragment: vertexFragment,
     cameraType: "perspective",
-    geometry: "box",
+    geometry: "icosahedrone",
     controls: true,
     cubeTexture: [
         './assets/shader-resources/01/Cold_Sunset__Cam_2_Left+X.png',

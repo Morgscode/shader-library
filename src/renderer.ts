@@ -23,7 +23,6 @@ export default class Renderer {
     private cubeTexture?: Array<string> | THREE.CubeTexture;
     private model?: string;
 
-
     constructor(shader: Shader, selector: string = "#app") {
         this.htmlDomElement = document.querySelector(selector);
         this.threejs = new THREE.WebGLRenderer();
@@ -77,6 +76,14 @@ export default class Renderer {
         this.uniforms[key] = value;
     }
 
+    getControls() {
+        return this.controls;
+    }
+
+    setControls(controls: OrbitControls) {
+        this.controls = controls;
+    }
+
     render() {
         if (!this.htmlDomElement) throw new Error('Renderer initiated without a DOM Element');
         this.htmlDomElement.appendChild(this.threejs.domElement);
@@ -109,31 +116,44 @@ export default class Renderer {
 
     protected initCamera(cameraType: CameraType) {
         if (cameraType === "perspective") {
+            // https://threejs.org/docs/#api/en/cameras/PerspectiveCamera
             const camera = new THREE.PerspectiveCamera(60, 1920.0 / 1080.0, 0.1, 1000.0);
             camera.position.set(1, 0, 3);
             return camera;
+        } else {
+            // https://threejs.org/docs/#api/en/cameras/OrthographicCamera
+            const camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 1000);
+            camera.position.set(0, 0, 1);
+            return camera;
         }
-        const camera = new THREE.OrthographicCamera(0, 1, 1, 0, 0.1, 1000);
-        camera.position.set(0, 0, 1);
-        return camera;
+
     }
 
     protected initGeometry(option: GeometryOption = "plane") {
         if (option === "box") {
+            // https://threejs.org/docs/#api/en/geometries/BoxGeometry
             const geometry = new THREE.BoxGeometry(1, 1);
             const mesh = new THREE.Mesh(geometry, this.material);
             this.scene.add(mesh);
             return mesh;
+        } else if (option === "icosahedrone") {
+            // https://threejs.org/docs/#api/en/geometries/IcosahedronGeometry
+            const geometry = new THREE.IcosahedronGeometry(1, 64);
+            const mesh = new THREE.Mesh(geometry, this.material);
+            this.scene.add(mesh);
+            return mesh;
+        } else {
+            // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
+            const geometry = new THREE.PlaneGeometry(1, 1);
+            const mesh = new THREE.Mesh(geometry, this.material);
+            mesh.position.set(0.5, 0.5, 0);
+            this.scene.add(mesh);
+            return mesh;
         }
-        // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
-        const geometry = new THREE.PlaneGeometry(1, 1);
-        const mesh = new THREE.Mesh(geometry, this.material);
-        mesh.position.set(0.5, 0.5, 0);
-        this.scene.add(mesh);
-        return mesh;
     }
 
     protected initControls() {
+        // https://threejs.org/docs/#examples/en/controls/OrbitControls
         const controls = new OrbitControls(this.camera, this.htmlDomElement);
         controls.target.set(0, 0, 0);
         controls.update();
