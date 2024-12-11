@@ -6,26 +6,13 @@ import drawingVertex from './drawing/vertex.glsl';
 import drawingFragment from './drawing/fragment.glsl';
 import lightingVertex from './lighting/vertex.glsl';
 import lightingFragment from './lighting/fragment.glsl';
-import transformVertex from './transforms/vertex.glsl';
-import transformFragment from './transforms/fragment.glsl';
+import transformVertex from './vertex-transforms/vertex.glsl';
+import transformFragment from './vertex-transforms/fragment.glsl';
 import shapeVertex from './shapes/vertex.glsl';
 import shapeFragment from './shapes/fragment.glsl';
 import fractalVertex from './fractals/vertex.glsl';
 import fractalFragment from './fractals/fragment.glsl';
-
-export type CameraType = "orthographic" | "perspective";
-export type GeometryOption = undefined | "plane" | "box" | "icosahedrone";
-
-export type Shader = {
-    vertex: string;
-    fragment: string;
-    cameraType: CameraType;
-    geometry: false | GeometryOption;
-    controls: boolean;
-    texture?: string;
-    cubeTexture?: Array<string>;
-    model?: string;
-}
+import type { Shader } from './types';
 
 export const colors: Shader = {
     vertex: colorVertex,

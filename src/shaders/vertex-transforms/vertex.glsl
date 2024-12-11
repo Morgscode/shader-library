@@ -53,15 +53,15 @@ float easeInOutBounce(float x) {
 }
 
 // simple y-axis transform
-// void main() {
-//     vec3 localSpacePosition = position;
+void main() {
+    vec3 localSpacePosition = position;
 
-//     localSpacePosition.y += sin(u_time);
+    localSpacePosition.y += sin(u_time);
 
-//     gl_Position = projectionMatrix * modelViewMatrix * vec4(localSpacePosition, 1.0);
-//     v_normal = (modelMatrix * vec4(normal, 0.0)).xyz;
-//     v_position = (modelMatrix * vec4(position, 1.0)).xyz;
-// }
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(localSpacePosition, 1.0);
+    v_normal = (modelMatrix * vec4(normal, 0.0)).xyz;
+    v_position = (modelMatrix * vec4(position, 1.0)).xyz;
+}
 
 // 3-d scaling
 // void main() {
@@ -96,20 +96,19 @@ float easeInOutBounce(float x) {
 //     v_position = (modelMatrix * vec4(position, 1.0)).xyz;
 // }
 
-// 
-void main() {
-    vec3 localSpacePosition = position;
+// void main() {
+//     vec3 localSpacePosition = position;
 
-    float t = sin(localSpacePosition.y * 20.0 + u_time * 10.0);
-    t = remap(t, -1.0, 1.0, 0.0, 0.2);
-    localSpacePosition += normal * t;
+//     float t = sin(localSpacePosition.y * 20.0 + u_time * 10.0);
+//     t = remap(t, -1.0, 1.0, 0.0, 0.2);
+//     localSpacePosition += normal * t;
 
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(localSpacePosition, 1.0);
-    v_normal = (modelMatrix * vec4(normal, 0.0)).xyz;
-    v_position = (modelMatrix * vec4(position, 1.0)).xyz;
-    v_color = mix(
-      vec3(0.0, 0.0, 0.5),
-      vec3(0.1, 0.5, 0.8),
-      smoothstep(0.0, 0.2, t)
-    );
-}
+//     gl_Position = projectionMatrix * modelViewMatrix * vec4(localSpacePosition, 1.0);
+//     v_normal = (modelMatrix * vec4(normal, 0.0)).xyz;
+//     v_position = (modelMatrix * vec4(position, 1.0)).xyz;
+//     v_color = mix(
+//       vec3(0.0, 0.0, 0.5),
+//       vec3(0.1, 0.5, 0.8),
+//       smoothstep(0.0, 0.2, t)
+//     );
+// }

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
-import type { Shader, CameraType, GeometryOption } from "./shaders";
+import type { Shader, CameraType, GeometryOption } from "./shaders/types.ts";
 
 export default class Renderer {
 
@@ -48,8 +48,8 @@ export default class Renderer {
         return this.htmlDomElement;
     }
 
-    setHtmlDomElement(htmlDivEl: HTMLDivElement) {
-        this.htmlDomElement = htmlDivEl;
+    setHtmlDomElement(htmlEl: HTMLElement) {
+        this.htmlDomElement = htmlEl;
     }
 
     getTexture() {
@@ -116,8 +116,8 @@ export default class Renderer {
         };
     }
 
-    protected initCamera(cameraType: CameraType) {
-        if (cameraType === "perspective") {
+    protected initCamera(option: CameraType = "orthographic") {
+        if (option === "perspective") {
             // https://threejs.org/docs/#api/en/cameras/PerspectiveCamera
             const camera = new THREE.PerspectiveCamera(60, 1920.0 / 1080.0, 0.1, 1000.0);
             camera.position.set(1, 0, 3);
