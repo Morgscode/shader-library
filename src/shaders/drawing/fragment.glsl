@@ -33,6 +33,102 @@ void main() {
 //     gl_FragColor = vec4(color, 1.0);
 // }
 
+// step changes
+void main() {
+    gl_FragColor = vec4(vec3(step(0.5,v_uv.x), v_uv), 1.0);
+}
+
+// smoothstep 
+// void main() {
+//     gl_FragColor = vec4(vec3(smoothstep(0.0, 1.0, v_uv.x), v_uv), 1.0);
+// }
+
+// mix 
+// void main() {
+//     gl_FragColor = vec4(vec3(mix(v_uv.x, v_uv.y, 1.0)), 1.0);
+// }
+
+//  smoothstep with mix
+// void main() {
+//     gl_FragColor = vec4(mix(vec3(1.0, 0.0, 0.0), vec3(0.0,0.0,1.0), smoothstep(0.0, 1.0, v_uv.x)), 1.0);
+// }
+
+//  moving smoothstep with mix
+// void main() {
+//     gl_FragColor = vec4(mix(vec3(1.0, 0.0, 0.0), vec3(0.0,0.0,1.0), smoothstep(0.0, 1.0, v_uv.x)), 1.0);
+// }
+
+// draw a straight vertical line
+// void main() {
+//     vec3 color = vec3(0.0);
+//     float line = smoothstep(0.0001, 0.005, abs(v_uv.x - 0.5));
+//     color = vec3(line);
+
+//     color = mix(vec3(0.0), color, line);
+//     gl_FragColor = vec4(color, 1.0);
+// }
+
+// void animation
+// void main() {
+//     vec3 color = vec3(0.0);
+//     float line = smoothstep(0.0, 1.0, abs(v_uv.x - 0.5));
+//     color = abs(sin(vec3(line) * u_time * 130.0));
+
+//     color = mix(vec3(0.0), color, line);
+//     gl_FragColor = vec4(color, 1.0);
+// }
+
+// drawing lines
+// void main() {
+//     vec3 color = vec3(0.0);
+
+//     float line = smoothstep(0.0001, 0.005, abs(v_uv.y - 0.5));
+//     float linearLine = smoothstep(0.0, 0.0075, abs(v_uv.y - mix(0.5, 1.0, v_uv.x)));
+//     float smoothLine = smoothstep(0.0, 0.0075, abs(v_uv.y - mix(0.0, 0.5, smoothstep(0.0, 1.0, v_uv.x))));
+
+//     color = vec3(line);
+
+//     if (v_uv.y > 0.5) {
+//         color = mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 0.0, 1.0), v_uv.x);
+//     } else {
+//         color = mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 0.0, 1.0), smoothstep(0.0, 1.0, v_uv.x));
+//     }
+
+//     color = mix(vec3(1.0, 1.0, 1.0), color, vec3(line));
+//     color = mix(vec3(1.0, 1.0, 1.0), color, linearLine);
+//     color = mix(vec3(1.0, 1.0, 1.0), color, smoothLine);
+
+//     gl_FragColor = vec4(color, 1.0);
+// }
+
+// resoloution independant grid
+// void main() {
+//     vec3 color = vec3(1.0);
+//     vec2 center = v_uv - 0.5;
+    
+//     vec2 cell = abs(fract(center * u_resolution / 100.0) - 0.5);
+    
+//     float dist = 1.0 - 2.0 * max(cell.x, cell.y);
+//     float line = smoothstep(0.0, 0.05, dist);
+
+//     float xAxis = smoothstep(0.0, 0.002, abs(v_uv.y - 0.5));
+//     float yAxis = smoothstep(0.0, 0.002, abs(v_uv.x - 0.5));
+
+//     vec2 pos = center * u_resolution / 100.0;
+//     float val_1 = pos.x;
+//     float val_2 = abs(pos.x);
+//     float functionLine1 = smoothstep(0.0, 0.075, abs(pos.y - val_1));
+//     float functionLine2 = smoothstep(0.0, 0.075, abs(pos.y - val_2));
+
+//     color = mix(vec3(0.0), color, line);
+//     color = mix(vec3(1.0, 1.0, 0.0), color, xAxis);
+//     color = mix(vec3(1.0, 1.0, 0.0), color, yAxis);
+//     color = mix(vec3(0.0, 1.0, 1.0), color, functionLine1);
+//     color = mix(vec3(0.0, 1.0, 1.0), color, functionLine2);
+
+//     gl_FragColor = vec4(color, 1.0);
+// }
+
 // draw a responsive circle with SDF
 // void main() {
 //     vec2 uv = v_uv * 2.0 - 1.0;
@@ -43,51 +139,3 @@ void main() {
 //     gl_FragColor = vec4(l, l, l, 1.0);
 // }
 
-// animate some circle geomtry
-// void main() {
-//     vec2 uv = v_uv * 2.0 - 1.0;
-//     uv.x *= u_resolution.x / u_resolution.y;
-
-//     float l = length(uv);
-
-//     l = sin(l * 8.0 + u_time) / 8.0;
-//     l = abs(l);
-
-//     l = smoothstep(0.0, 0.1, l);
-
-//     gl_FragColor = vec4(l, l, l, 1.0);
-// }
-
-// cosine based palette
-vec3 palette(float t) {
-    vec3 a = vec3(0.5, 0.5, 0.5);
-    vec3 b = vec3(0.75, 0.75, 0.75);
-    vec3 c = vec3(1.0, 1.0, 1.0);
-    vec3 d = vec3(0.0, 0.333, 0.667);
-
-    return a + b * cos((PI * 2.0) * (c * t + d));
-}
-
-// procedural geomtery with color palette
-// void main() {
-//     vec2 uv = v_uv * 2.0 - 1.0;
-//     uv.x *= u_resolution.x / u_resolution.y;
-//     vec2 l_uv = uv;
-//     vec3 final = vec3(0.0);
-
-//     for (float i = 0.0; i < 3.0; i++) {
-//         uv = fract(uv * 2.0) - 0.5;
-
-//         float l = length(uv) * exp(-length(l_uv));
-//         vec3 color = palette(length(l_uv) + (i * PI) + u_time);
-
-//         l = sin(l * 8.0 + 1.0 - (u_time * 1.28)) / 8.0;
-//         l = abs(l);
-
-//         l = mod(0.01 / l, 1.5);
-
-//         final += color * l;
-//     }
-
-//     gl_FragColor = vec4(final, 1.0);
-// }
