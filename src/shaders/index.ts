@@ -14,6 +14,8 @@ import transformVertex from './transforms/vertex.glsl';
 import transformFragment from './transforms/fragment.glsl';
 import shapeVertex from './shapes/vertex.glsl';
 import shapeFragment from './shapes/fragment.glsl';
+import fractalVertex from './fractals/vertex.glsl';
+import fractalFragment from './fractals/fragment.glsl';
 
 export type CameraType = "orthographic" | "perspective";
 export type GeometryOption = undefined | "plane" | "box" | "icosahedrone";
@@ -109,6 +111,14 @@ export const transforms: Shader = {
 export const shapes: Shader = {
     vertex: shapeVertex,
     fragment: shapeFragment,
+    cameraType: "orthographic",
+    geometry: "plane",
+    controls: false,
+}
+
+export const fractals: Shader = {
+    vertex: fractalVertex,
+    fragment: fractalFragment,
     cameraType: "orthographic",
     geometry: "plane",
     controls: false,
