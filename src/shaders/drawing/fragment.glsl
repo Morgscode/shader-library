@@ -19,7 +19,7 @@ void main() {
 
     gl_FragColor = vec4(color, 1.0);
 }
- 
+
 // draw a curved line
 // void main() {
 //     vec2 uv = v_uv * 2.0 - 1.0;
@@ -33,31 +33,6 @@ void main() {
 //     gl_FragColor = vec4(color, 1.0);
 // }
 
-// step changes
-void main() {
-    gl_FragColor = vec4(vec3(step(0.5,v_uv.x), v_uv), 1.0);
-}
-
-// smoothstep 
-// void main() {
-//     gl_FragColor = vec4(vec3(smoothstep(0.0, 1.0, v_uv.x), v_uv), 1.0);
-// }
-
-// mix 
-// void main() {
-//     gl_FragColor = vec4(vec3(mix(v_uv.x, v_uv.y, 1.0)), 1.0);
-// }
-
-//  smoothstep with mix
-// void main() {
-//     gl_FragColor = vec4(mix(vec3(1.0, 0.0, 0.0), vec3(0.0,0.0,1.0), smoothstep(0.0, 1.0, v_uv.x)), 1.0);
-// }
-
-//  moving smoothstep with mix
-// void main() {
-//     gl_FragColor = vec4(mix(vec3(1.0, 0.0, 0.0), vec3(0.0,0.0,1.0), smoothstep(0.0, 1.0, v_uv.x)), 1.0);
-// }
-
 // draw a straight vertical line
 // void main() {
 //     vec3 color = vec3(0.0);
@@ -67,7 +42,7 @@ void main() {
 //     color = mix(vec3(0.0), color, line);
 //     gl_FragColor = vec4(color, 1.0);
 // }
-
+ 
 // void animation
 // void main() {
 //     vec3 color = vec3(0.0);
@@ -128,14 +103,3 @@ void main() {
 
 //     gl_FragColor = vec4(color, 1.0);
 // }
-
-// draw a responsive circle with SDF
-// void main() {
-//     vec2 uv = v_uv * 2.0 - 1.0;
-//     uv.x *= u_resolution.x / u_resolution.y;
-
-//     float l = length(uv) - 0.5;
-
-//     gl_FragColor = vec4(l, l, l, 1.0);
-// }
-
