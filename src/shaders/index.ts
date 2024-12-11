@@ -12,6 +12,8 @@ import lightingVertex from './lighting/vertex.glsl';
 import lightingFragment from './lighting/fragment.glsl';
 import transformVertex from './transforms/vertex.glsl';
 import transformFragment from './transforms/fragment.glsl';
+import shapeVertex from './shapes/vertex.glsl';
+import shapeFragment from './shapes/fragment.glsl';
 
 export type CameraType = "orthographic" | "perspective";
 export type GeometryOption = undefined | "plane" | "box" | "icosahedrone";
@@ -102,4 +104,12 @@ export const transforms: Shader = {
         './assets/shader-resources/01/Cold_Sunset__Cam_0_Front+Z.png',
         './assets/shader-resources/01/Cold_Sunset__Cam_1_Back-Z.png',
     ],
+}
+
+export const shapes: Shader = {
+    vertex: shapeVertex,
+    fragment: shapeFragment,
+    cameraType: "orthographic",
+    geometry: "plane",
+    controls: false,
 }
