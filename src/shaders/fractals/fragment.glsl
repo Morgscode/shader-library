@@ -12,7 +12,7 @@ vec3 palette(float t) {
         vec3 d = vec3(0.0, 0.333, 0.667);
 
         return a + b * cos((PI * 2.0) * (c * t + d));
-    }
+}
 
 // base fractal
 void main() {
@@ -32,9 +32,7 @@ void main() {
             sin(angle), cos(angle)
         );    
     }
-
-    vec3 color = palette(-length(uv) + u_time);
-    
+    vec3 color = palette(length(uv) + u_time);
     // render the final color
     gl_FragColor = vec4(vec3(color * length(uv)), 1.0);
 }
