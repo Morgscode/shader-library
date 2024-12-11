@@ -23,7 +23,7 @@ void main() {
     // make it responsive to the current screen size
     uv.x *= u_resolution.x / u_resolution.y;
     // start the fractal process
-    for (float i = 0.0; i < 32.0; i += 1.0) {
+    for (float i = 0.0; i < 64.0; i += 1.0) {
         uv = abs(uv);
         uv -= 0.5;
         uv *= 1.1;
@@ -33,8 +33,32 @@ void main() {
         );    
     }
 
-    vec3 color = palette(length(uv) + u_time);
+    vec3 color = palette(-length(uv) + u_time);
     
     // render the final color
-    gl_FragColor = vec4(vec3(length(uv)) * color, 1.0);
+    gl_FragColor = vec4(vec3(color * length(uv)), 1.0);
 }
+
+// procedural geomtery with color palette
+// void main() {
+//     vec2 uv = v_uv * 2.0 - 1.0;
+//     uv.x *= u_resolution.x / u_resolution.y;
+//     vec2 l_uv = uv;
+//     vec3 final = vec3(0.0);
+
+//     for (float i = 0.0; i < 3.0; i++) {
+//         uv = fract(uv * 2.0) - 0.5;
+
+//         float l = length(uv) * exp(-length(l_uv));
+//         vec3 color = palette(length(l_uv) + (i * PI) + u_time);
+
+//         l = sin(l * 8.0 + 1.0 - (u_time * 1.28)) / 8.0;
+//         l = abs(l);
+
+//         l = mod(0.01 / l, 1.5);
+
+//         final += color * l;
+//     }
+
+//     gl_FragColor = vec4(final, 1.0);
+// }
