@@ -77,6 +77,19 @@ mat2 rotate2d(float angle) {
     );
 }
 
+float softMax(float a, float b, float k) {
+    return log(exp(k * a) + exp(k * b)) / k;
+}
+
+float softMin(float a, float b, float k) {
+    return -softMax(-a, -b, k);
+}
+
+float softMinValue(float a, float b, float k) {
+    float h = remap(a - b, -1.0 / k, 1.0 / k, 0.0, 1.0);
+    return h;
+}
+
 // simple shapes
 // void main() {
 //     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
@@ -136,12 +149,22 @@ void main() {
     color = draw_grid(color, vec3(0.5), 10.0, 1.0);
     color = draw_grid(color, vec3(0.0), 100.0, 2.0);
 
+    float box = sdBox(rotate2d(u_time * 0.5) * pixel_coords, vec2(150.0, 75.0));
     float d1 = sdCircle(pixel_coords  - vec2(-200.0, -100.0), 100.0);
     float d2 = sdCircle(pixel_coords  - vec2(200.0, -100.0), 100.0);
-    float d3 = sdCircle(pixel_coords  - vec2(0.0, 100.0), 100.0);
+    float d3 = sdCircle(pixel_coords  - vec2(0.0, 150.0), 100.0);
 
-    color = mix(vec3(1.0, 0.0, 0.0), color, smoothstep(-1.0, 1.0, d));
-    color = mix(vec3(1.0, 0.0, 0.0), color, smoothstep(-5.0, 0.0, d));
+    float d = opUnion(opUnion(d1, d2), d3);
+    d = softMin(box, d, 0.05);
+
+    vec3 sdColor = mix(
+        vec3(1.0, 0.0, 0.0),
+        vec3(0.0, 0.0, 1.0),
+        smoothstep(0.0, 1.0, softMinValue(box, d, 0.01))
+    );
+
+    color = mix(sdColor * 0.5, color, smoothstep(-1.0, 1.0, d));
+    color = mix(sdColor, color, smoothstep(-5.0, 0.0, d));
 
     gl_FragColor = vec4(color, 1.0);
 }
