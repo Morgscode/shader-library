@@ -30,6 +30,18 @@ vec3 draw_grid(vec3 color, vec3 lineColor, float cellSpacing, float lineWidth) {
     return color;
 }
 
+float opUnion(float d1, float d2) {
+  return min(d1, d2);
+}
+
+float opSubtraction(float d1, float d2) {
+  return max(-d1, d2);
+}
+
+float opIntersection(float d1, float d2) {
+  return max(d1, d2);
+}
+
 float sdCircle(vec2 p, float r) {
     return length(p) - r;
 }
