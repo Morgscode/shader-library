@@ -32,9 +32,9 @@ void main() {
             sin(angle), cos(angle)
         );    
     }
-    vec3 color = palette(length(uv) + u_time);
+    vec3 color = 1.0 - palette(length(uv) + u_time);
     // render the final color
-    gl_FragColor = vec4(vec3(color * length(uv)), 1.0);
+    gl_FragColor = vec4(vec3(color / PI * length(uv)), 1.0);
 }
 
 // procedural geomtery with color palette

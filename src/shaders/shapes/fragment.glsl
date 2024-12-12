@@ -30,20 +30,30 @@ vec3 draw_grid(vec3 color, vec3 lineColor, float cellSpacing, float lineWidth) {
     return color;
 }
 
-float sdfCircle(vec2 p, float r) {
+float sdCircle(vec2 p, float r) {
     return length(p) - r;
 }
 
-float sdfLine(vec2 p, vec2 a, vec2 b) {
+float sdLine(vec2 p, vec2 a, vec2 b) {
     vec2 pa = p - a;
     vec2 ba = b - a;
     float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
     return length(pa - ba * h);
 }
 
-float sdfBox(vec2 p, vec2 b) {
+float sdBox(vec2 p, vec2 b) {
     vec2 d = abs(p) - b;
     return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
+}
+
+float sdHexagram( in vec2 p, in float r )
+{
+    const vec4 k = vec4(-0.5,0.8660254038,0.5773502692,1.7320508076);
+    p = abs(p);
+    p -= 2.0*min(dot(k.xy,p),0.0)*k.xy;
+    p -= 2.0*min(dot(k.yx,p),0.0)*k.yx;
+    p -= vec2(clamp(p.x,r*k.z,r*k.w),r);
+    return length(p)*sign(p.y);
 }
 
 mat2 rotate2d(float angle) {
@@ -63,13 +73,13 @@ mat2 rotate2d(float angle) {
 //     color = draw_grid(color, vec3(0.5), 10.0, 1.0);
 //     color = draw_grid(color, vec3(0.0), 100.0, 2.0);
 
-//     // float d = sdfCircle(pixel_coords, 100.0);
+//     // float d = sdCircle(pixel_coords, 100.0);
 //     // color = mix(vec3(0.5, 0.0, 0.0), color, step(0.0, d));
 
-//     // float d = sdfLine(pixel_coords, vec2(-100.0, -50.0), vec2(200.0, -75.0));
+//     // float d = sdLine(pixel_coords, vec2(-100.0, -50.0), vec2(200.0, -75.0));
 //     // color = mix(vec3(0.5, 0.0, 0.0), color, step(5.0, d));
 
-//     float d = sdfBox(pixel_coords, vec2(300.0, 100.0));
+//     float d = sdBox(pixel_coords, vec2(300.0, 100.0));
 //     color = mix(vec3(0.5, 0.0, 0.0), color, step(0.0, d));
 
 //     gl_FragColor = vec4(color, 1.0);
@@ -86,22 +96,39 @@ mat2 rotate2d(float angle) {
 //     vec2 pos = pixel_coords - vec2(100.0, 100.0);
 //     pos *= rotate2d(u_time * 0.25);
 
-//     float d = sdfBox(pos, vec2(200.0, 50.0));
+//     float d = sdBox(pos, vec2(200.0, 50.0));
 //     color = mix(vec3(0.5, 0.0, 0.0), color, step(0.0, d));
 
 //     gl_FragColor = vec4(color, 1.0);
 // }
 
 // antialiasing && shading
+// void main() {
+//     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
+
+//     vec3 color = bg_color();
+//     color = draw_grid(color, vec3(0.5), 10.0, 1.0);
+//     color = draw_grid(color, vec3(0.0), 100.0, 2.0);
+
+//     float d = sdHexagram(pixel_coords, 100.0);
+//     color = mix(vec3(1.0, 0.0, 0.0) * 0.5, color, smoothstep(-1.0, 1.0, d));
+//     color = mix(vec3(1.0, 0.0, 0.0), color, smoothstep(-5.0, 0.0, d));
+
+//     gl_FragColor = vec4(color, 1.0);
+// }
+
+// boolean operations
 void main() {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-
     vec3 color = bg_color();
     color = draw_grid(color, vec3(0.5), 10.0, 1.0);
     color = draw_grid(color, vec3(0.0), 100.0, 2.0);
 
-    float d = sdfCircle(pixel_coords, 200.0);
-    color = mix(vec3(1.0, 0.0, 0.0) * 0.5, color, smoothstep(-1.0, 1.0, d));
+    float d1 = sdCircle(pixel_coords  - vec2(-200.0, -100.0), 100.0);
+    float d2 = sdCircle(pixel_coords  - vec2(200.0, -100.0), 100.0);
+    float d3 = sdCircle(pixel_coords  - vec2(0.0, 100.0), 100.0);
+
+    color = mix(vec3(1.0, 0.0, 0.0), color, smoothstep(-1.0, 1.0, d));
     color = mix(vec3(1.0, 0.0, 0.0), color, smoothstep(-5.0, 0.0, d));
 
     gl_FragColor = vec4(color, 1.0);
