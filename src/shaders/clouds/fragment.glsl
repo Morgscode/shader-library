@@ -1,5 +1,7 @@
-varying vec2 v_uv;
+#define NUM_CLOUDS 8.0
 
+varying vec2 v_uv;
+ 
 uniform float u_time;
 uniform vec2 u_resolution;
 
@@ -10,7 +12,7 @@ float inverseLerp(float v, float minVal, float maxVal) {
 float remap(float v, float inMin, float inMax, float outMin, float outMax) {
     float t = inverseLerp(v, inMin, inMax);
     return mix(outMin, outMax, t);
-}
+} 
 
 float opUnion(float d1, float d2) {
   return min(d1, d2);
@@ -45,15 +47,34 @@ vec3 draw_bg() {
     );
 }
 
+float sdCloud(vec2 pixel_coords) {
+    float puff1 = sdCircle(pixel_coords, 100.0);
+    float puff2 = sdCircle(pixel_coords - vec2(120.0, -10.0), 75.0);
+    float puff3 = sdCircle(pixel_coords + vec2(120.0, 10.0), 75.0);
+    return min(puff1, min(puff2, puff3));
+}
+
+float hashish(vec2 v) {
+    float t = dot(v, vec2(42.069, 69.420));
+    return sin(t);
+}
+
 void main() {
-    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
+    vec2 pixel_coords = (v_uv) * u_resolution;
     vec3 color = draw_bg();
 
-    float cloud = sdCircle(pixel_coords, 100.0);
-    float shadow = sdCircle(pixel_coords + vec2(50.0), 120.0);
-
-    color = mix(color, vec3(0.0), 0.5 * smoothstep(0.0, -100.0, shadow));
-    color = mix(vec3(1.0), color, smoothstep(0.0, 1.0, cloud));
+    for (float i = 0.0; i < NUM_CLOUDS; i += 1.0) {
+        float size = mix(2.0, 1.0, (i / NUM_CLOUDS) + 0.1 * hashish(vec2(i)));
+        float speed = size * 0.25;
+        vec2 offeset = vec2(i * 200.0 + u_time * 20.0 * speed, 222.333 * hashish(vec2(i)));
+        vec2 pos = pixel_coords - offeset;
+        pos = mod(pos, u_resolution);
+        pos = pos - u_resolution * 0.5;
+        float cloud = sdCloud(pos * size);
+        float shadow = sdCloud(pos * size + vec2(50.0)) - 20.0;
+        color = mix(color, vec3(0.0), 0.5 * smoothstep(0.0, -100.0, shadow));
+        color = mix(vec3(1.0), color, smoothstep(0.0, 1.0, cloud));
+    }
 
     gl_FragColor = vec4(color, 1.0);
 }
