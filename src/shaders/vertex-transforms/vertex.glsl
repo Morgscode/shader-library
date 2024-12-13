@@ -96,6 +96,7 @@ void main() {
 //     v_position = (modelMatrix * vec4(position, 1.0)).xyz;
 // }
 
+// vertex warping
 // void main() {
 //     vec3 localSpacePosition = position;
 
