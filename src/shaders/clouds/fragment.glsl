@@ -1,4 +1,6 @@
 #define NUM_CLOUDS 8.0
+#define DAY_LENGTH 24.0
+
 
 varying vec2 v_uv;
  
@@ -64,18 +66,17 @@ vec3 draw_bg() {
         smoothstep(0.0, 1.0, pow(v_uv.x * v_uv.y, 0.5))
     );
 
-    float dayLength = 24.0;
-    float dayTime = mod(u_time, dayLength);
+    float dayTime = mod(u_time, DAY_LENGTH);
 
     vec3 color = vec3(0.0);
-    if (dayTime < dayLength * 0.25) {
-        color = mix(morning, midday, smoothstep(0.0, dayLength * 0.25, dayTime));
-    } else if (dayTime < dayLength * 0.5) {
-        color = mix(midday, evening, smoothstep(0.0, dayLength * 0.25, dayTime));
-    } else if (dayTime < dayLength * 0.75) {
-        color = mix(evening, night, smoothstep(0.0, dayLength * 0.25, dayTime));
+    if (dayTime < DAY_LENGTH * 0.25) {
+        color = mix(morning, midday, smoothstep(0.0, DAY_LENGTH * 0.25, dayTime));
+    } else if (dayTime < DAY_LENGTH * 0.5) {
+        color = mix(midday, evening, smoothstep(DAY_LENGTH * 0.25, DAY_LENGTH * 0.5, dayTime));
+    } else if (dayTime < DAY_LENGTH * 0.75) {
+        color = mix(evening, night, smoothstep(DAY_LENGTH * 0.5, DAY_LENGTH * 0.75, dayTime));
     } else {
-        color = mix(night, morning, smoothstep(0.0, dayLength * 0.25, dayTime));
+        color = mix(night, morning, smoothstep(DAY_LENGTH * 0.75, DAY_LENGTH, dayTime));
     }
 
     return color;
@@ -93,6 +94,14 @@ float hashish(vec2 v) {
     return sin(t);
 }
 
+float saturate(float t) {
+    return clamp(t, 0.0, 1.0);
+}
+
+float easeOut(float x, float p) {
+    return 1.0 - pow(1.0 - x, p);
+}
+
 // simple cloud scene
 // void main() {
 //     vec2 pixel_coords = (v_uv) * u_resolution;
@@ -105,8 +114,8 @@ float hashish(vec2 v) {
 //     for (float i = 0.0; i < NUM_CLOUDS; i += 1.0) {
 //         float size = mix(2.0, 1.0, (i / NUM_CLOUDS) + 0.1 * hashish(vec2(i)));
 //         float speed = size * 0.25;
-//         vec2 offeset = vec2(i * 200.0 + u_time * 20.0 * speed, 222.333 * hashish(vec2(i)));
-//         vec2 pos = pixel_coords - offeset;
+//         vec2 offset = vec2(i * 200.0 + u_time * 20.0 * speed, 222.333 * hashish(vec2(i)));
+//         vec2 pos = pixel_coords - offset;
 //         pos = mod(pos, u_resolution);
 //         pos = pos - u_resolution * 0.5;
 //         float cloud = sdCloud(pos * size);
@@ -120,14 +129,33 @@ float hashish(vec2 v) {
 
 // day/night cycles
 void main() {
-    vec2 pixel_coords = (v_uv) * u_resolution;
+    vec2 pixel_coords = v_uv * u_resolution;
     vec3 color = draw_bg();
+    float dayTime = mod(u_time, DAY_LENGTH);
+
+    // sun 
+    if (dayTime < DAY_LENGTH * 0.75) {
+        float t = saturate(inverseLerp(dayTime, 0.0, 1.0));
+        vec2 offset = vec2(200.0, u_resolution.y * 0.8) + mix(vec2(0.0, 400.0), vec2(0.0), easeOut(t, 5.0));
+
+        if (dayTime > DAY_LENGTH * 0.6) {
+            t = saturate(inverseLerp(dayTime, DAY_LENGTH * 0.6, DAY_LENGTH * 0.6 + 1.0));
+            offset = vec2(200.0, u_resolution.y * 0.8) + mix(vec2(0.0), vec2(0.0, 400.0), t);
+        }
+        
+        vec2 pos = pixel_coords - offset;
+        float sun = sdCircle(pos, 100.0);
+        color = mix(vec3(0.8, 0.6, 0.2), color, smoothstep(0.0, 2.0, sun));
+        float s = max(0.001, sun);
+        float p = saturate(exp(-0.001 * s * s));
+        color += 0.5 * mix(vec3(0.0), vec3(0.9, 0.8, 0.5), p);
+    }
 
     for (float i = 0.0; i < NUM_CLOUDS; i += 1.0) {
         float size = mix(2.0, 1.0, (i / NUM_CLOUDS) + 0.1 * hashish(vec2(i)));
         float speed = size * 0.25;
-        vec2 offeset = vec2(i * 200.0 + u_time * 20.0 * speed, 222.333 * hashish(vec2(i)));
-        vec2 pos = pixel_coords - offeset;
+        vec2 offset = vec2(i * 200.0 + u_time * 20.0 * speed, 222.333 * hashish(vec2(i)));
+        vec2 pos = pixel_coords - offset;
         pos = mod(pos, u_resolution);
         pos = pos - u_resolution * 0.5;
         float cloud = sdCloud(pos * size);
