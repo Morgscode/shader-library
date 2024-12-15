@@ -14,8 +14,7 @@ import fractalVertex from './fractals/vertex.glsl';
 import fractalFragment from './fractals/fragment.glsl';
 import cloudVertex from './clouds/vertex.glsl';
 import cloudFragment from './clouds/fragment.glsl';
-import dojoVertex from './dojo/vertex.glsl';
-import dojoFragment from './dojo/fragment.glsl';
+import { library as lib } from './library';
 import type { Shader } from './types';
 
 export const colors: Shader = {
@@ -102,10 +101,4 @@ export const clouds: Shader = {
     controls: false
 }
 
-export const dojo: Shader = {
-    vertex: dojoVertex,
-    fragment: dojoFragment,
-    cameraType: "orthographic",
-    geometry: "plane",
-    controls: false,
-}
+export const library = lib;

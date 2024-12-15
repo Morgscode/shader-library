@@ -1,7 +1,25 @@
 import Renderer from "./renderer";
 import * as shaders from './shaders';
+import type { Shader } from "./shaders/types";
 import './style.css';
 
-const shader = shaders["dojo"];
-const renderer = new Renderer(shader);
-renderer.render();
+window.addEventListener('load', () => {
+    if (window.location.search) {
+        console.log('runs');
+        const search = new URLSearchParams(window.location.search);
+        const type = search.get('type') as string;
+        const selection = search.get('shader') as string;
+        if(type && selection) {
+            const shader = shaders[type][selection] as Shader;
+            if (shader) {
+                const renderer = new Renderer(shader);
+                renderer.render();
+            }
+        }
+    } 
+});
+
+// const shader = shaders["dojo"];
+// const renderer = new Renderer(shader);
+// renderer.render();
+
