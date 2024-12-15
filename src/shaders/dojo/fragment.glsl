@@ -5,6 +5,8 @@ uniform vec2 u_resolution;
 
 varying vec2 v_uv;
 
+// https://iquilezles.org/articles/distfunctions2d/
+
 float ndot(vec2 a, vec2 b ) { return a.x*b.x - a.y*b.y; }
 float sdRhombus( in vec2 p, in vec2 b ) 
 {
@@ -76,7 +78,7 @@ mat2 rotate2d(float p) {
 //     gl_FragColor = vec4(color, 1.0);
 // }
 
-// procedural geomtry art
+// procedural geometry art
 void main() {
     // center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;
@@ -89,7 +91,7 @@ void main() {
 
     for (float i = 0.0; i < 3.0; i += 1.0) {
         uv = (fract(uv * 2.0) - 0.5) * 1.1 * rotate2d(sin(angle));
-        vec3 color = palette(length(l_uv) + smoothstep(0.0, 0.002, i) + angle);
+        vec3 color = palette(length(l_uv) + smoothstep(0.0, 0.002, PI) + angle);
 
         // this is the length we'll pass to any sdf
         float l =  length(uv) * exp(-length(l_uv));
@@ -97,7 +99,7 @@ void main() {
         float d = sdVesica(l_uv, l, i);
 
         // smooth out the visuals
-        d = sin(d * 4.0 + 1.0 - angle) / 4.0;
+        d = sin(d * 2.0 + i - angle) / 2.0;
         d = sin(abs(d));
         d = mod(0.01 / d, 1.5);
 
