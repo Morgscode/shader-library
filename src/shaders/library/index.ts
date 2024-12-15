@@ -11,7 +11,7 @@ const base = {
 } as Shader
 
 export const shaders: Record<string, Shader> = {
-    "procedural-pixel-art": {
+    "procedural-equilateral-triangle-pixel-art": {
         ...base,
         fragment: pixelart,
     },
