@@ -1,4 +1,5 @@
 #define PI 3.1415926535
+#define BPM 130.0
 
 uniform float u_time;
 uniform vec2 u_resolution;
@@ -61,50 +62,62 @@ mat2 rotate2d(float p) {
 }
 
 // procedural pixel art
-// void main() {
-//     vec2 pixel_cords = (v_uv - 0.5) * u_resolution;
-//     vec3 color = vec3(0.0);
-//     float angle = u_time / 1.30;
-
-//     for (float i = 0.0; i < 26.0; i += 1.0) {
-//         vec2 uv = fract(abs(pixel_cords) * PI);
-//         uv -= 0.5;
-//         uv *= 1.1;
-//         uv *= rotate2d(sin(angle));
-//         float d = sdRhombus(uv, vec2(300.0, 150.0));
-//         color += mix(palette(u_time), color, smoothstep(0.0, 0.002, fract(d)));
-//     }
-   
-//     gl_FragColor = vec4(color, 1.0);
-// }
-
-// procedural geometry art
 void main() {
-    // center our uvs
-    vec2 uv = v_uv * 2.0 - 1.0;
-    uv.x *= u_resolution.x / u_resolution.y;
-    // store ref of original centered uvs
-    vec2 l_uv = uv;
+    // get responsive pixel coords for screen
+    vec2 pixel_cords = (v_uv - 0.5) * u_resolution;
+    // bg color
     vec3 final = vec3(0.0);
-    // overall speed of the animation - tweaked to bpm
-    float angle = u_time / 1.30;
+    // store local ref to uv cords for screen
+    vec2 l_uv = v_uv * 2.0 - 1.0;
+    l_uv.x *= u_resolution.x / u_resolution.y;
+    float angle = u_time / BPM;
 
     for (float i = 0.0; i < 3.0; i += 1.0) {
-        uv = (fract(uv * 2.0) - 0.5) * 1.0 * rotate2d(sin(angle));
-        vec3 color = palette(length(l_uv) + smoothstep(0.0, 0.002, PI) + angle);
+        // scale the positive values from pixel cords, fract and scale again
+        vec2 uv = (fract(abs(pixel_cords) * PI) - 0.5) * 1.1;
+        // begin rotation
+        uv *= rotate2d(angle);
+        // bring in the sdf we want the pixels to use
+        float d = sdEquilateralTriangle(uv, angle);
+        vec3 color = palette(length(l_uv) + i + (angle * 10.0));
 
-        // this is the length we'll pass to any sdf
-        float l =  length(uv) * exp(-length(l_uv));
-        // any sdf can go here
-        float d = sdVesica(l_uv, l, i);
-
-        // smooth out the visuals
-        d = sin(d * 4.0 + i + angle) / 4.0;
-        d = sin(abs(d));
-        d = mod(0.01 / d, 1.5);
-
-        final = mix(final, color, d);
+        final = mix(color, final, smoothstep(0.0, 0.01, fract(d)));
     }
    
     gl_FragColor = vec4(final, 1.0);
 }
+
+// procedural geometry art
+// void main() {
+//     // center our uvs
+//     vec2 uv = v_uv * 2.0 - 1.0;
+//     uv.x *= u_resolution.x / u_resolution.y;
+//     // store ref of original centered uvs
+//     vec2 l_uv = uv;
+//     vec3 final = vec3(0.0);
+//     // overall speed of the animation - tweaked to bpm
+//     float angle = u_time / BPM;
+
+//     for (float i = 0.0; i < 3.0; i += 1.0) {
+//         // scale, fract and then recenter the uv coords
+//         uv = (fract(uv * 2.0) - 0.5) * 1.1;
+//         // begin rotating 
+//         uv *= rotate2d(sin(angle));
+//         // 
+//         vec3 color = palette(length(l_uv) + i + angle);
+
+//         // this is the length we'll pass to any sdf
+//         float l =  length(uv) * exp(-length(l_uv));
+//         // any sdf can go here
+//         float d = sdVesica(l_uv, l, i);
+
+//         // smooth out the visuals
+//         d = sin(d * 4.0 + i + angle) / 4.0;
+//         d = sin(abs(d));
+//         d = mod(0.01 / d, 1.5);
+
+//         final = mix(final, color, d);
+//     }
+   
+//     gl_FragColor = vec4(final, 1.0);
+// }
