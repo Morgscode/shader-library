@@ -41,7 +41,7 @@ void main() {
         uv *= 1.1;
         uv *= rotate2d(sin(u_time * 1.30));
         float d = sdRhombus(uv, vec2(300.0, 150.0));
-        color += mix(palette(u_time) * sin(u_time / 130.0), color, smoothstep(-0.0, 0.004, fract(d)));
+        color += mix(palette(u_time) * sin(u_time / 130.0), color, smoothstep(0.0, 0.004, fract(d)));
     }
    
     gl_FragColor = vec4(color, 1.0);
