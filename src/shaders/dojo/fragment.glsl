@@ -90,7 +90,7 @@ void main() {
     float angle = u_time / 1.30;
 
     for (float i = 0.0; i < 3.0; i += 1.0) {
-        uv = (fract(uv * 2.0) - 0.5) * 1.1 * rotate2d(sin(angle));
+        uv = (fract(uv * 2.0) - 0.5) * 1.0 * rotate2d(sin(angle));
         vec3 color = palette(length(l_uv) + smoothstep(0.0, 0.002, PI) + angle);
 
         // this is the length we'll pass to any sdf
