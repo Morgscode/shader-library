@@ -19,7 +19,7 @@ window.addEventListener('load', () => {
     } 
 });
 
-// const shader = shaders["dojo"];
+// const shader = shaders["clouds"];
 // const renderer = new Renderer(shader);
 // renderer.render();
 
