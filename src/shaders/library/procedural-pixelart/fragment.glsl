@@ -35,7 +35,6 @@ mat2 rotate2d(float p) {
     );
 }
 
-// procedural pixel art
 void main() {
     // get responsive pixel coords for screen
     vec2 pixel_cords = (v_uv - 0.5) * u_resolution;

@@ -23,7 +23,7 @@ export default class Renderer {
     private cubeTexture?: Array<string> | THREE.CubeTexture;
     private model?: string;
 
-    constructor(shader: Shader, selector: string = "#app") {
+    constructor(shader: Shader, selector: string = "#shader") {
         this.htmlDomElement = document.querySelector(selector);
         this.threejs = new THREE.WebGLRenderer();
         this.scene = new THREE.Scene();

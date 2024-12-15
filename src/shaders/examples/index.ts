@@ -1,7 +1,7 @@
 import type { Shader } from '../types';
 import baseVertex from '../base-vertex.glsl';
-import vesica from './procedural-vesica-geometry/fragment.glsl';
-import pixelart from './procedural-pixelart/fragment.glsl';
+import solid from './solid-color/fragment.glsl';
+import gradient from './gradient/fragment.glsl';
 
 const base = {
     vertex: baseVertex,
@@ -11,12 +11,12 @@ const base = {
 } as Shader
 
 export const shaders: Record<string, Shader> = {
-    "procedural-pixel-art": {
+    "solid-color": {
         ...base,
-        fragment: pixelart,
+        fragment: solid,
     },
-    "procedural-vesica-geometry": {
+    "gradient": {
         ...base,
-        fragment: vesica,
+        fragment: gradient,
     }
 };

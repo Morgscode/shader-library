@@ -5,12 +5,11 @@ import './style.css';
 
 window.addEventListener('load', () => {
     if (window.location.search) {
-        console.log('runs');
         const search = new URLSearchParams(window.location.search);
         const type = search.get('type') as string;
         const selection = search.get('shader') as string;
         if(type && selection) {
-            const shader = shaders[type][selection] as Shader;
+            const shader: Shader = shaders[type][selection];
             if (shader) {
                 const renderer = new Renderer(shader);
                 renderer.render();

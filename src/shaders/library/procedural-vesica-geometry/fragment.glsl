@@ -33,7 +33,6 @@ mat2 rotate2d(float p) {
     );
 }
 
-// procedural geometry art
 void main() {
     // center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;

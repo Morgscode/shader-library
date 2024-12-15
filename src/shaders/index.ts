@@ -14,7 +14,8 @@ import fractalVertex from './fractals/vertex.glsl';
 import fractalFragment from './fractals/fragment.glsl';
 import cloudVertex from './clouds/vertex.glsl';
 import cloudFragment from './clouds/fragment.glsl';
-import { library as lib } from './library';
+import { shaders as librayShaders } from './library';
+import { shaders as exampleShaders } from './examples';
 import type { Shader } from './types';
 
 export const colors: Shader = {
@@ -101,4 +102,5 @@ export const clouds: Shader = {
     controls: false
 }
 
-export const library = lib;
+export const library = librayShaders;
+export const example = exampleShaders;
