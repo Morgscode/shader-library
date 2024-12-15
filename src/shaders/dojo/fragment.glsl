@@ -45,6 +45,7 @@ float sdVesica(vec2 p, float r, float d)
                              : length(p-vec2(-d,0.0))-r;
 }
 
+// https://github.com/Erkaman/glsl-cos-palette
 vec3 palette(float t) {
         vec3 a = vec3(0.8, 0.3, 0.2);
         vec3 b = vec3(0.6, 0.4, 0.8);
@@ -54,6 +55,7 @@ vec3 palette(float t) {
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
 
+// https://en.wikipedia.org/wiki/Rotation_matrix
 mat2 rotate2d(float p) {
     return mat2(
         cos(p), -sin(p),
