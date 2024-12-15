@@ -14,6 +14,8 @@ import fractalVertex from './fractals/vertex.glsl';
 import fractalFragment from './fractals/fragment.glsl';
 import cloudVertex from './clouds/vertex.glsl';
 import cloudFragment from './clouds/fragment.glsl';
+import galleryVertex from './gallery/vertex.glsl';
+import galleryFragment from './gallery/fragment.glsl';
 import type { Shader } from './types';
 
 export const colors: Shader = {
@@ -98,4 +100,12 @@ export const clouds: Shader = {
     cameraType: "orthographic",
     geometry: "plane",
     controls: false
+}
+
+export const gallery: Shader = {
+    vertex: galleryVertex,
+    fragment: galleryFragment,
+    cameraType: "orthographic",
+    geometry: "plane",
+    controls: false,
 }

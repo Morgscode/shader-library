@@ -14,7 +14,6 @@ vec3 palette(float t) {
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
 
-// base fractal
 void main() {
     // control the speed of the animation
     float angle = u_time / 13.0;
@@ -37,7 +36,6 @@ void main() {
     gl_FragColor = vec4(vec3(color / PI * length(uv)), 1.0);
 }
 
-// procedural geomtery with color palette
 // void main() {
 //     vec2 uv = v_uv * 2.0 - 1.0;
 //     uv.x *= u_resolution.x / u_resolution.y;
