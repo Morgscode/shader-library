@@ -16,7 +16,24 @@ import cloudVertex from './clouds/vertex.glsl';
 import cloudFragment from './clouds/fragment.glsl';
 import { shaders as librayShaders } from './library';
 import { shaders as exampleShaders } from './examples';
-import type { Shader } from './types';
+
+export type CameraType = "orthographic" | "perspective";
+export type GeometryOption = undefined | "plane" | "box" | "icosahedrone";
+
+export type Shader = {
+    vertex: string;
+    fragment: string;
+    cameraType: CameraType;
+    geometry: false | GeometryOption;
+    controls: boolean;
+    texture?: string;
+    cubeTexture?: Array<string>;
+    model?: string;
+}
+
+export type ShaderLibrary = {
+    [k: string]: Shader | Record<string , Shader>,
+}
 
 export const colors: Shader = {
     vertex: colorVertex,

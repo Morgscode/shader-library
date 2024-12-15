@@ -1,4 +1,4 @@
-import type { Shader } from '../types';
+import type { Shader } from '../';
 import baseVertex from '../base-vertex.glsl';
 import solid from './solid-color/fragment.glsl';
 import gradient from './gradient/fragment.glsl';

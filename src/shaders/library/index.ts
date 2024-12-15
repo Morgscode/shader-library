@@ -1,4 +1,4 @@
-import type { Shader } from '../types';
+import type { Shader } from '../';
 import baseVertex from '../base-vertex.glsl';
 import vesica from './procedural-vesica-geometry/fragment.glsl';
 import pixelart from './procedural-pixelart/fragment.glsl';
