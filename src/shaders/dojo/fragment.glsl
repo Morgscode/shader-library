@@ -79,10 +79,9 @@ void main() {
         vec2 uv = (fract(abs(pixel_cords) * PI) - 0.5) * 1.1;
         // begin rotation
         uv *= rotate2d(angle);
-        // bring in the sdf we want the pixels to use
+        // bring in the sdf we want the pixels to draw around
         float d = sdEquilateralTriangle(uv, angle);
-        vec3 color = palette(length(l_uv) + i + sin((angle * 100.0)));
-
+        vec3 color = palette(length(l_uv) + i + sin((angle)));
         final = mix(color, final, smoothstep(0.0, 0.02, fract(d)));
     }
    
@@ -98,14 +97,13 @@ void main() {
 //     vec2 l_uv = uv;
 //     vec3 final = vec3(0.0);
 //     // overall speed of the animation - tweaked to bpm
-//     float angle = u_time / BPM;
+//     float angle = u_time + BPM;
 
 //     for (float i = 0.0; i < 3.0; i += 1.0) {
 //         // scale, fract and then recenter the uv coords
 //         uv = (fract(uv * 2.0) - 0.5) * 1.1;
 //         // begin rotating 
 //         uv *= rotate2d(sin(angle));
-//         // 
 //         vec3 color = palette(length(l_uv) + i + angle);
 
 //         // this is the length we'll pass to any sdf
