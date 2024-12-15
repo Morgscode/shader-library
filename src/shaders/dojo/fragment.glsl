@@ -81,9 +81,9 @@ void main() {
         uv *= rotate2d(angle);
         // bring in the sdf we want the pixels to use
         float d = sdEquilateralTriangle(uv, angle);
-        vec3 color = palette(length(l_uv) + i + (angle * 10.0));
+        vec3 color = palette(length(l_uv) + i + sin((angle * 10.0)));
 
-        final = mix(color, final, smoothstep(0.0, 0.01, fract(d)));
+        final = mix(color, final, smoothstep(0.0, 0.025, fract(d)));
     }
    
     gl_FragColor = vec4(final, 1.0);
