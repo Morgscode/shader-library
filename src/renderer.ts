@@ -10,7 +10,6 @@ export default class Renderer {
     private camera: THREE.OrthographicCamera | THREE.PerspectiveCamera;
     private material: THREE.ShaderMaterial;
     private geometry: false | GeometryOption;
-    private controls: boolean | OrbitControls;
     private gltfLoader: GLTFLoader
     private textureLoader: THREE.TextureLoader;
     private cubeTextureLoader: THREE.CubeTextureLoader;
@@ -41,49 +40,7 @@ export default class Renderer {
         this.lastFrameTime = performance.now();
         this.elapsedTime = 0;
         this.uniforms = this.initUniforms();
-        this.controls = shader.controls && this.initControls();
-    }
-
-    getHtmlDomElement() {
-        return this.htmlDomElement;
-    }
-
-    setHtmlDomElement(htmlEl: HTMLElement) {
-        this.htmlDomElement = htmlEl;
-    }
-
-    getTexture() {
-        return this.texture;
-    }
-
-    setTexture(texture: string) {
-        this.texture = texture
-    }
-
-    getUniforms() {
-        return this.uniforms;
-    }
-
-    setUniforms(uniforms: Record<string, THREE.Uniform>) {
-        this.uniforms = uniforms;
-    }
-
-    getUniform(key: string) {
-        return this.uniforms[key];
-    }
-
-    setUniform(key: string, value: THREE.Uniform) {
-        this.uniforms[key] = value;
-    }
-
-    getControls() {
-        return this.controls;
-    }
-
-    setControls(controls: OrbitControls) {
-        this.controls = controls;
-        this.controls.target.set(0, 0, 0);
-        this.controls.update();
+        shader.controls && this.initControls();
     }
 
     render() {
@@ -158,12 +115,11 @@ export default class Renderer {
         const controls = new OrbitControls(this.camera, this.htmlDomElement);
         controls.target.set(0, 0, 0);
         controls.update();
-        return controls;
     }
 
     protected initShader() {
         // https://threejs.org/docs/#api/en/materials/ShaderMaterial
-        this.material.uniforms = this.getUniforms();
+        this.material.uniforms = this.uniforms;
         this.material.vertexShader = this.vsh;
         this.material.fragmentShader = this.fsh;
     }
