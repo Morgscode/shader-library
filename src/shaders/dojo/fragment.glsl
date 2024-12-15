@@ -83,7 +83,7 @@ void main() {
         float d = sdEquilateralTriangle(uv, angle);
         vec3 color = palette(length(l_uv) + i + sin((angle * 10.0)));
 
-        final = mix(color, final, smoothstep(0.0, 0.025, fract(d)));
+        final = mix(color, final, smoothstep(0.0, 0.02, fract(d)));
     }
    
     gl_FragColor = vec4(final, 1.0);
