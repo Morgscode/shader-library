@@ -1,6 +1,5 @@
 import Renderer from "./renderer";
 import * as shaders from './shaders';
-import type { Shader } from "./shaders/types";
 import './style.css';
 
 window.addEventListener('load', () => {
@@ -9,7 +8,8 @@ window.addEventListener('load', () => {
         const type = search.get('type') as string;
         const selection = search.get('shader') as string;
         if(type && selection) {
-            const shader: Shader = shaders[type][selection];
+            const app = shaders as shaders.ShaderLibrary;
+            const shader = app[type][selection];
             if (shader) {
                 const renderer = new Renderer(shader);
                 renderer.render();

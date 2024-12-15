@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
-import type { Shader, CameraType, GeometryOption } from "./shaders/types.ts";
+import type { Shader, CameraType, GeometryOption } from "./shaders";
 
 export default class Renderer {
 
