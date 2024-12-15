@@ -81,7 +81,7 @@ void main() {
         uv *= rotate2d(angle);
         // bring in the sdf we want the pixels to use
         float d = sdEquilateralTriangle(uv, angle);
-        vec3 color = palette(length(l_uv) + i + sin((angle * 10.0)));
+        vec3 color = palette(length(l_uv) + i + sin((angle * 100.0)));
 
         final = mix(color, final, smoothstep(0.0, 0.02, fract(d)));
     }
