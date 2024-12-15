@@ -99,11 +99,11 @@ void main() {
         float d = sdVesica(l_uv, l, i);
 
         // smooth out the visuals
-        d = sin(d * 2.0 + i - angle) / 2.0;
+        d = sin(d * 4.0 + i + angle) / 4.0;
         d = sin(abs(d));
         d = mod(0.01 / d, 1.5);
 
-        final += mix(final, color, d);
+        final = mix(final, color, d);
     }
    
     gl_FragColor = vec4(final, 1.0);
