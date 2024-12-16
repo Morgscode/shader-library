@@ -46,5 +46,19 @@ ul, ol {
 
 .site-header {
   padding: 1rem;
-  background-color: #dcdde1;
+  background-color: rgb(220, 221, 225);
+}
+
+ul.shader-list {
+}
+
+ul.shader-list li {
+  padding: 1rem;
+  list-style: none;
+  border-bottom: 2px solid rgb(220, 221, 225, 0.75);
+}
+
+ul.shader-list li iframe.shader-preview {
+  display: block;
+  margin-bottom: 1rem;
 }
