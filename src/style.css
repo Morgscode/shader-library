@@ -49,16 +49,13 @@ ul, ol {
   background-color: rgb(220, 221, 225);
 }
 
-ul.shader-list {
-}
-
 ul.shader-list li {
   padding: 1.5rem 0;
   list-style: none;
   border-bottom: 2px solid rgb(220, 221, 225, 0.75);
 }
 
-ul.shader-list li iframe.shader-preview {
+ul.shader-list li iframe {
   display: block;
   margin-bottom: 1rem;
 }
