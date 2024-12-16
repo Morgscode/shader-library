@@ -2,6 +2,8 @@ import type { Shader } from '../';
 import baseVertex from '../base-vertex.glsl';
 import vesica from './procedural-vesica-geometry/fragment.glsl';
 import pixelart from './procedural-pixelart/fragment.glsl';
+import horizontalNoise from './progressive-horizontal-noise-bpm/fragment.glsl';
+import psychedellicVisuals1 from './psychedellic-visual-experiment-1/fragment.glsl';
 
 const base: Shader = {
     fragment: ``,
@@ -19,5 +21,13 @@ export const shaders: Record<string, Shader> = {
     "procedural-vesica-geometry": {
         ...base,
         fragment: vesica,
+    },
+    "progressive-horizontal-noise-bpm": {
+        ...base,
+        fragment: horizontalNoise,
+    },
+    "psychedellic-visuals-1": {
+        ...base,
+        fragment: psychedellicVisuals1,
     }
 };

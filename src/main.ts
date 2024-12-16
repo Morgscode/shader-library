@@ -18,7 +18,7 @@ window.addEventListener('load', () => {
     }
 });
 
-// const shader = shaders["fractals"];
+// const shader = shaders["colors"];
 // const renderer = new Renderer(shader);
 // renderer.render();
 
