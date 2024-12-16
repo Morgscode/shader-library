@@ -5,8 +5,8 @@ import './style.css';
 window.addEventListener('load', () => {
     if (window.location.search) {
         const search = new URLSearchParams(window.location.search);
-        const type = search.get('type') as string;
-        const selection = search.get('shader') as string;
+        const type = search.get('type');
+        const selection = search.get('shader');
         if (type && selection) {
             const app = shaders as shaders.ShaderLibrary;
             const shader = (app[type] as Record<string, shaders.Shader>)[selection];
