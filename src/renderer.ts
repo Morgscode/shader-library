@@ -59,7 +59,7 @@ export default class Renderer {
     }
 
     resize(_: UIEvent | null) {
-        this.material && this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+        this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
         this.threejs.setSize(window.innerWidth, window.innerHeight);
     }
 
