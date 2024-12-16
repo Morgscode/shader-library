@@ -9,7 +9,7 @@ const base: Shader = {
     cameraType: "orthographic",
     geometry: "plane",
     controls: false,
-}
+};
 
 export const shaders: Record<string, Shader> = {
     "procedural-equilateral-triangle-pixel-art": {

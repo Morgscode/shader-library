@@ -9,7 +9,7 @@ window.addEventListener('load', () => {
         const selection = search.get('shader') as string;
         if (type && selection) {
             const app = shaders as shaders.ShaderLibrary;
-            const shader = app[type][selection];
+            const shader = (app[type] as Record<string, shaders.Shader>)[selection];
             if (shader) {
                 const renderer = new Renderer(shader);
                 renderer.render();
