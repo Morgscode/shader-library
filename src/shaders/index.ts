@@ -1,3 +1,5 @@
+import colorVertex from './colors/fragment.glsl';
+import colorFragment from './colors/vertex.glsl';
 import textureVertex from './textures/vertex.glsl';
 import textureFragment from './textures/fragment.glsl';
 import drawingVertex from './drawing/vertex.glsl';
@@ -31,6 +33,15 @@ export type Shader = {
 
 export type ShaderLibrary = {
     [k: string]: Shader | Record<string, Shader>,
+}
+
+export const colors: Shader = {
+    vertex: colorVertex,
+    fragment: colorFragment,
+    cameraType: "orthographic",
+    geometry: "plane",
+    controls: false,
+    texture: './assets/images/galactic-core.webp'
 }
 
 export const textures: Shader = {
