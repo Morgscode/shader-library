@@ -1,5 +1,5 @@
 #define PI 3.1415926535
-#define BPM 130.0
+#define BPM 1.30
 
 uniform float u_time;
 uniform vec2 u_resolution;
@@ -46,13 +46,13 @@ void main() {
     float angle = u_time / BPM;
 
     for (float i = 0.0; i < 3.0; i += 1.0) {
-        // scale the positive values from pixel cords, fract and scale again
+        // scale the absolute values from pixel cords, fract, center them and scale again
         vec2 uv = (fract(abs(pixel_cords) * PI) - 0.5) * 1.1;
         // begin rotation
         uv *= rotate2d(angle);
         // bring in the sdf we want the pixels to draw around
-        float d = sdEquilateralTriangle(uv, angle);
-        vec3 color = palette(length(l_uv) + i + sin((angle)));
+        float d = sdEquilateralTriangle(uv, fract(sin(angle)));
+        vec3 color = palette(length(l_uv) + sin(angle));
         final = mix(color, final, smoothstep(0.0, 0.02, fract(d)));
     }
    
