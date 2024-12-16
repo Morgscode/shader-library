@@ -3,12 +3,13 @@ import baseVertex from '../base-vertex.glsl';
 import vesica from './procedural-vesica-geometry/fragment.glsl';
 import pixelart from './procedural-pixelart/fragment.glsl';
 
-const base = {
+const base: Shader = {
+    fragment: ``,
     vertex: baseVertex,
     cameraType: "orthographic",
     geometry: "plane",
     controls: false,
-} as Shader
+};
 
 export const shaders: Record<string, Shader> = {
     "procedural-equilateral-triangle-pixel-art": {

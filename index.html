@@ -1,58 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shader Library</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <header class="site-header">
-        <h1>Shader Library</h1>
+      <h1>Shader Library</h1>
     </header>
     <main>
-        <section>
-            <div class="library">
-                <header>
-                    <h2>Winter of Pixels 2024</h2>
-                    <p>My first study looking at 2-D procedural shader art techniques taken over late 2024 early 2025</p>
-                </header>
-                <ul>
-                    <li><a href="/shader.html?type=library&shader=procedural-equilateral-triangle-pixel-art">Procedural equilateral triangle pixel art</a></li>
-                    <li><a href="/shader.html?type=library&shader=procedural-vesica-geometry">Procedural vescia geometry</a></li>
-                </ul>
-            </div>
-        </section>
-        <section>
-            <div class="info">
-                <header>
-                    <h2>Interested in shaders?</h2>
-                    <p>These are the best resources on shaders i've come across</p>
-                </header>
-                <ul>
-                    <li><a href="https://iquilezles.org/">https://iquilezles.org/</a></li>
-                    <li><a href="https://simondev.teachable.com/courses">The book of shaders</a></li>
-                    <li><a href="https://simondev.teachable.com/courses">SimonDev courses</a></li>
-                    <li><a href="http://dev.thi.ng/gradients/">Cosine gradient generator</a></li>
-                </ul>
-            </div>
-        </section>
-        <section style="display: none;">
-            <div class="examples">
-                <header>
-                    <h2>Shader examples</h2>
-                    <p>All the concepts i learnt step by step to product the art I post here (work in progress)</p>
-                </header>
-                <ul>
-                    <li><a href="/shader.html?type=example&shader=solid-color">Solid colors</a></li>
-                    <li><a href="/shader.html?type=example&shader=gradient">Gradients</a></li>
-                </ul>
-            </div>
-        </section>
+      <section>
+        <div class="library">
+          <header>
+            <h2>Winter of pixels 2024</h2>
+            <p>
+              My first study working on 2D procedural art taken over late 2024
+              early 2025.
+            </p>
+          </header>
+          <ul>
+            <li>
+              <a
+                href="/shader.html?type=library&shader=procedural-equilateral-triangle-pixel-art"
+                >Procedural equilateral triangle pixel art</a
+              >
+            </li>
+            <li>
+              <a
+                href="/shader.html?type=library&shader=procedural-vesica-geometry"
+                >Procedural vescia geometry</a
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section>
+        <div class="info">
+          <header>
+            <h2>Interested in shaders?</h2>
+            <p>These are the best resources on shaders i've come across</p>
+          </header>
+          <ul>
+            <li>
+              <a href="https://iquilezles.org/">https://iquilezles.org/</a>
+            </li>
+            <li>
+              <a href="https://simondev.teachable.com/courses"
+                >The book of shaders</a
+              >
+            </li>
+            <li>
+              <a href="https://simondev.teachable.com/courses"
+                >SimonDev courses</a
+              >
+            </li>
+            <li>
+              <a href="http://dev.thi.ng/gradients/"
+                >Cosine gradient generator</a
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section style="display: none">
+        <div class="examples">
+          <header>
+            <h2>Shader examples</h2>
+            <p>
+              All the concepts i learnt step by step to product the art I post
+              here (work in progress)
+            </p>
+          </header>
+          <ul>
+            <li>
+              <a href="/shader.html?type=example&shader=solid-color"
+                >Solid colors</a
+              >
+            </li>
+            <li>
+              <a href="/shader.html?type=example&shader=gradient">Gradients</a>
+            </li>
+          </ul>
+        </div>
+      </section>
     </main>
     <script type="module" src="/src/main.ts"></script>
-</body>
-
+  </body>
 </html>

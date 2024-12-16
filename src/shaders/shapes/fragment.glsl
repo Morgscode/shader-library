@@ -91,24 +91,24 @@ float softMinValue(float a, float b, float k) {
 }
 
 // simple shapes
-// void main() {
-//     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
+void main() {
+    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     
-//     vec3 color = bg_color();
-//     color = draw_grid(color, vec3(0.5), 10.0, 1.0);
-//     color = draw_grid(color, vec3(0.0), 100.0, 2.0);
+    vec3 color = bg_color();
+    color = draw_grid(color, vec3(0.5), 10.0, 1.0);
+    color = draw_grid(color, vec3(0.0), 100.0, 2.0);
 
-//     // float d = sdCircle(pixel_coords, 100.0);
-//     // color = mix(vec3(0.5, 0.0, 0.0), color, step(0.0, d));
+    // float d = sdCircle(pixel_coords, 100.0);
+    // color = mix(vec3(0.5, 0.0, 0.0), color, step(0.0, d));
 
-//     // float d = sdLine(pixel_coords, vec2(-100.0, -50.0), vec2(200.0, -75.0));
-//     // color = mix(vec3(0.5, 0.0, 0.0), color, step(5.0, d));
+    // float d = sdLine(pixel_coords, vec2(-100.0, -50.0), vec2(200.0, -75.0));
+    // color = mix(vec3(0.5, 0.0, 0.0), color, step(5.0, d));
 
-//     float d = sdBox(pixel_coords, vec2(300.0, 100.0));
-//     color = mix(vec3(0.5, 0.0, 0.0), color, step(0.0, d));
+    float d = sdBox(pixel_coords, vec2(300.0, 100.0));
+    color = mix(vec3(0.5, 0.0, 0.0), color, step(0.0, d));
 
-//     gl_FragColor = vec4(color, 1.0);
-// }
+    gl_FragColor = vec4(color, 1.0);
+}
 
 // transformations
 // void main() {
@@ -143,28 +143,28 @@ float softMinValue(float a, float b, float k) {
 // }
 
 // boolean operations
-void main() {
-    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-    vec3 color = bg_color();
-    color = draw_grid(color, vec3(0.5), 10.0, 1.0);
-    color = draw_grid(color, vec3(0.0), 100.0, 2.0);
+// void main() {
+//     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
+//     vec3 color = bg_color();
+//     color = draw_grid(color, vec3(0.5), 10.0, 1.0);
+//     color = draw_grid(color, vec3(0.0), 100.0, 2.0);
 
-    float box = sdBox(rotate2d(u_time * 0.5) * pixel_coords, vec2(150.0, 75.0));
-    float d1 = sdCircle(pixel_coords  - vec2(-200.0, -100.0), 100.0);
-    float d2 = sdCircle(pixel_coords  - vec2(200.0, -100.0), 100.0);
-    float d3 = sdCircle(pixel_coords  - vec2(0.0, 150.0), 100.0);
+//     float box = sdBox(rotate2d(u_time * 0.5) * pixel_coords, vec2(150.0, 75.0));
+//     float d1 = sdCircle(pixel_coords  - vec2(-200.0, -100.0), 100.0);
+//     float d2 = sdCircle(pixel_coords  - vec2(200.0, -100.0), 100.0);
+//     float d3 = sdCircle(pixel_coords  - vec2(0.0, 150.0), 100.0);
 
-    float d = opUnion(opUnion(d1, d2), d3);
-    d = softMin(box, d, 0.05);
+//     float d = opUnion(opUnion(d1, d2), d3);
+//     d = softMin(box, d, 0.05);
 
-    vec3 sdColor = mix(
-        vec3(1.0, 0.0, 0.0),
-        vec3(0.0, 0.0, 1.0),
-        smoothstep(0.0, 1.0, softMinValue(box, d, 0.01))
-    );
+//     vec3 sdColor = mix(
+//         vec3(1.0, 0.0, 0.0),
+//         vec3(0.0, 0.0, 1.0),
+//         smoothstep(0.0, 1.0, softMinValue(box, d, 0.01))
+//     );
 
-    color = mix(sdColor * 0.5, color, smoothstep(-1.0, 1.0, d));
-    color = mix(sdColor, color, smoothstep(-5.0, 0.0, d));
+//     color = mix(sdColor * 0.5, color, smoothstep(-1.0, 1.0, d));
+//     color = mix(sdColor, color, smoothstep(-5.0, 0.0, d));
 
-    gl_FragColor = vec4(color, 1.0);
-}
+//     gl_FragColor = vec4(color, 1.0);
+// }
