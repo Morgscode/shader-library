@@ -1,7 +1,6 @@
 #define NUM_CLOUDS 8.0
 #define DAY_LENGTH 24.0
 
-
 varying vec2 v_uv;
  
 uniform float u_time;
