@@ -10,6 +10,7 @@ window.addEventListener('load', () => {
         if (type && selection) {
             const app = shaders as shaders.ShaderLibrary;
             const shader = (app[type] as Record<string, shaders.Shader>)[selection];
+            console.log(shader);
             if (shader) {
                 const renderer = new Renderer(shader);
                 renderer.render();
@@ -18,7 +19,7 @@ window.addEventListener('load', () => {
     }
 });
 
-// const shader = shaders["colors"];
+// const shader = shaders["textures"];
 // const renderer = new Renderer(shader);
 // renderer.render();
 
