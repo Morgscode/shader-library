@@ -5,6 +5,7 @@ import pixelart from './procedural-pixelart/fragment.glsl';
 import horizontalNoise from './progressive-horizontal-noise-bpm/fragment.glsl';
 import psychedellicVisuals1 from './psychedellic-visual-experiment-1/fragment.glsl';
 import textures1 from './texture-techniques-1/fragment.glsl';
+import theVoid from './the-void/fragment.glsl';
 
 const base: Shader = {
     fragment: ``,
@@ -30,6 +31,10 @@ export const shaders: Record<string, Shader> = {
     "psychedellic-visuals-1": {
         ...base,
         fragment: psychedellicVisuals1,
+    },
+    "the-void": {
+        ...base,
+        fragment: theVoid,
     },
     "texture-techniques-1": {
         ...base,

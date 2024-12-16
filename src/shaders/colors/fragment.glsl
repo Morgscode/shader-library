@@ -1,13 +1,10 @@
-#define PI 3.1415926535
-
 uniform float u_time;
-uniform vec2 u_resolution;
 
 varying vec2 v_uv;
 
 // render solid red
 void main() {
-    gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
+    gl_FragColor = vec4(0.392, 0.584, 0.929, 1.0);
 }
 
 // render a gradient of black to white
