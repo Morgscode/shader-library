@@ -1,7 +1,4 @@
-#define PI 3.1415926535
-
 uniform float u_time;
-uniform vec2 u_resolution;
 
 varying vec2 v_uv;
 
