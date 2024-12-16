@@ -1,5 +1,3 @@
-import colorVertex from './colors/vertex.glsl';
-import colorFragment from './colors/fragment.glsl';
 import textureVertex from './textures/vertex.glsl';
 import textureFragment from './textures/fragment.glsl';
 import drawingVertex from './drawing/vertex.glsl';
@@ -32,15 +30,7 @@ export type Shader = {
 }
 
 export type ShaderLibrary = {
-    [k: string]: Shader | Record<string , Shader>,
-}
-
-export const colors: Shader = {
-    vertex: colorVertex,
-    fragment: colorFragment,
-    cameraType: "orthographic",
-    geometry: "plane",
-    controls: false,
+    [k: string]: Shader | Record<string, Shader>,
 }
 
 export const textures: Shader = {

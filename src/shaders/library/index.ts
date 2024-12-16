@@ -4,6 +4,7 @@ import vesica from './procedural-vesica-geometry/fragment.glsl';
 import pixelart from './procedural-pixelart/fragment.glsl';
 import horizontalNoise from './progressive-horizontal-noise-bpm/fragment.glsl';
 import psychedellicVisuals1 from './psychedellic-visual-experiment-1/fragment.glsl';
+import textures1 from './texture-techniques-1/fragment.glsl';
 
 const base: Shader = {
     fragment: ``,
@@ -29,5 +30,10 @@ export const shaders: Record<string, Shader> = {
     "psychedellic-visuals-1": {
         ...base,
         fragment: psychedellicVisuals1,
+    },
+    "texture-techniques-1": {
+        ...base,
+        fragment: textures1,
+        texture: './assets/images/galactic-core.webp',
     }
 };
