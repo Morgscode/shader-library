@@ -50,25 +50,8 @@ varying vec2 v_uv;
 //     gl_FragColor = texture2D(u_texturemap, uv);
 // }
 
-// mixed wrappping, zoom effects, blend and texture flips
-void main() {
-    vec2 uv = mod((v_uv - 0.5) * sin(u_time / 5.0) + 0.5, 1.0);
-    gl_FragColor = texture2D(u_texturemap, uv) * vec4(v_uv.x, abs(sin(u_time)), v_uv.y, 1.0);
-}
-
 // bpm mixed effects 
 // void main() {
 //     vec2 uv = mod((v_uv - 0.5) * sin(u_time * 130.0) + 0.5, 2.0);
 //     gl_FragColor = texture2D(u_texturemap, uv) * vec4(v_uv.x, sin(u_time * 130.0), v_uv.y, 1.0);
-// }
-
-// gradual noise over texture
-// void main() {
-//     vec3 color = vec3(0.5);
-    
-//     vec4 diffuse_sample = texture2D(u_texturemap, v_uv);
-//     float t = sin(v_uv.y * 500.0);
-//     color = cos(vec3(t) * sin(u_time * v_uv.y));
-   
-//     gl_FragColor = vec4(color, 1.0) * diffuse_sample;
 // }
