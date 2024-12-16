@@ -7,7 +7,7 @@ window.addEventListener('load', () => {
         const search = new URLSearchParams(window.location.search);
         const type = search.get('type') as string;
         const selection = search.get('shader') as string;
-        if(type && selection) {
+        if (type && selection) {
             const app = shaders as shaders.ShaderLibrary;
             const shader = app[type][selection];
             if (shader) {
@@ -15,10 +15,10 @@ window.addEventListener('load', () => {
                 renderer.render();
             }
         }
-    } 
+    }
 });
 
-// const shader = shaders["clouds"];
+// const shader = shaders["fractals"];
 // const renderer = new Renderer(shader);
 // renderer.render();
 
