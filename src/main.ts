@@ -18,7 +18,7 @@ window.addEventListener('load', () => {
     }
 });
 
-// const shader = shaders["textures"];
-// const renderer = new Renderer(shader);
-// renderer.render();
+const shader = shaders["clouds"];
+const renderer = new Renderer(shader);
+renderer.render();
 
