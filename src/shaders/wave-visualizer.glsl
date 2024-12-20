@@ -16,8 +16,7 @@ vec3 PURPLE = vec3(1.0, 0.25, 1.0);
 // https://iquilezles.org/
 //
 // https://www.shadertoy.com/view/lsf3WH
-// SimonDev: Renamed function to "Math_Random" from "hash"
-float Math_Random(vec2 p)  // replace this by something better
+float hash(vec2 p)  // replace this by something better
 {
   p  = 50.0*fract( p*0.3183099 + vec2(0.71,0.113));
   return -1.0+2.0*fract( p.x*p.y*(p.x+p.y) );
@@ -28,10 +27,10 @@ float noise(vec2 coords) {
   vec2 pc = coords * texSize;
   vec2 base = floor(pc);
 
-  float s1 = Math_Random((base + vec2(0.0, 0.0)) / texSize);
-  float s2 = Math_Random((base + vec2(1.0, 0.0)) / texSize);
-  float s3 = Math_Random((base + vec2(0.0, 1.0)) / texSize);
-  float s4 = Math_Random((base + vec2(1.0, 1.0)) / texSize);
+  float s1 = hash((base + vec2(0.0, 0.0)) / texSize);
+  float s2 = hash((base + vec2(1.0, 0.0)) / texSize);
+  float s3 = hash((base + vec2(0.0, 1.0)) / texSize);
+  float s4 = hash((base + vec2(1.0, 1.0)) / texSize);
 
   vec2 f = smoothstep(0.0, 1.0, fract(pc));
 
