@@ -2,7 +2,7 @@ uniform float u_time;
 
 varying vec2 v_uv;
 
-// render solid red
+// render cornflour blue
 void main() {
     gl_FragColor = vec4(0.3, 0.5, 0.9, 1.0);
 }
