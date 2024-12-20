@@ -96,11 +96,11 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity) {
 //     gl_FragColor = vec4(color, 1.0);
 // }
 
-// perlin noise (fbm)
+// simple perlin noise (fbm)
 void main() {
     vec3 coords = vec3(v_uv * 10.0, u_time * 0.2);
     float noise_sample = 0.0;
-    noise_sample = remap(noise(coords), -1.0, 1.0, 0.0, 1.0);
+    noise_sample = remap(fbm(coords, 8, 0.5, 2.0), -1.0, 1.0, 0.0, 1.0);
     vec3 color = vec3(noise_sample);
     gl_FragColor = vec4(color, 1.0);
 }
