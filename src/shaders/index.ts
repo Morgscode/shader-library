@@ -11,6 +11,7 @@ import fractalFragment from './fractals/fragment.glsl';
 import cloudFragment from './clouds/fragment.glsl';
 import noiseFragment from './noise/fragment.glsl';
 import waveVisualiser from './wave-visualiser/fragment.glsl';
+import landscapeFragment from './landscape/fragment.glsl';
 import { shaders as librayShaders } from './library';
 
 export type CameraType = "orthographic" | "perspective";
@@ -127,6 +128,14 @@ export const noise: Shader = {
 export const wave: Shader = {
     vertex: baseVertex,
     fragment: waveVisualiser,
+    cameraType: "orthographic",
+    geometry: "plane",
+    controls: false
+}
+
+export const landscape: Shader = {
+    vertex: baseVertex,
+    fragment: landscapeFragment,
     cameraType: "orthographic",
     geometry: "plane",
     controls: false
