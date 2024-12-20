@@ -88,65 +88,55 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity) {
   return total;
 }
 
+float ridged_fbm(vec3 p, int octaves, float persistence, float lacunarity) {
+  float amplitude = 0.5;
+  float frequency = 1.0;
+  float total = 0.0;
+  float normalization = 0.0;
 
-float cellular(vec3 coords) {
-  vec2 gridBasePosition = floor(coords.xy);
-  vec2 gridCoordOffset = fract(coords.xy);
-
-  float closest = 1.0;
-  for (float y = -2.0; y <= 2.0; y += 1.0) {
-    for (float x = -2.0; x <= 2.0; x += 1.0) {
-      vec2 neighbourCellPosition = vec2(x, y);
-      vec2 cellWorldPosition = gridBasePosition + neighbourCellPosition;
-      vec2 cellOffset = vec2(
-        noise(vec3(cellWorldPosition, coords.z) + vec3(243.432, 324.235, 0.0)),
-        noise(vec3(cellWorldPosition, coords.z))
-      );
-
-      float distToNeighbour = length(
-          neighbourCellPosition + cellOffset - gridCoordOffset);
-      closest = min(closest, distToNeighbour);
-    }
+  for (int i = 0; i < octaves; ++i) {
+    float noiseValue = noise(p * frequency);
+    noiseValue = abs(noiseValue);
+    noiseValue = 1.0 - noiseValue;
+    total += noiseValue * amplitude;
+    normalization += amplitude;
+    amplitude *= persistence;
+    frequency *= lacunarity;
   }
 
-  return closest;
+  total /= normalization;
+
+  return total;
 }
 
-float stepped(float noiseSample) {
-  float steppedSample = floor(noiseSample * 10.0) / 10.0;
-  float remainder = fract(noiseSample * 10.0);
-  steppedSample = (steppedSample - remainder) * 0.5 + 0.5;
-  return steppedSample;
+float turbulence_fbm(vec3 p, int octaves, float persistence, float lacunarity) {
+  float amplitude = 0.5;
+  float frequency = 1.0;
+  float total = 0.0;
+  float normalization = 0.0;
+
+  for (int i = 0; i < octaves; ++i) {
+    float noiseValue = noise(p * frequency);
+    noiseValue = abs(noiseValue);
+    total += noiseValue * amplitude;
+    normalization += amplitude;
+    amplitude *= persistence;
+    frequency *= lacunarity;
+  }
+
+  total /= normalization;
+
+  return total;
 }
 
-float domainWarpingFBM(vec3 coords) {
-  vec3 offset = vec3(
-    fbm(coords, 4, 0.5, 2.0),
-    fbm(coords + vec3(43.235, 23.112, 0.0), 4, 0.5, 2.0), 0.0);
-  float noiseSample = fbm(coords + offset, 1, 0.5, 2.0);
-
-  vec3 offset2 = vec3(
-    fbm(coords + 4.0 * offset + vec3(5.325, 1.421, 3.235), 4, 0.5, 2.0),
-    fbm(coords + 4.0 * offset + vec3(4.32, 0.532, 6.324), 4, 0.5, 2.0), 0.0);
-  noiseSample = fbm(coords + 4.0 * offset2, 1, 0.5, 2.0);
-
-  return noiseSample;
-}
-
-
-// simple gradient noise
-// void main() {
-//     vec2 uv = v_uv * 2.0 - 1.0;
-//     uv.x *= u_resolution.x / u_resolution.y;
-//     vec3 color = vec3(simple_noise(uv * 20.0));
-//     gl_FragColor = vec4(color, 1.0);
-// }
-
-// simple perlin noise (fbm)
+// perlin noise (fbm)
 void main() {
     vec3 coords = vec3(v_uv * 10.0, u_time * 0.2);
     float noise_sample = 0.0;
-    noise_sample = remap(fbm(coords, 8, 0.5, 2.0), -1.0, 1.0, 0.0, 1.0);
+    // noise_sample = remap(noise(coords), -1.0, 1.0, 0.0, 1.0);
+    // noise_sample = remap(fbm(coords, 16, 0.5, 2.0), -1.0, 1.0, 0.0, 1.0);
+    // noise_sample = ridged_fbm(coords, 16, 0.5, 2.0);
+    noise_sample = turbulence_fbm(coords, 16, 0.5, 2.0);
     vec3 color = vec3(noise_sample);
     gl_FragColor = vec4(color, 1.0);
 }
