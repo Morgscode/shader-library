@@ -88,6 +88,52 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity) {
   return total;
 }
 
+
+float cellular(vec3 coords) {
+  vec2 gridBasePosition = floor(coords.xy);
+  vec2 gridCoordOffset = fract(coords.xy);
+
+  float closest = 1.0;
+  for (float y = -2.0; y <= 2.0; y += 1.0) {
+    for (float x = -2.0; x <= 2.0; x += 1.0) {
+      vec2 neighbourCellPosition = vec2(x, y);
+      vec2 cellWorldPosition = gridBasePosition + neighbourCellPosition;
+      vec2 cellOffset = vec2(
+        noise(vec3(cellWorldPosition, coords.z) + vec3(243.432, 324.235, 0.0)),
+        noise(vec3(cellWorldPosition, coords.z))
+      );
+
+      float distToNeighbour = length(
+          neighbourCellPosition + cellOffset - gridCoordOffset);
+      closest = min(closest, distToNeighbour);
+    }
+  }
+
+  return closest;
+}
+
+float stepped(float noiseSample) {
+  float steppedSample = floor(noiseSample * 10.0) / 10.0;
+  float remainder = fract(noiseSample * 10.0);
+  steppedSample = (steppedSample - remainder) * 0.5 + 0.5;
+  return steppedSample;
+}
+
+float domainWarpingFBM(vec3 coords) {
+  vec3 offset = vec3(
+    fbm(coords, 4, 0.5, 2.0),
+    fbm(coords + vec3(43.235, 23.112, 0.0), 4, 0.5, 2.0), 0.0);
+  float noiseSample = fbm(coords + offset, 1, 0.5, 2.0);
+
+  vec3 offset2 = vec3(
+    fbm(coords + 4.0 * offset + vec3(5.325, 1.421, 3.235), 4, 0.5, 2.0),
+    fbm(coords + 4.0 * offset + vec3(4.32, 0.532, 6.324), 4, 0.5, 2.0), 0.0);
+  noiseSample = fbm(coords + 4.0 * offset2, 1, 0.5, 2.0);
+
+  return noiseSample;
+}
+
+
 // simple gradient noise
 // void main() {
 //     vec2 uv = v_uv * 2.0 - 1.0;
