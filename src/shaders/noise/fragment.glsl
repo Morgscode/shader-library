@@ -159,7 +159,7 @@ float stepped(float noiseSample) {
   return steppedSample;
 }
 
-float domainWarpingFBM(vec3 coords) {
+float domain_warping_fbm(vec3 coords) {
   vec3 offset = vec3(
     fbm(coords, 4, 0.5, 2.0),
     fbm(coords + vec3(43.235, 23.112, 0.0), 4, 0.5, 2.0), 0.0);
@@ -177,10 +177,13 @@ float domainWarpingFBM(vec3 coords) {
 void main() {
     vec3 coords = vec3(v_uv * 10.0, u_time * 0.2);
     float noise_sample = 0.0;
-    // noise_sample = remap(noise(coords), -1.0, 1.0, 0.0, 1.0);
+    noise_sample = remap(noise(coords), -1.0, 1.0, 0.0, 1.0);
     // noise_sample = remap(fbm(coords, 16, 0.5, 2.0), -1.0, 1.0, 0.0, 1.0);
     // noise_sample = ridged_fbm(coords, 16, 0.5, 2.0);
-    noise_sample = turbulence_fbm(coords, 16, 0.5, 2.0);
+    // noise_sample = turbulence_fbm(coords, 16, 0.5, 2.0);
+    // noise_sample = 1.0 - cellular(coords);
+    // noise_sample = stepped(noise_sample);
+    noise_sample = domain_warping_fbm(coords);
     vec3 color = vec3(noise_sample);
     gl_FragColor = vec4(color, 1.0);
 }
