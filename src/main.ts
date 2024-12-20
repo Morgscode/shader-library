@@ -18,7 +18,7 @@ window.addEventListener('load', () => {
     }
 });
 
-// const shader = shaders["textures"];
+// const shader = shaders["noise"];
 // const renderer = new Renderer(shader);
 // renderer.render();
 
