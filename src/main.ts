@@ -18,6 +18,6 @@ window.addEventListener('load', () => {
     }
 });
 
-// const shader = shaders["landscape"];
+// const shader = shaders["noise"];
 // const renderer = new Renderer(shader);
 // renderer.render();

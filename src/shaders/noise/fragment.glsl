@@ -2,6 +2,8 @@ varying vec2 v_uv;
 
 uniform float u_time;
 uniform vec2  u_resolution;
+uniform sampler2D u_texturemap;
+uniform vec4 u_tint;
 
 float hashish(vec2 p) {
     p = 50.0 * fract(p * 0.3183099 + vec2(0.71, 0.113));
@@ -173,17 +175,49 @@ float domain_warping_fbm(vec3 coords) {
   return noiseSample;
 }
 
-// perlin noise (fbm)
+float sdCircle(vec2 p, float r) {
+    return length(p) - r;
+}
+
+// void main() {
+//     vec3 coords = vec3(v_uv * 10.0, u_time * 0.2);
+//     float noise_sample = 0.0;
+//     noise_sample = remap(noise(coords), -1.0, 1.0, 0.0, 1.0);
+//     // noise_sample = remap(fbm(coords, 16, 0.5, 2.0), -1.0, 1.0, 0.0, 1.0);
+//     // noise_sample = ridged_fbm(coords, 16, 0.5, 2.0);
+//     // noise_sample = turbulence_fbm(coords, 16, 0.5, 2.0);
+//     // noise_sample = 1.0 - cellular(coords);
+//     // noise_sample = stepped(noise_sample);
+//     noise_sample = domain_warping_fbm(coords);
+//     vec3 color = vec3(noise_sample);
+//     gl_FragColor = vec4(color, 1.0);
+// }
+
 void main() {
-    vec3 coords = vec3(v_uv * 10.0, u_time * 0.2);
-    float noise_sample = 0.0;
-    noise_sample = remap(noise(coords), -1.0, 1.0, 0.0, 1.0);
-    // noise_sample = remap(fbm(coords, 16, 0.5, 2.0), -1.0, 1.0, 0.0, 1.0);
-    // noise_sample = ridged_fbm(coords, 16, 0.5, 2.0);
-    // noise_sample = turbulence_fbm(coords, 16, 0.5, 2.0);
-    // noise_sample = 1.0 - cellular(coords);
-    // noise_sample = stepped(noise_sample);
-    noise_sample = domain_warping_fbm(coords);
-    vec3 color = vec3(noise_sample);
-    gl_FragColor = vec4(color, 1.0);
+  vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
+  float noise_sample = fbm(vec3(pixel_coords, 0.0) * 0.005, 4, 0.5, 2.0);
+  float size = smoothstep(0.00, 15.0, u_time) * (50.0 + length(u_resolution) * 0.5);
+  float d = sdCircle(pixel_coords + 50.0 * noise_sample, size);
+
+  vec2 distortion = noise_sample / u_resolution;
+  distortion = distortion * 20.0 * smoothstep(80.0, 20.0, d);
+  vec2 uv = 1.0 - mod((v_uv - 0.5) * sin(u_time / 5.0) + 0.5, 1.0);
+  vec3 sample1 = texture2D(u_texturemap, v_uv + distortion).xyz;
+  vec3 sample2 = texture2D(u_texturemap, uv).xyz;
+  vec3 color = sample1;
+
+  // dark burning effect
+  float burn = 1.0 - exp(-d * d * 0.001);
+  color = mix(vec3(0.0), color, burn);
+
+  vec3 FIRE = vec3(1.0, 0.5, 0.2);
+  float orange = smoothstep(0.0, 10.0, d);
+  orange = pow(orange, 0.25);
+  color = mix(FIRE, color, orange);
+  color = mix(sample2, color, smoothstep(0.0, 1.0, d));
+  float glow = smoothstep(0.0, 32.0, abs(d));
+  glow = 1.0 - pow(glow, 0.125);
+  color += glow * vec3(1.0, 0.2, 0.05);
+
+  gl_FragColor = vec4(color, 1.0);
 }

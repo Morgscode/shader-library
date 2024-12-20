@@ -119,7 +119,8 @@ export const noise: Shader = {
     fragment: noiseFragment,
     cameraType: "orthographic",
     geometry: "plane",
-    controls: false
+    controls: false,
+    texture: './assets/images/galactic-core.webp'
 }
 
 export const wave: Shader = {
