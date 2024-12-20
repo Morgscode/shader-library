@@ -57,8 +57,7 @@ float noise( in vec3 p )
 {
   vec3 i = floor( p );
   vec3 f = fract( p );
-	
-	vec3 u = f*f*(3.0-2.0*f);
+  vec3 u = f*f*(3.0-2.0*f);
 
   return mix( mix( mix( dot( hash( i + vec3(0.0,0.0,0.0) ), f - vec3(0.0,0.0,0.0) ), 
                         dot( hash( i + vec3(1.0,0.0,0.0) ), f - vec3(1.0,0.0,0.0) ), u.x),
@@ -71,9 +70,15 @@ float noise( in vec3 p )
 }
 
 // simple pixel noise
+// void main() {
+//     vec2 uv = v_uv * 2.0 - 1.0;
+//     uv.x *= u_resolution.x / u_resolution.y;
+//     vec3 color = vec3(simple_noise(uv * 20.0));
+//     gl_FragColor = vec4(color, 1.0);
+// }
+
 void main() {
-    vec2 uv = v_uv * 2.0 - 1.0;
-    uv.x *= u_resolution.x / u_resolution.y;
-    vec3 color = vec3(simple_noise(uv * 20.0));
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(0.3, 0.5, 0.8, 1.0);
 }
+
+// perlin noise (fbm)
