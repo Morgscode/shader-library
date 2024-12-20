@@ -18,7 +18,7 @@ window.addEventListener('load', () => {
     }
 });
 
-const shader = shaders["noise"];
+const shader = shaders["wave"];
 const renderer = new Renderer(shader);
 renderer.render();
 

@@ -1,7 +1,7 @@
 
-varying vec2 vUvs;
-uniform vec2 resolution;
-uniform float time;
+varying vec2 v_uv;
+uniform vec2 u_resolution;
+uniform float u_time;
 
 vec3 YELLOW = vec3(1.0, 1.0, 0.5);
 vec3 BLUE = vec3(0.25, 0.25, 1.0);
@@ -59,8 +59,8 @@ float sdfLine(vec2 p, vec2 a, vec2 b) {
 }
 
 vec3 drawGrid(vec3 colour, vec3 lineColour, float cellSpacing, float lineWidth) {
-  vec2 center = vUvs - 0.5;
-  vec2 cellPosition = abs(fract(center * resolution / vec2(cellSpacing)) - 0.5);
+  vec2 center = v_uv - 0.5;
+  vec2 cellPosition = abs(fract(center * u_resolution / vec2(cellSpacing)) - 0.5);
   float distToEdge = (0.5 - max(cellPosition.x, cellPosition.y)) * cellSpacing;
   float lines = smoothstep(0.0, lineWidth, distToEdge);
 
@@ -70,7 +70,7 @@ vec3 drawGrid(vec3 colour, vec3 lineColour, float cellSpacing, float lineWidth) 
 }
 
 vec3 BackgroundColour() {
-  float distFromCenter = length(abs(vUvs - 0.5));
+  float distFromCenter = length(abs(v_uv - 0.5));
 
   float vignette = 1.0 - distFromCenter;
   vignette = smoothstep(0.0, 0.7, vignette);
@@ -85,6 +85,10 @@ float evaluateFunction(float x) {
   float amplitude = 128.0;
   float frequency = 1.0 / 64.0;
 
+  // simple sine wave
+  // y += sin(frequency * x) * amplitude;
+
+  // noise wave
   y += noise(vec2(x) * frequency) * amplitude;
   y += noise(vec2(x) * frequency * 2.0) * amplitude * 0.5;
   y += noise(vec2(x) * frequency * 4.0) * amplitude * 0.25;
@@ -92,15 +96,15 @@ float evaluateFunction(float x) {
   return y;
 }
 
-float plotFunction(vec2 p, float px, float curTime) {
+float plotFunction(vec2 p, float px, float curu_time) {
   float result = 100000.0;
   
   for (float i = -5.0; i < 5.0; i += 1.0) {
     vec2 c1 = p + vec2(px * i, 0.0);
     vec2 c2 = p + vec2(px * (i + 1.0), 0.0);
 
-    vec2 a = vec2(c1.x, evaluateFunction(c1.x + curTime));
-    vec2 b = vec2(c2.x, evaluateFunction(c2.x + curTime));
+    vec2 a = vec2(c1.x, evaluateFunction(c1.x + curu_time));
+    vec2 b = vec2(c2.x, evaluateFunction(c2.x + curu_time));
     result = min(result, sdfLine(p, a, b));
   }
 
@@ -108,7 +112,7 @@ float plotFunction(vec2 p, float px, float curTime) {
 }
 
 void main() {
-  vec2 pixelCoords = (vUvs - 0.5) * resolution;
+  vec2 pixelCoords = (v_uv - 0.5) * u_resolution;
 
   vec3 colour = BackgroundColour();
   colour = drawGrid(colour, vec3(0.5), 10.0, 1.0);
@@ -118,7 +122,7 @@ void main() {
   colour = mix(vec3(0.25, 0.25, 1.0), colour, smoothstep(2.0, 3.0, abs(pixelCoords.y)));
 
   // Draw graph of our function
-  float distToFunction = plotFunction(pixelCoords, 2.0, time * 96.0);
+  float distToFunction = plotFunction(pixelCoords, 2.0, u_time * 96.0);
   vec3 lineColour = RED * mix(1.0, 0.25, smoothstep(0.0, 3.0, distToFunction));
   float lineBorder = smoothstep(4.0, 6.0, distToFunction);
 
