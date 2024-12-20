@@ -131,7 +131,7 @@ float easeOut(float x, float p) {
 //     gl_FragColor = vec4(color, 1.0);
 // }
 
-// sun, moon && stars
+// sun && moon cycle
 void main() {
     vec2 pixel_coords = v_uv * u_resolution;
     float time = mod(u_time + 8.0, DAY_LENGTH);
