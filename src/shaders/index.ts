@@ -1,21 +1,16 @@
-import colorVertex from './colors/fragment.glsl';
-import colorFragment from './colors/vertex.glsl';
-import textureVertex from './textures/vertex.glsl';
+import baseVertex from './base-vertex.glsl';
+import colorFragment from './colors/fragment.glsl';
 import textureFragment from './textures/fragment.glsl';
-import drawingVertex from './drawing/vertex.glsl';
 import drawingFragment from './drawing/fragment.glsl';
 import lightingVertex from './lighting/vertex.glsl';
 import lightingFragment from './lighting/fragment.glsl';
 import transformVertex from './vertex-transforms/vertex.glsl';
 import transformFragment from './vertex-transforms/fragment.glsl';
-import shapeVertex from './shapes/vertex.glsl';
 import shapeFragment from './shapes/fragment.glsl';
-import fractalVertex from './fractals/vertex.glsl';
 import fractalFragment from './fractals/fragment.glsl';
-import cloudVertex from './clouds/vertex.glsl';
 import cloudFragment from './clouds/fragment.glsl';
+import noiseFragment from './noise/fragment.glsl';
 import { shaders as librayShaders } from './library';
-import { shaders as exampleShaders } from './examples';
 
 export type CameraType = "orthographic" | "perspective";
 export type GeometryOption = undefined | "plane" | "box" | "icosahedrone";
@@ -36,7 +31,7 @@ export type ShaderLibrary = {
 }
 
 export const colors: Shader = {
-    vertex: colorVertex,
+    vertex: baseVertex,
     fragment: colorFragment,
     cameraType: "orthographic",
     geometry: "plane",
@@ -45,7 +40,7 @@ export const colors: Shader = {
 }
 
 export const textures: Shader = {
-    vertex: textureVertex,
+    vertex: baseVertex,
     fragment: textureFragment,
     cameraType: "orthographic",
     geometry: "plane",
@@ -54,7 +49,7 @@ export const textures: Shader = {
 }
 
 export const drawing: Shader = {
-    vertex: drawingVertex,
+    vertex: baseVertex,
     fragment: drawingFragment,
     cameraType: "orthographic",
     geometry: "plane",
@@ -97,7 +92,7 @@ export const transforms: Shader = {
 }
 
 export const shapes: Shader = {
-    vertex: shapeVertex,
+    vertex: baseVertex,
     fragment: shapeFragment,
     cameraType: "orthographic",
     geometry: "plane",
@@ -105,7 +100,7 @@ export const shapes: Shader = {
 }
 
 export const fractals: Shader = {
-    vertex: fractalVertex,
+    vertex: baseVertex,
     fragment: fractalFragment,
     cameraType: "orthographic",
     geometry: "plane",
@@ -113,12 +108,19 @@ export const fractals: Shader = {
 }
 
 export const clouds: Shader = {
-    vertex: cloudVertex,
+    vertex: baseVertex,
     fragment: cloudFragment,
     cameraType: "orthographic",
     geometry: "plane",
     controls: false
 }
 
+export const noise: Shader = {
+    vertex: baseVertex,
+    fragment: noiseFragment,
+    cameraType: "orthographic",
+    geometry: "plane",
+    controls: false
+}
+
 export const library = librayShaders;
-export const example = exampleShaders;
