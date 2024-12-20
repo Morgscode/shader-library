@@ -38,7 +38,6 @@ export const colors: Shader = {
     cameraType: "orthographic",
     geometry: "plane",
     controls: false,
-    texture: './assets/images/galactic-core.webp'
 }
 
 export const textures: Shader = {
@@ -56,7 +55,6 @@ export const drawing: Shader = {
     cameraType: "orthographic",
     geometry: "plane",
     controls: false,
-    texture: './assets/images/galactic-core.webp'
 }
 
 export const lighting: Shader = {
@@ -65,7 +63,6 @@ export const lighting: Shader = {
     cameraType: "perspective",
     geometry: false,
     controls: true,
-    texture: './assets/images/galactic-core.webp',
     cubeTexture: [
         './assets/shader-resources/01/Cold_Sunset__Cam_2_Left+X.png',
         './assets/shader-resources/01/Cold_Sunset__Cam_3_Right-X.png',
