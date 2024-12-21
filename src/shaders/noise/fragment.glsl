@@ -179,6 +179,7 @@ float sdCircle(vec2 p, float r) {
     return length(p) - r;
 }
 
+// simple perlin noise examples
 // void main() {
 //     vec3 coords = vec3(v_uv * 10.0, u_time * 0.2);
 //     float noise_sample = 0.0;
@@ -193,6 +194,7 @@ float sdCircle(vec2 p, float r) {
 //     gl_FragColor = vec4(color, 1.0);
 // }
 
+// noise enhanced transition
 void main() {
   vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
   float noise_sample = fbm(vec3(pixel_coords, 0.0) * 0.005, 4, 0.5, 2.0);
