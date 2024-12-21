@@ -114,9 +114,9 @@ vec3 fractals(float angle, vec3 color)
 void main() 
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-    float angle = u_time * BPM;
-    float noise_sample = fbm(vec3(pixel_coords, angle) * 0.005, 4, 0.5, 2.0);
-    vec3 color = 1.0 - palette(noise_sample);
+    float angle = u_time / BPM;
+    float noise_sample = fbm(vec3(pixel_coords, angle) * 0.005, 8, 0.5, sin(u_time));
+    vec3 color = palette(noise_sample);
     color = fractals(noise_sample, color);
     gl_FragColor = vec4(color, 1.0);
 }
