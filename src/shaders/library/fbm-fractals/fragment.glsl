@@ -37,38 +37,38 @@ vec3 hash( vec3 p ) // replace this by something better
 
 float noise( in vec3 p )
 {
-  vec3 i = floor(p);
-  vec3 f = fract(p);
-  vec3 u = f * f * (3.0 - 2.0 * f);
+    vec3 i = floor(p);
+    vec3 f = fract(p);
+    vec3 u = f * f * (3.0 - 2.0 * f);
 
-  return mix( 
-    mix( 
+    return mix( 
         mix( 
-            dot(hash(i + vec3(0.0,0.0,0.0)), f - vec3(0.0,0.0,0.0)), 
-            dot(hash(i + vec3(1.0,0.0,0.0)), f - vec3(1.0,0.0,0.0)), 
-            u.x
+            mix( 
+                dot(hash(i + vec3(0.0,0.0,0.0)), f - vec3(0.0,0.0,0.0)), 
+                dot(hash(i + vec3(1.0,0.0,0.0)), f - vec3(1.0,0.0,0.0)), 
+                u.x
+            ),
+            mix( 
+                dot(hash(i + vec3(0.0,1.0,0.0)), f - vec3(0.0,1.0,0.0)), 
+                dot(hash(i + vec3(1.0,1.0,0.0) ), f - vec3(1.0,1.0,0.0)),
+                u.x
+            ), 
+            u.y
         ),
         mix( 
-            dot(hash(i + vec3(0.0,1.0,0.0)), f - vec3(0.0,1.0,0.0)), 
-            dot(hash(i + vec3(1.0,1.0,0.0) ), f - vec3(1.0,1.0,0.0)),
-            u.x
-        ), 
-    u.y
-    ),
-    mix( 
-        mix(
-            dot(hash(i + vec3(0.0,0.0,1.0)), f - vec3(0.0,0.0,1.0)), 
-            dot(hash(i + vec3(1.0,0.0,1.0)), f - vec3(1.0,0.0,1.0)), 
-            u.x
+            mix(
+                dot(hash(i + vec3(0.0,0.0,1.0)), f - vec3(0.0,0.0,1.0)), 
+                dot(hash(i + vec3(1.0,0.0,1.0)), f - vec3(1.0,0.0,1.0)), 
+                u.x
+            ),
+            mix( 
+                dot(hash(i + vec3(0.0,1.0,1.0)), f - vec3(0.0,1.0,1.0)), 
+                dot(hash(i + vec3(1.0,1.0,1.0)), f - vec3(1.0,1.0,1.0)), 
+                u.x
+            ), 
+            u.y
         ),
-        mix( 
-            dot(hash(i + vec3(0.0,1.0,1.0)), f - vec3(0.0,1.0,1.0)), 
-            dot(hash(i + vec3(1.0,1.0,1.0)), f - vec3(1.0,1.0,1.0)), 
-            u.x
-        ), 
-        u.y
-        ),
-    u.z 
+        u.z 
     );
 }
 
@@ -80,8 +80,8 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   float normalization = 0.0;
 
   for (int i = 0; i < octaves; ++i) {
-    float noiseValue = noise(p * frequency);
-    total += noiseValue * amplitude;
+    float noise_value = noise(p * frequency);
+    total += noise_value * amplitude;
     normalization += amplitude;
     amplitude *= persistence;
     frequency *= lacunarity;
@@ -107,6 +107,7 @@ vec3 fractals(float angle, vec3 color, float noise_val)
             cos(angle), -sin(angle),
             sin(angle), cos(angle)
         );
+        // add noise
         uv += noise_val;
     }
     return vec3(color / PI * length(uv));
@@ -116,8 +117,8 @@ void main()
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     float angle = u_time / (BPM / 10.0);
-    float noise_sample = fbm(vec3(pixel_coords, angle) * 0.005, 8, 0.5, clamp(-1.0, 1.0, u_time));
-    vec3 color = palette(dot(noise_sample, angle));
+    float noise_sample = fbm(vec3(pixel_coords, angle) * 0.005, 4, 0.5, clamp(-1.0, 1.0, u_time));
+    vec3 color = palette(angle + noise_sample);
     color = fractals(angle, color, noise_sample);
     gl_FragColor = vec4(color, 1.0);
 }
