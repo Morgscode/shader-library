@@ -18,6 +18,6 @@ window.addEventListener('load', () => {
     }
 });
 
-const shader = shaders["postfx"];
-const renderer = new Renderer(shader);
-renderer.render();
+// const shader = shaders["postfx"];
+// const renderer = new Renderer(shader);
+// renderer.render();
