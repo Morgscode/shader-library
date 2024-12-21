@@ -1,9 +1,21 @@
 #define PI 3.1415926535
+#define BPM 130.0
 
 varying vec2 v_uv;
 
 uniform float u_time;
 uniform vec2 u_resolution;
+
+// https://github.com/Erkaman/glsl-cos-palette
+vec3 palette(float t) 
+{
+        vec3 a = vec3(0.8, 0.3, 0.2);
+        vec3 b = vec3(0.6, 0.4, 0.8);
+        vec3 c = vec3(0.6, 0.3, 0.2);
+        vec3 d = vec3(2.9, 3.02, -0.27);
+
+        return a + b * cos((PI * 2.0) * (c * t + d));
+}
 
 // The MIT License
 // Copyright © 2013 Inigo Quilez
@@ -60,7 +72,8 @@ float noise( in vec3 p )
     );
 }
 
-float fbm(vec3 p, int octaves, float persistence, float lacunarity) {
+float fbm(vec3 p, int octaves, float persistence, float lacunarity) 
+{
   float amplitude = 0.5;
   float frequency = 1.0;
   float total = 0.0;
@@ -79,10 +92,8 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity) {
   return total;
 }
 
-vec3 fractals() 
+vec3 fractals(float angle, vec3 color) 
 {
-// control the speed of the animation
-    float angle = u_time / 13.0;
     //  center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;
     // make it responsive to the current screen size
@@ -97,11 +108,15 @@ vec3 fractals()
             sin(angle), cos(angle)
         );    
     }
-    vec3 color = vec3(0.3, 0.5, 0.9);
     return vec3(color / PI * length(uv));
 }
 
-void main() {
-    // render the final color
-    gl_FragColor = vec4(fractals(), 1.0);
+void main() 
+{
+    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
+    float angle = u_time * BPM;
+    float noise_sample = fbm(vec3(pixel_coords, angle) * 0.005, 4, 0.5, 2.0);
+    vec3 color = 1.0 - palette(noise_sample);
+    color = fractals(noise_sample, color);
+    gl_FragColor = vec4(color, 1.0);
 }
