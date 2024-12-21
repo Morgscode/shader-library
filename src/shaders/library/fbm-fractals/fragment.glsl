@@ -80,8 +80,8 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   float normalization = 0.0;
 
   for (int i = 0; i < octaves; ++i) {
-    float noiseValue = noise(p * frequency);
-    total += noiseValue * amplitude;
+    float noise_value = noise(p * frequency);
+    total += noise_value * amplitude;
     normalization += amplitude;
     amplitude *= persistence;
     frequency *= lacunarity;
@@ -116,7 +116,7 @@ void main()
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     float angle = u_time / (BPM / 10.0);
-    float noise_sample = fbm(vec3(pixel_coords, angle) * 0.005, 8, 0.5, clamp(-1.0, 1.0, u_time));
+    float noise_sample = fbm(vec3(pixel_coords, angle) * 0.005, 4, 0.5, clamp(-1.0, 1.0, u_time));
     vec3 color = palette(dot(noise_sample, angle));
     color = fractals(angle, color, noise_sample);
     gl_FragColor = vec4(color, 1.0);
