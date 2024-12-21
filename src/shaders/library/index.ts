@@ -6,6 +6,7 @@ import horizontalSinWave from './horizontal-sinwave/fragment.glsl';
 import psychedellicVisuals1 from './psychedellic-visual-experiment-1/fragment.glsl';
 import textures1 from './texture-techniques-1/fragment.glsl';
 import theVoid from './the-void/fragment.glsl';
+import fbmFractals from './fbm-fractals/fragment.glsl';
 
 const base: Shader = {
     fragment: ``,
@@ -40,5 +41,9 @@ export const shaders: Record<string, Shader> = {
         ...base,
         fragment: textures1,
         texture: './assets/images/galactic-core.webp',
+    },
+    "fbm-fractals": {
+        ...base,
+        fragment: fbmFractals,
     }
 };
