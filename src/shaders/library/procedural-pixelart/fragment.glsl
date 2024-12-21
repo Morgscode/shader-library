@@ -18,7 +18,8 @@ float sdEquilateralTriangle( in vec2 p, in float r )
 }
 
 // https://github.com/Erkaman/glsl-cos-palette
-vec3 palette(float t) {
+vec3 palette(float t) 
+{
         vec3 a = vec3(0.8, 0.3, 0.2);
         vec3 b = vec3(0.6, 0.4, 0.8);
         vec3 c = vec3(0.6, 0.3, 0.2);
@@ -28,14 +29,16 @@ vec3 palette(float t) {
 }
 
 // https://en.wikipedia.org/wiki/Rotation_matrix
-mat2 rotate2d(float p) {
+mat2 rotate2d(float p) 
+{
     return mat2(
         cos(p), -sin(p),
         sin(p), cos(p)
     );
 }
 
-void main() {
+void main() 
+{
     // get responsive pixel coords for screen
     vec2 pixel_cords = (v_uv - 0.5) * u_resolution;
     // bg color
