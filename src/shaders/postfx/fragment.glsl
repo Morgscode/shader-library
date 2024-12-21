@@ -3,7 +3,7 @@ varying vec2 v_uv;
 uniform vec2 u_resolution;
 uniform float u_time;
 uniform sampler2D u_texturemap;
-uniform vec3 u_tint;
+uniform vec4 u_tint;
 
 float inverseLerp(float v, float minVal, float maxVal) {
     return (v - minVal) / (maxVal - minVal);
@@ -30,7 +30,7 @@ void main() {
 
     if (v_uv.x > 0.5) {
         // tinting
-        color *= (u_tint / 2.0);
+        color *= (u_tint.xyz / 2.0);
         // brightness
         color += 0.25;
         // saturation
@@ -47,4 +47,6 @@ void main() {
 
     gl_FragColor = vec4(color, 1.0);
 }
+
+
 
