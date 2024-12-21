@@ -117,6 +117,6 @@ void main()
     float angle = u_time / BPM;
     float noise_sample = fbm(vec3(pixel_coords, angle) * 0.005, 8, 0.5, sin(u_time));
     vec3 color = palette(noise_sample);
-    color = fractals(noise_sample, color);
+    color = fractals(angle, color);
     gl_FragColor = vec4(color, 1.0);
 }
