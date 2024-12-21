@@ -12,6 +12,7 @@ import cloudFragment from './clouds/fragment.glsl';
 import noiseFragment from './noise/fragment.glsl';
 import waveVisualiser from './wave-visualiser/fragment.glsl';
 import landscapeFragment from './landscape/fragment.glsl';
+import postfxFragment from './postfx/fragment.glsl';
 import { shaders as librayShaders } from './library';
 
 export type CameraType = "orthographic" | "perspective";
@@ -119,7 +120,8 @@ export const noise: Shader = {
     fragment: noiseFragment,
     cameraType: "orthographic",
     geometry: "plane",
-    controls: false
+    controls: false,
+    texture: './assets/images/galactic-core.webp'
 }
 
 export const wave: Shader = {
@@ -136,6 +138,15 @@ export const landscape: Shader = {
     cameraType: "orthographic",
     geometry: "plane",
     controls: false
+}
+
+export const postfx: Shader = {
+    vertex: baseVertex,
+    fragment: postfxFragment,
+    cameraType: "orthographic",
+    geometry: "plane",
+    controls: false,
+    texture: './assets/images/galactic-core.webp'
 }
 
 export const library = librayShaders;
