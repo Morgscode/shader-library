@@ -92,7 +92,7 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
-vec3 fractals(float angle, vec3 color) 
+vec3 fractals(float angle, vec3 color, float noise_val) 
 {
     //  center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;
@@ -106,7 +106,8 @@ vec3 fractals(float angle, vec3 color)
         uv *= mat2(
             cos(angle), -sin(angle),
             sin(angle), cos(angle)
-        );    
+        );
+        uv += noise_val;
     }
     return vec3(color / PI * length(uv));
 }
@@ -114,9 +115,9 @@ vec3 fractals(float angle, vec3 color)
 void main() 
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-    float angle = u_time / BPM;
-    float noise_sample = fbm(vec3(pixel_coords, angle) * 0.005, 8, 0.5, sin(u_time));
-    vec3 color = palette(noise_sample);
-    color = fractals(angle, color);
+    float angle = u_time / (BPM / 10.0);
+    float noise_sample = fbm(vec3(pixel_coords, angle) * 0.005, 8, 0.5, clamp(-1.0, 1.0, u_time));
+    vec3 color = palette(dot(noise_sample, angle));
+    color = fractals(angle, color, noise_sample);
     gl_FragColor = vec4(color, 1.0);
 }
