@@ -13,7 +13,7 @@ import noiseFragment from './noise/fragment.glsl';
 import waveVisualiser from './wave-visualiser/fragment.glsl';
 import landscapeFragment from './landscape/fragment.glsl';
 import postfxFragment from './postfx/fragment.glsl';
-import { shaders as librayShaders } from './library';
+import { shaders as libraryShaders } from './library';
 
 export type CameraType = "orthographic" | "perspective";
 export type GeometryOption = undefined | "plane" | "box" | "icosahedrone";
@@ -149,4 +149,4 @@ export const postfx: Shader = {
     texture: './assets/images/galactic-core.webp'
 }
 
-export const library = librayShaders;
+export const library = libraryShaders;

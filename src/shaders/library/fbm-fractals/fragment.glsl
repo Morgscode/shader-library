@@ -35,6 +35,7 @@ vec3 hash( vec3 p ) // replace this by something better
 	return - 1.0 + 2.0 * fract(sin(p) * 43758.5453123);
 }
 
+// https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
 float noise( in vec3 p )
 {
     vec3 i = floor(p);
@@ -72,6 +73,7 @@ float noise( in vec3 p )
     );
 }
 
+// https://www.shadertoy.com/view/ss2cDK
 float fbm(vec3 p, int octaves, float persistence, float lacunarity) 
 {
   float amplitude = 0.5;

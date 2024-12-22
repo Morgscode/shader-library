@@ -1,5 +1,5 @@
 #define PI 3.1415926535
-#define BPM 1.30
+#define BPM 130.0
 
 uniform float u_time;
 uniform vec2 u_resolution;
@@ -46,7 +46,7 @@ void main()
     // store local ref to uv cords for screen
     vec2 l_uv = v_uv * 2.0 - 1.0;
     l_uv.x *= u_resolution.x / u_resolution.y;
-    float angle = u_time / BPM;
+    float angle = u_time / (BPM / 10.0);
 
     for (float i = 0.0; i < 3.0; i += 1.0) {
         // scale the absolute values from pixel cords, fract, center them and scale again
@@ -56,7 +56,7 @@ void main()
         // bring in the sdf we want the pixels to draw around
         float d = sdEquilateralTriangle(uv, fract(sin(angle)));
         vec3 color = palette(length(l_uv) + sin(angle));
-        final = mix(color, final, smoothstep(0.0, 0.02, fract(d)));
+        final = mix(color, final, smoothstep(0.0, 0.015, fract(d)));
     }
    
     gl_FragColor = vec4(final, 1.0);
