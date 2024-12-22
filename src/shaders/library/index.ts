@@ -7,6 +7,7 @@ import psychedellicVisuals1 from './psychedellic-visual-experiment-1/fragment.gl
 import textures1 from './texture-techniques-1/fragment.glsl';
 import theVoid from './the-void/fragment.glsl';
 import fbmFractals from './fbm-fractals/fragment.glsl';
+import pong from './pong/fragment.glsl';
 
 const base: Shader = {
     fragment: ``,
@@ -45,5 +46,9 @@ export const shaders: Record<string, Shader> = {
     "fbm-fractals": {
         ...base,
         fragment: fbmFractals,
+    },
+    "pong": {
+        ...base,
+        fragment: pong,
     }
 };
