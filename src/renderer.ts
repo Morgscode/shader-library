@@ -69,6 +69,12 @@ export default class Renderer {
         this.material.uniforms.u_mousepos.value.set(pageX, pageY);
     }
 
+    setTouchPosition(e: TouchEvent) {
+        const [touch] = e.touches;
+        const {pageX, pageY} = touch;
+        this.material.uniforms.u_mousepos.value.set(pageX, pageY);
+    }
+
     protected initUniforms() {
         return {
             u_time: new THREE.Uniform(0.0),
