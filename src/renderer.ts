@@ -47,6 +47,7 @@ export default class Renderer {
         if (!this.htmlDomElement) throw new Error('Renderer initiated without a DOM Element');
         this.htmlDomElement.appendChild(this.threejs.domElement);
         window.addEventListener('resize', (e) => this.resize(e));
+        window.addEventListener('mousemove', (e) => this.setMousePosition(e));
         this.initShader();
         if (this.geometry) {
             this.initGeometry(this.geometry);
@@ -63,9 +64,15 @@ export default class Renderer {
         this.threejs.setSize(window.innerWidth, window.innerHeight);
     }
 
+    setMousePosition(e: MouseEvent) {
+        const { pageX, pageY} = e;
+        this.material.uniforms.u_mousepos.value.set(pageX, pageY);
+    }
+
     protected initUniforms() {
         return {
             u_time: new THREE.Uniform(0.0),
+            u_mousepos: new THREE.Uniform(new THREE.Vector2(0.0, 0.0)),
             u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
             u_texturemap: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(new THREE.Vector3(0.0, 0.0, 0.0)),
             u_specmap: this.cubeTexture ? new THREE.Uniform(this.loadCubeTexture()) : new THREE.Uniform(new THREE.Vector3(0.0, 0.0, 0.0)),
