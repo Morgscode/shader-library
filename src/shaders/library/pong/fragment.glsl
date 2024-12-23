@@ -18,6 +18,7 @@ void main()
     vec3 color = vec3(0.3, 0.5, 0.9);
     float top_max = (u_resolution.y / 2.0) - 50.0;
     float bottom_min = -(u_resolution.y / 2.0) + 50.0;
+    float paddle_x_offset = u_resolution.x / 2.0 - 50.0;
     
     // left paddle
     {
@@ -28,13 +29,13 @@ void main()
         if (y_offset < bottom_min) {
             y_offset = bottom_min;
         }
-        float d = sdBox(l_uv + vec2((u_resolution.x / 2.0 - 50.0), -y_offset), vec2(10.0, 50.0));
+        float d = sdBox(l_uv + vec2(paddle_x_offset, -y_offset), vec2(10.0, 50.0));
         color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
     }
 
     // right paddle
     {
-        float d = sdBox(r_uv + vec2(-(u_resolution.x / 2.0 - 50.0), 0.0), vec2(10.0, 50.0));
+        float d = sdBox(r_uv + vec2(-(paddle_x_offset), 0.0), vec2(10.0, 50.0));
         color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
     }
 
