@@ -17,7 +17,7 @@ void main()
     vec2 r_uv = pixel_coords;
     vec3 color = vec3(0.3, 0.5, 0.9);
     float top_max = (u_resolution.y / 2.0) - 50.0;
-    float bottom_max = u_resolution.y - 50.0;
+    float bottom_min = -(u_resolution.y / 2.0) + 50.0;
     
     // left paddle
     {
@@ -25,8 +25,8 @@ void main()
         if (y_offset > top_max) {
             y_offset = top_max;
         }
-        if (y_offset > bottom_max) {
-            y_offset = bottom_max;
+        if (y_offset < bottom_min) {
+            y_offset = bottom_min;
         }
         float d = sdBox(l_uv + vec2((u_resolution.x / 2.0 - 50.0), -y_offset), vec2(10.0, 50.0));
         color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
