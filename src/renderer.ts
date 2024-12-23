@@ -65,7 +65,7 @@ export default class Renderer {
     }
 
     setMousePosition(e: MouseEvent) {
-        const { pageX, pageY} = e;
+        const { pageX, pageY } = e;
         this.material.uniforms.u_mousepos.value.set(pageX, pageY);
     }
 
