@@ -133,7 +133,7 @@ float easeOut(float x, float p) {
 
 // sun && moon cycle
 void main() {
-    vec2 pixel_coords = v_uv * u_resolution;
+    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     float time = mod(u_time + 8.0, DAY_LENGTH);
     vec3 color = draw_bg(time);
 
