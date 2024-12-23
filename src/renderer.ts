@@ -48,6 +48,7 @@ export default class Renderer {
         this.htmlDomElement.appendChild(this.threejs.domElement);
         window.addEventListener('resize', (e) => this.resize(e));
         window.addEventListener('mousemove', (e) => this.setMousePosition(e));
+        window.addEventListener('touchmove', (e) => this.setTouchPosition(e));
         this.initShader();
         if (this.geometry) {
             this.initGeometry(this.geometry);
