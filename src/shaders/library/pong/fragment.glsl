@@ -13,29 +13,30 @@ float sdBox( in vec2 p, in vec2 b )
 void main() 
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-    vec2 l_uv = pixel_coords;
-    vec2 r_uv = pixel_coords;
     vec3 color = vec3(0.3, 0.5, 0.9);
-    float top_max = (u_resolution.y / 2.0) - 50.0;
-    float bottom_min = -(u_resolution.y / 2.0) + 50.0;
+    vec2 paddle_size = vec2(10.0, 50.0);
+    float paddle_top_max = (u_resolution.y / 2.0) - 50.0;
+    float paddle_bottom_min = -(u_resolution.y / 2.0) + 50.0;
     float paddle_x_offset = u_resolution.x / 2.0 - 50.0;
     
     // left paddle
     {
+        // we need to normalize the mouse/touch position to the paddle position
         float y_offset = u_resolution.y / 2.0 - u_mousepos.y;
-        if (y_offset > top_max) {
-            y_offset = top_max;
+        // prevent paddle overflow to the top and bottom
+        if (y_offset > paddle_top_max) {
+            y_offset = paddle_top_max;
         }
-        if (y_offset < bottom_min) {
-            y_offset = bottom_min;
+        if (y_offset < paddle_bottom_min) {
+            y_offset = paddle_bottom_min;
         }
-        float d = sdBox(l_uv + vec2(paddle_x_offset, -y_offset), vec2(10.0, 50.0));
+        float d = sdBox(pixel_coords + vec2(paddle_x_offset, -y_offset), paddle_size);
         color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
     }
 
     // right paddle
     {
-        float d = sdBox(r_uv + vec2(-(paddle_x_offset), 0.0), vec2(10.0, 50.0));
+        float d = sdBox(pixel_coords + vec2(-(paddle_x_offset), 0.0), paddle_size);
         color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
     }
 
