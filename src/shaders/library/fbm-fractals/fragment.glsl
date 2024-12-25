@@ -123,7 +123,7 @@ void main()
         vec3(pixel_coords, angle) * 0.005, 
         4, 
         0.5, 
-        clamp(u_time, -1.0, 1.0)
+        sin(angle)
     );
     vec3 color = palette(angle + noise_sample);
     color = fractals(angle, color, noise_sample);
