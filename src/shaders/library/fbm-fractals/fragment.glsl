@@ -96,7 +96,7 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
 
 vec3 fractals(float angle, vec3 color, float noise_val) 
 {
-    //  center our uvs
+    // center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;
     // make it responsive to the current screen size
     uv.x *= u_resolution.x / u_resolution.y;
