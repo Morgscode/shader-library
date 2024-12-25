@@ -13,15 +13,15 @@ float sdBox( in vec2 p, in vec2 b )
 void main() 
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-    vec3 color = vec3(0.3, 0.5, 0.9);
     vec2 paddle_size = vec2(10.0, 50.0);
     float paddle_top_max = (u_resolution.y / 2.0) - 50.0;
     float paddle_bottom_min = -(u_resolution.y / 2.0) + 50.0;
     float paddle_x_offset = u_resolution.x / 2.0 - 50.0;
+    vec3 color = vec3(0.3, 0.5, 0.9);
     
     // left paddle
     {
-        // we need to normalize the mouse/touch position to the paddle position
+        // normalize the mouse/touch position to the paddle position
         float y_offset = u_resolution.y / 2.0 - u_mousepos.y;
         // prevent paddle overflow to the top and bottom
         if (y_offset > paddle_top_max) {
