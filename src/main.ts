@@ -66,10 +66,8 @@ window.addEventListener('load', () => {
             }
 
             window.addEventListener("message", (e: MessageEvent) => {
-                if (e.data.source) return;
                 const event = e.data.type;
                 if (event === "ShaderUpdate") {
-                    console.log("runs");
                     (renderer as Renderer).setFragmentShader(e.data.data);
                 }
             });
