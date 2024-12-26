@@ -51,13 +51,12 @@ void main()
         uv = (fract(uv * 2.0) - 0.5) * 1.1;
         uv = abs(uv);
         uv *= rotate2d(sin(angle));
-        vec3 color = palette(length(l_uv) + angle);
 
+        vec3 color = palette(length(l_uv) + angle);
         // this is the length we'll pass to any sdf
         float l =  length(uv) * exp(-length(l_uv));
         // any sdf can go here
         float d = sdVesica(l_uv, l, i);
-
         // smooth out the visuals
         d = sin(d * 4.0 + i + angle) / 4.0;
         d = sin(abs(d));
