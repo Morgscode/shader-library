@@ -3,7 +3,7 @@ import baseVertex from '../base-vertex.glsl';
 import proceduralGeometry1 from './procedural-geometry-1/fragment.glsl';
 import pixelart from './procedural-pixelart/fragment.glsl';
 import horizontalSinWave from './horizontal-sinwave/fragment.glsl';
-import psychedellicVisuals1 from './psychedellic-visual-experiment-1/fragment.glsl';
+import psychedellicVisuals1 from './psychedellic-visuals-1/fragment.glsl';
 import textures1 from './texture-techniques-1/fragment.glsl';
 import theVoid from './the-void/fragment.glsl';
 import fbmFractals from './fbm-fractals/fragment.glsl';
@@ -63,6 +63,7 @@ export const shaders: Record<string, Shader> = {
     },
     "pong": {
         ...base,
+        title: "Pong",
         fragment: pong,
     }
 };

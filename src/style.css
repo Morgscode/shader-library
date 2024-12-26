@@ -76,6 +76,11 @@ header.site-header {
   background-color: rgb(220, 221, 225);
 }
 
+header.site-header a {
+  color: #222222;
+  text-decoration: none;
+}
+
 #preview {
   position: sticky;
   top: 0;
@@ -100,6 +105,11 @@ header.site-header {
 
   header.site-header {
     background-color: rgb(50, 50, 50);
+  }
+
+  header.site-header a {
+    color: #ededed;
+    text-decoration: none;
   }
 
   ul.shader-list li {
