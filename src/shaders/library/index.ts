@@ -11,6 +11,7 @@ import pong from './pong/fragment.glsl';
 import proceduralGeometry2 from './procedural-geometry-2/fragment.glsl';
 
 const base: Shader = {
+    title: '',
     fragment: ``,
     vertex: baseVertex,
     cameraType: "orthographic",
@@ -21,35 +22,43 @@ const base: Shader = {
 export const shaders: Record<string, Shader> = {
     "procedural-equilateral-triangle-pixel-art": {
         ...base,
+        title: "Procedural pixel art",
         fragment: pixelart,
     },
     "procedural-geometry-1": {
         ...base,
+        title: "Procedural geometry #1",
         fragment: proceduralGeometry1,
     },
     "procedural-geometry-2": {
         ...base,
+        title: "Procedural geometry #2",
         fragment: proceduralGeometry2,
     },
     "progressive-horizontal-sinwave": {
         ...base,
+        title: "Horizontal sinwave (130 BPM)",
         fragment: horizontalSinWave,
     },
     "psychedellic-visuals-1": {
         ...base,
+        title: "Psychedellic visuals #1",
         fragment: psychedellicVisuals1,
     },
     "the-void": {
         ...base,
+        title: "The Void",
         fragment: theVoid,
     },
     "texture-techniques-1": {
         ...base,
+        title: "Texture techniques #1",
         fragment: textures1,
         texture: './assets/images/galactic-core.webp',
     },
     "fbm-fractals": {
         ...base,
+        title: "Fractals with FBM",
         fragment: fbmFractals,
     },
     "pong": {

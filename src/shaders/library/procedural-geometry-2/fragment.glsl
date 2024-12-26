@@ -1,5 +1,5 @@
 #define PI 3.1415926535
-#define BPM 130.0
+#define BPM 135.0
 
 varying vec2 v_uv;
 
