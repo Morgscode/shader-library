@@ -7,6 +7,8 @@ import Renderer from "./renderer";
 import * as shaders from './shaders';
 import './style.css';
 
+let renderer: Renderer | null = null;
+
 window.addEventListener('load', () => {
     if (window.location.search) {
         const search = new URLSearchParams(window.location.search);
@@ -19,7 +21,8 @@ window.addEventListener('load', () => {
             const shaderEl = document.querySelector('div#shader') as HTMLDivElement;
             if (shaderEl) {
                 if (shader) {
-                    new Renderer(shader).render();
+                    renderer = new Renderer(shader);
+                    renderer.render();
                 }
             }
 
@@ -31,19 +34,17 @@ window.addEventListener('load', () => {
 
                 const editorEl = document.querySelector('div#editor') as HTMLDivElement;
                 if (editorEl) {
-
                     const updateListener = EditorView.updateListener.of((update) => {
                         if (update.docChanged) {
                             if (previewEl) {
                                 const fragment = update.state.doc.toString();
                                 previewEl.contentWindow?.postMessage({
                                     type: "ShaderUpdate",
-                                    data: fragment
+                                    fragment,
                                 });
                             }
                         }
                     });
-
                     new EditorView({
                         extensions: [basicSetup, dracula, cpp(), updateListener],
                         parent: editorEl,
@@ -63,13 +64,9 @@ window.addEventListener('load', () => {
             }
 
             window.addEventListener("message", (e: MessageEvent) => {
-                if (e.data.source) return;
                 const event = e.data.type;
-                if (event === "ShaderUpdate") {
-                    shaderEl.innerHTML = '';
-                    const fragment = e.data.data;
-                    const updated = { ...shader, fragment };
-                    new Renderer(updated).render();
+                if (event === "ShaderUpdate" && renderer instanceof Renderer) {
+                    renderer.setFragmentShader(e.data.fragment);
                 }
             });
         }

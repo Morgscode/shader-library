@@ -72,8 +72,14 @@ export default class Renderer {
 
     setTouchPosition(e: TouchEvent) {
         const [touch] = e.touches;
-        const {pageX, pageY} = touch;
+        const { pageX, pageY } = touch;
         this.material.uniforms.u_mousepos.value.set(pageX, pageY);
+    }
+
+    setFragmentShader(fsh: string) {
+        this.fsh = fsh;
+        this.material.fragmentShader = fsh;
+        this.material.needsUpdate = true;
     }
 
     protected initUniforms() {
