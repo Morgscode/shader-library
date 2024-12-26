@@ -3,16 +3,16 @@
 
 varying vec2 v_uv;
 
-uniform float u_time;
 uniform vec2 u_resolution;
+uniform float u_time;
 
 // https://github.com/Erkaman/glsl-cos-palette
 vec3 palette(float t) 
 {
-        vec3 a = vec3(0.8, 0.3, 0.2);
-        vec3 b = vec3(0.6, 0.4, 0.8);
-        vec3 c = vec3(0.6, 0.3, 0.2);
-        vec3 d = vec3(2.9, 3.02, -0.27);
+        vec3 a = vec3(0.5, 0.5, 0.5);
+        vec3 b = vec3(0.5, 0.5, 0.5);
+        vec3 c = vec3(1.0, 1.0, 1.0);
+        vec3 d = vec3(0.0, 0.3, 0.6);
 
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
@@ -94,38 +94,50 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
-vec3 fractals(float angle, vec3 color, float noise_val) 
+// https://en.wikipedia.org/wiki/Rotation_matrix
+mat2 rotate2d(float angle)
 {
-    // center our uvs
-    vec2 uv = v_uv * 2.0 - 1.0;
-    // make it responsive to the current screen size
-    uv.x *= u_resolution.x / u_resolution.y;
-    // start the fractal process
-    for (float i = 0.0; i < 64.0; i += 1.0) {
-        uv = abs(uv);
-        uv -= 0.5;
-        uv *= 1.1;
-        uv *= mat2(
-            cos(angle), -sin(angle),
-            sin(angle), cos(angle)
-        );
-        // add noise
-        uv += noise_val;
-    }
-    return vec3(color / PI * length(uv));
+    return mat2(
+        cos(angle), -sin(angle),
+        sin(angle), cos(angle)
+    );
+}
+
+// https://iquilezles.org/articles/distfunctions2d/
+float sdHexagon( in vec2 p, in float r )
+{
+    const vec3 k = vec3(-0.866025404,0.5,0.577350269);
+    p = abs(p);
+    p -= 2.0*min(dot(k.xy,p),0.0)*k.xy;
+    p -= vec2(clamp(p.x, -k.z*r, k.z*r), r);
+    return length(p)*sign(p.y);
 }
 
 void main() 
 {
-    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-    float angle = u_time / (BPM * 0.1);
-    float noise_sample = fbm(
-        vec3(pixel_coords, angle) * 0.005, 
-        4, 
-        0.5, 
-        sin(angle)
-    );
-    vec3 color = palette(angle + noise_sample);
-    color = fractals(angle, color, noise_sample);
-    gl_FragColor = vec4(color, 1.0);
+    vec2 uv = v_uv * 2.0 - 1.0;
+    uv.x *= u_resolution.x/u_resolution.y;  
+    vec2 l_uv = uv; 
+    vec3 final = vec3(0.0);
+    float angle = u_time / (BPM * 0.01);
+    float noise_sample = fbm(vec3(l_uv, angle) * 0.005, 2, 0.5, sin(angle));
+    
+    for (float i = 0.0; i < 3.0; i += 1.0)
+    {
+        uv = fract(uv * 2.0) - 0.5;
+        uv = abs(uv);
+        uv *= -rotate2d(angle + noise_sample);
+        uv += noise_sample;
+
+        vec3 color = palette(length(uv) + angle);
+        float l = length(uv) * exp(-length(l_uv));
+        float d = sdHexagon(uv, l);
+        d = sin(d * 8.0 + angle) / 4.0;
+        d = abs(d);
+        d = mod(0.01 / d, 2.0);
+
+        final += color * d;
+    }
+
+    gl_FragColor = vec4(final, 1.0);
 }

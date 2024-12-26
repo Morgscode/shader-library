@@ -46,12 +46,14 @@ void main()
     // overall speed of the animation - tweaked to bpm
     float angle = u_time + BPM;
 
-    for (float i = 0.0; i < 3.0; i += 1.0) {
+    for (float i = 0.0; i < 3.0; i += 1.0) 
+    {
         // scale, fract and then recenter the uv coords
         uv = (fract(uv * 2.0) - 0.5) * 1.1;
+        uv = abs(uv);
         // begin rotating 
         uv *= rotate2d(sin(angle));
-        vec3 color = palette(length(l_uv) + i + angle);
+        vec3 color = palette(length(l_uv) + angle);
 
         // this is the length we'll pass to any sdf
         float l =  length(uv) * exp(-length(l_uv));

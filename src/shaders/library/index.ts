@@ -1,6 +1,6 @@
 import type { Shader } from '../';
 import baseVertex from '../base-vertex.glsl';
-import vesica from './procedural-vesica-geometry/fragment.glsl';
+import proceduralGeometry1 from './procedural-geometry-1/fragment.glsl';
 import pixelart from './procedural-pixelart/fragment.glsl';
 import horizontalSinWave from './horizontal-sinwave/fragment.glsl';
 import psychedellicVisuals1 from './psychedellic-visual-experiment-1/fragment.glsl';
@@ -8,6 +8,7 @@ import textures1 from './texture-techniques-1/fragment.glsl';
 import theVoid from './the-void/fragment.glsl';
 import fbmFractals from './fbm-fractals/fragment.glsl';
 import pong from './pong/fragment.glsl';
+import proceduralGeometry2 from './procedural-geometry-2/fragment.glsl';
 
 const base: Shader = {
     fragment: ``,
@@ -22,9 +23,13 @@ export const shaders: Record<string, Shader> = {
         ...base,
         fragment: pixelart,
     },
-    "procedural-vesica-geometry": {
+    "procedural-geometry-1": {
         ...base,
-        fragment: vesica,
+        fragment: proceduralGeometry1,
+    },
+    "procedural-geometry-2": {
+        ...base,
+        fragment: proceduralGeometry2,
     },
     "progressive-horizontal-sinwave": {
         ...base,
