@@ -17,7 +17,3 @@ window.addEventListener('load', () => {
         }
     }
 });
-
-// const shader = shaders["landscape"];
-// const renderer = new Renderer(shader);
-// renderer.render();
