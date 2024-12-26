@@ -13,6 +13,7 @@ export default defineConfig({
   plugins: [
     glsl({
       include: ["./src/shaders/**/*.glsl"],
+      compress: false,
     }),
   ],
 });
