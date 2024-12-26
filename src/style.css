@@ -1,4 +1,4 @@
-/* layout */
+/* base */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -83,12 +83,13 @@ header.site-header a {
 
 #preview {
   position: sticky;
-  top: 0;
+  top: 1rem;
   z-index: 100;
 }
 
 #preview iframe {
-  margin: 0 auto;
+  width: 350px;
+  margin-left: auto;
 }
 
 #editor {
