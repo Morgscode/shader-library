@@ -56,6 +56,9 @@ ul.shader-list li {
 }
 
 ul.shader-list li iframe {
+  width: 600px;
+  aspect-ratio: 16/9;
+  max-width: 100%;
   display: block;
   margin-bottom: 1rem;
 }
