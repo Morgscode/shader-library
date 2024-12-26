@@ -4,6 +4,7 @@ export type CameraType = "orthographic" | "perspective";
 export type GeometryOption = undefined | "plane" | "box" | "icosahedrone";
 
 export type Shader = {
+    title: string;
     vertex: string;
     fragment: string;
     cameraType: CameraType;

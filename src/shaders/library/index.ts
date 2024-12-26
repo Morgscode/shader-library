@@ -3,7 +3,7 @@ import baseVertex from '../base-vertex.glsl';
 import proceduralGeometry1 from './procedural-geometry-1/fragment.glsl';
 import pixelart from './procedural-pixelart/fragment.glsl';
 import horizontalSinWave from './horizontal-sinwave/fragment.glsl';
-import psychedellicVisuals1 from './psychedellic-visual-experiment-1/fragment.glsl';
+import psychedellicVisuals1 from './psychedellic-visuals-1/fragment.glsl';
 import textures1 from './texture-techniques-1/fragment.glsl';
 import theVoid from './the-void/fragment.glsl';
 import fbmFractals from './fbm-fractals/fragment.glsl';
@@ -11,6 +11,7 @@ import pong from './pong/fragment.glsl';
 import proceduralGeometry2 from './procedural-geometry-2/fragment.glsl';
 
 const base: Shader = {
+    title: '',
     fragment: ``,
     vertex: baseVertex,
     cameraType: "orthographic",
@@ -21,39 +22,48 @@ const base: Shader = {
 export const shaders: Record<string, Shader> = {
     "procedural-equilateral-triangle-pixel-art": {
         ...base,
+        title: "Procedural pixel art",
         fragment: pixelart,
     },
     "procedural-geometry-1": {
         ...base,
+        title: "Procedural geometry #1",
         fragment: proceduralGeometry1,
     },
     "procedural-geometry-2": {
         ...base,
+        title: "Procedural geometry #2",
         fragment: proceduralGeometry2,
     },
     "progressive-horizontal-sinwave": {
         ...base,
+        title: "Horizontal sinwave (130 BPM)",
         fragment: horizontalSinWave,
     },
     "psychedellic-visuals-1": {
         ...base,
+        title: "Psychedellic visuals #1",
         fragment: psychedellicVisuals1,
     },
     "the-void": {
         ...base,
+        title: "The Void",
         fragment: theVoid,
     },
     "texture-techniques-1": {
         ...base,
+        title: "Texture techniques #1",
         fragment: textures1,
         texture: './assets/images/galactic-core.webp',
     },
     "fbm-fractals": {
         ...base,
+        title: "Fractals with FBM",
         fragment: fbmFractals,
     },
     "pong": {
         ...base,
+        title: "Pong",
         fragment: pong,
     }
 };

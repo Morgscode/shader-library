@@ -1,3 +1,5 @@
+/* layout */
+
 *, *::before, *::after {
   box-sizing: border-box;
   padding: 0px;
@@ -10,9 +12,18 @@ body {
   line-height: 1;
   color: #222222;
   background-color: #F9F9F9;
+  position: relative;
 }
 
+body#shader-page {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* elements */
+
 section {
+  position: relative;
   padding: 3rem 1rem;
 }
 
@@ -44,18 +55,13 @@ ul, ol {
   list-style-position: inside;
 }
 
-.site-header {
-  padding: 1rem;
-  background-color: rgb(220, 221, 225);
-}
-
 ul.shader-list li {
   padding: 1.5rem 0;
   list-style: none;
   border-bottom: 2px solid rgb(220, 221, 225, 0.75);
 }
 
-ul.shader-list li iframe {
+iframe {
   width: 600px;
   aspect-ratio: 16/9;
   max-width: 100%;
@@ -63,10 +69,33 @@ ul.shader-list li iframe {
   margin-bottom: 1rem;
 }
 
-body#shader-page {
-  height: 100vh;
-  overflow: hidden;
+/* components */
+
+header.site-header {
+  padding: 1rem;
+  background-color: rgb(220, 221, 225);
 }
+
+header.site-header a {
+  color: #222222;
+  text-decoration: none;
+}
+
+#preview {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+#preview iframe {
+  margin: 0 auto;
+}
+
+#editor {
+  margin-top: 3rem;
+}
+
+/* media queries */
 
 @media (prefers-color-scheme: dark) {
   body {
@@ -74,8 +103,13 @@ body#shader-page {
     background-color: #121212;
   }
 
-  .site-header {
+  header.site-header {
     background-color: rgb(50, 50, 50);
+  }
+
+  header.site-header a {
+    color: #ededed;
+    text-decoration: none;
   }
 
   ul.shader-list li {
