@@ -48,10 +48,8 @@ void main()
 
     for (float i = 0.0; i < 3.0; i += 1.0) 
     {
-        // scale, fract and then recenter the uv coords
         uv = (fract(uv * 2.0) - 0.5) * 1.1;
         uv = abs(uv);
-        // begin rotating 
         uv *= rotate2d(sin(angle));
         vec3 color = palette(length(l_uv) + angle);
 

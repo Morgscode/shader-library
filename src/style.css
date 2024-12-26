@@ -67,3 +67,18 @@ body#shader-page {
   height: 100vh;
   overflow: hidden;
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #EDEDED;
+    background-color: #121212;
+  }
+
+  .site-header {
+    background-color: rgb(50, 50, 50);
+  }
+
+  ul.shader-list li {
+    border-bottom: 2px solid rgba(50, 50, 50, 0.75);
+  }
+}
