@@ -34,19 +34,17 @@ window.addEventListener('load', () => {
 
                 const editorEl = document.querySelector('div#editor') as HTMLDivElement;
                 if (editorEl) {
-
                     const updateListener = EditorView.updateListener.of((update) => {
                         if (update.docChanged) {
                             if (previewEl) {
                                 const fragment = update.state.doc.toString();
                                 previewEl.contentWindow?.postMessage({
                                     type: "ShaderUpdate",
-                                    data: fragment
+                                    fragment,
                                 });
                             }
                         }
                     });
-
                     new EditorView({
                         extensions: [basicSetup, dracula, cpp(), updateListener],
                         parent: editorEl,
@@ -67,8 +65,8 @@ window.addEventListener('load', () => {
 
             window.addEventListener("message", (e: MessageEvent) => {
                 const event = e.data.type;
-                if (event === "ShaderUpdate") {
-                    (renderer as Renderer).setFragmentShader(e.data.data);
+                if (event === "ShaderUpdate" && renderer instanceof Renderer) {
+                    renderer.setFragmentShader(e.data.fragment);
                 }
             });
         }
