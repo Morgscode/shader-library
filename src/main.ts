@@ -35,9 +35,6 @@ window.addEventListener('load', () => {
                         parent: editorEl,
                         doc: shader.fragment,
                     });
-                    EditorView.updateListener.of((v) => {
-                        console.log(v);
-                    });
                 }
     
                 const titleEl = document.querySelector('h2#shader-name');
