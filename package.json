@@ -16,8 +16,10 @@
     "vite-plugin-markdown": "^2.2.0"
   },
   "dependencies": {
+    "@codemirror/lang-cpp": "^6.0.2",
     "codemirror": "^6.0.1",
     "showdown": "^2.1.0",
+    "thememirror": "^2.0.1",
     "three": "^0.169.0"
   }
 }

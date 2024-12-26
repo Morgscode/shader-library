@@ -1,4 +1,6 @@
-import { EditorView, basicSetup } from "codemirror"
+import { EditorView, basicSetup } from "codemirror";
+import {dracula} from 'thememirror';
+import {cpp} from "@codemirror/lang-cpp"
 import Renderer from "./renderer";
 import * as shaders from './shaders';
 import './style.css';
@@ -29,7 +31,7 @@ window.addEventListener('load', () => {
                 const editorEl = document.querySelector('div#editor') as HTMLDivElement;
                 if (editorEl) {
                     new EditorView({
-                        extensions: [basicSetup],
+                        extensions: [basicSetup, dracula, cpp()],
                         parent: editorEl,
                         doc: shader.fragment,
                     });
