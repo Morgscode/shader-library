@@ -82,9 +82,11 @@ header.site-header a {
 }
 
 #preview {
+  display: inline-block;
   position: sticky;
   top: 1rem;
   z-index: 100;
+  left: 100%;
 }
 
 #preview iframe {
@@ -94,6 +96,18 @@ header.site-header a {
 
 #editor {
   margin-top: 3rem;
+}
+
+@media only screen and (min-width: 1280px) {
+  #preview iframe {
+    width: 650px;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  #preview iframe {
+    width: 850px;
+  }
 }
 
 /* media queries */
