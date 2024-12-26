@@ -6,7 +6,7 @@ uniform vec2 u_resolution;
 
 varying vec2 v_uv;
 
-// https://iquilezles.org/articles/distfunctions2d/
+/// https://iquilezles.org/articles/distfunctions2d/
 float sdVesica(vec2 p, float r, float d)
 {
     p = abs(p);
@@ -15,7 +15,7 @@ float sdVesica(vec2 p, float r, float d)
                              : length(p-vec2(-d,0.0))-r;
 }
 
-// https://github.com/Erkaman/glsl-cos-palette
+/// https://github.com/Erkaman/glsl-cos-palette
 vec3 palette(float t) 
 {
         vec3 a = vec3(0.8, 0.3, 0.2);
@@ -26,7 +26,7 @@ vec3 palette(float t)
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
 
-// https://en.wikipedia.org/wiki/Rotation_matrix
+/// https://en.wikipedia.org/wiki/Rotation_matrix
 mat2 rotate2d(float p) 
 {
     return mat2(
@@ -37,13 +37,13 @@ mat2 rotate2d(float p)
 
 void main() 
 {
-    // center our uvs
+    /// center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
-    // store ref of original centered uvs
+    /// store ref of original centered uvs
     vec2 l_uv = uv;
     vec3 final = vec3(0.0);
-    // overall speed of the animation - tweaked to bpm
+    /// overall speed of the animation - tweaked to bpm
     float angle = u_time + BPM;
 
     for (float i = 0.0; i < 3.0; i += 1.0) 
@@ -53,11 +53,11 @@ void main()
         uv *= rotate2d(sin(angle));
 
         vec3 color = palette(length(l_uv) + angle);
-        // this is the length we'll pass to any sdf
+        /// this is the length we'll pass to any sdf
         float l =  length(uv) * exp(-length(l_uv));
-        // any sdf can go here
+        /// any sdf can go here
         float d = sdVesica(l_uv, l, i);
-        // smooth out the visuals
+        /// smooth out the visuals
         d = sin(d * 4.0 + i + angle) / 4.0;
         d = sin(abs(d));
         d = mod(0.01 / d, 1.5);

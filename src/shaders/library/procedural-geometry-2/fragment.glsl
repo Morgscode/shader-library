@@ -6,7 +6,7 @@ varying vec2 v_uv;
 uniform vec2 u_resolution;
 uniform float u_time;
 
-// https://github.com/Erkaman/glsl-cos-palette
+/// https://github.com/Erkaman/glsl-cos-palette
 vec3 palette(float t) 
 {
         vec3 a = vec3(0.5, 0.5, 0.5);
@@ -17,14 +17,9 @@ vec3 palette(float t)
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
 
-// The MIT License
-// Copyright © 2013 Inigo Quilez
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-// https://www.youtube.com/c/InigoQuilez
-// https://iquilezles.org/
-//
-// https://www.shadertoy.com/view/Xsl3Dl
-vec3 hash( vec3 p ) // replace this by something better
+/// https://iquilezles.org/
+/// https://www.shadertoy.com/view/Xsl3Dl
+vec3 hash( vec3 p )
 {
 	p = vec3( 
         dot(p, vec3(127.1,311.7, 74.7)),
@@ -35,7 +30,7 @@ vec3 hash( vec3 p ) // replace this by something better
 	return - 1.0 + 2.0 * fract(sin(p) * 43758.5453123);
 }
 
-// https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
+/// https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
 float noise( in vec3 p )
 {
     vec3 i = floor(p);
@@ -73,7 +68,7 @@ float noise( in vec3 p )
     );
 }
 
-// https://www.shadertoy.com/view/ss2cDK
+/// https://www.shadertoy.com/view/ss2cDK
 float fbm(vec3 p, int octaves, float persistence, float lacunarity) 
 {
   float amplitude = 0.5;
@@ -94,7 +89,7 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
-// https://en.wikipedia.org/wiki/Rotation_matrix
+/// https://en.wikipedia.org/wiki/Rotation_matrix
 mat2 rotate2d(float angle)
 {
     return mat2(
@@ -103,7 +98,7 @@ mat2 rotate2d(float angle)
     );
 }
 
-// https://iquilezles.org/articles/distfunctions2d/
+/// https://iquilezles.org/articles/distfunctions2d/
 float sdHexagon( in vec2 p, in float r )
 {
     const vec3 k = vec3(-0.866025404,0.5,0.577350269);

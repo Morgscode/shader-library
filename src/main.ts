@@ -1,6 +1,8 @@
-import { EditorView, basicSetup } from "codemirror";
-import {dracula} from 'thememirror';
-import {cpp} from "@codemirror/lang-cpp"
+import {
+    EditorView, basicSetup
+} from "codemirror";
+import { dracula } from 'thememirror';
+import { cpp } from "@codemirror/lang-cpp"
 import Renderer from "./renderer";
 import * as shaders from './shaders';
 import './style.css';
@@ -17,8 +19,7 @@ window.addEventListener('load', () => {
             const shaderEl = document.querySelector('div#shader') as HTMLDivElement;
             if (shaderEl) {
                 if (shader) {
-                    const renderer = new Renderer(shader);
-                    renderer.render();
+                    new Renderer(shader).render();
                 }
             }
 
@@ -30,13 +31,26 @@ window.addEventListener('load', () => {
 
                 const editorEl = document.querySelector('div#editor') as HTMLDivElement;
                 if (editorEl) {
+
+                    const updateListener = EditorView.updateListener.of((update) => {
+                        if (update.docChanged) {
+                            if (previewEl) {
+                                const fragment = update.state.doc.toString();
+                                previewEl.contentWindow?.postMessage({
+                                    type: "ShaderUpdate",
+                                    data: fragment
+                                });
+                            }
+                        }
+                    });
+
                     new EditorView({
-                        extensions: [basicSetup, dracula, cpp()],
+                        extensions: [basicSetup, dracula, cpp(), updateListener],
                         parent: editorEl,
                         doc: shader.fragment,
                     });
                 }
-    
+
                 const titleEl = document.querySelector('h2#shader-name');
                 if (titleEl) {
                     titleEl.textContent = shader.title;
@@ -47,6 +61,17 @@ window.addEventListener('load', () => {
                     linkEl.href = path;
                 }
             }
+
+            window.addEventListener("message", (e: MessageEvent) => {
+                if (e.data.source) return;
+                const event = e.data.type;
+                if (event === "ShaderUpdate") {
+                    shaderEl.innerHTML = '';
+                    const fragment = e.data.data;
+                    const updated = { ...shader, fragment };
+                    new Renderer(updated).render();
+                }
+            });
         }
     }
 });

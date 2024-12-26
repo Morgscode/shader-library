@@ -6,7 +6,7 @@ uniform vec2 u_resolution;
 
 varying vec2 v_uv;
 
-// https://iquilezles.org/articles/distfunctions2d/
+/// https://iquilezles.org/articles/distfunctions2d/
 float sdEquilateralTriangle( in vec2 p, in float r )
 {
     const float k = sqrt(3.0);
@@ -17,7 +17,7 @@ float sdEquilateralTriangle( in vec2 p, in float r )
     return -length(p)*sign(p.y);
 }
 
-// https://github.com/Erkaman/glsl-cos-palette
+/// https://github.com/Erkaman/glsl-cos-palette
 vec3 palette(float t) 
 {
         vec3 a = vec3(0.8, 0.3, 0.2);
@@ -28,7 +28,7 @@ vec3 palette(float t)
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
 
-// https://en.wikipedia.org/wiki/Rotation_matrix
+/// https://en.wikipedia.org/wiki/Rotation_matrix
 mat2 rotate2d(float p) 
 {
     return mat2(
@@ -39,21 +39,21 @@ mat2 rotate2d(float p)
 
 void main() 
 {
-    // get responsive pixel coords for screen
+    /// get responsive pixel coords for screen
     vec2 pixel_cords = (v_uv - 0.5) * u_resolution;
-    // bg color
+    /// bg color
     vec3 final = vec3(0.0);
-    // store local ref to uv cords for screen
+    /// store local ref to uv cords for screen
     vec2 l_uv = v_uv * 2.0 - 1.0;
     l_uv.x *= u_resolution.x / u_resolution.y;
     float angle = u_time / (BPM * 0.1);
 
     for (float i = 0.0; i < 3.0; i += 1.0) {
-        // scale the absolute values from pixel cords, fract, center them and scale again
+        /// scale the absolute values from pixel cords, fract, center them and scale again
         vec2 uv = (fract(abs(pixel_cords) * PI) - 0.5) * 1.1;
-        // begin rotation
+        /// begin rotation
         uv *= rotate2d(angle);
-        // bring in the sdf we want the pixels to draw around
+        /// bring in the sdf we want the pixels to draw around
         float d = sdEquilateralTriangle(uv, fract(sin(angle)));
         vec3 color = palette(length(l_uv) + sin(angle));
         final = mix(color, final, smoothstep(0.0, 0.015, fract(d)));

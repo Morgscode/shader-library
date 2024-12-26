@@ -19,11 +19,11 @@ void main()
     float paddle_x_offset = u_resolution.x / 2.0 - 50.0;
     vec3 color = vec3(0.3, 0.5, 0.9);
     
-    // left paddle
+    /// left paddle
     {
-        // normalize the mouse/touch position to the paddle position
+        /// normalize the mouse/touch position to the paddle position
         float y_offset = u_resolution.y / 2.0 - u_mousepos.y;
-        // prevent paddle overflow to the top and bottom
+        /// prevent paddle overflow to the top and bottom
         if (y_offset > paddle_top_max) {
             y_offset = paddle_top_max;
         }
@@ -34,13 +34,13 @@ void main()
         color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
     }
 
-    // right paddle
+    /// right paddle
     {
         float d = sdBox(pixel_coords + vec2(-(paddle_x_offset), 0.0), paddle_size);
         color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
     }
 
-    // ball
+    /// ball
     {
         float d = sdBox(pixel_coords, vec2(10.0, 10.0));
         color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
