@@ -1,8 +1,8 @@
 import {
     EditorView, basicSetup
 } from "codemirror";
+import { cpp } from "@codemirror/lang-cpp";
 import { dracula } from 'thememirror';
-import { cpp } from "@codemirror/lang-cpp"
 import Renderer from "./renderer";
 import * as shaders from './shaders';
 import './style.css';
