@@ -49,6 +49,12 @@ export default class Renderer {
         window.addEventListener('resize', (e) => this.resize(e));
         window.addEventListener('mousemove', (e) => this.setMousePosition(e));
         window.addEventListener('touchmove', (e) => this.setTouchPosition(e));
+        window.addEventListener("message", (e) => {
+            const event = e.data.type;
+            if (event === "ShaderUpdate") {
+                this.setFragmentShader(e.data.fragment);
+            }
+        });
         this.initShader();
         if (this.geometry) {
             this.initGeometry(this.geometry);
