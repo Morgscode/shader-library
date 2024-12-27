@@ -69,6 +69,10 @@ iframe {
   margin-bottom: 1rem;
 }
 
+a {
+  color: #3498db;
+}
+
 /* components */
 
 header.site-header {
