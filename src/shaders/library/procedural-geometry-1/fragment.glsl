@@ -45,7 +45,7 @@ void main()
     vec2 l_uv = uv;
     vec3 final = vec3(0.0);
     /// overall speed of the animation - tweaked to bpm
-    float angle = u_time + BPM;
+    float angle = u_time * (BPM * 0.01);
 
     for (float i = 0.0; i < 3.0; i += 1.0) 
     {
