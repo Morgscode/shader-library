@@ -95,7 +95,7 @@ export default class Renderer {
             u_resolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
             u_texturemap: this.texture ? new THREE.Uniform(this.loadTexture()) : new THREE.Uniform(new THREE.Vector3(0.0, 0.0, 0.0)),
             u_specmap: this.cubeTexture ? new THREE.Uniform(this.loadCubeTexture()) : new THREE.Uniform(new THREE.Vector3(0.0, 0.0, 0.0)),
-            u_tint: new THREE.Uniform(new THREE.Vector4(0.3, 0.5, 0.9, 1.0)),
+            u_tint: new THREE.Uniform(new THREE.Vector4(0.0118, 0.6275, 0.3843, 1.0)),
         };
     }
 

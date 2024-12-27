@@ -10,6 +10,7 @@ import fbmFractals from './fbm-fractals/fragment.glsl';
 import pong from './pong/fragment.glsl';
 import proceduralGeometry2 from './procedural-geometry-2/fragment.glsl';
 import textures2 from './texture-techniques-2/fragment.glsl';
+import textures3 from './texture-techniques-3/fragment.glsl';
 
 const base: Shader = {
     title: '',
@@ -69,8 +70,14 @@ export const shaders: Record<string, Shader> = {
     },
     "texture-techniques-2": {
         ...base, 
-        title: "Texture Techniques 2",
+        title: "Texture techniques #2",
         fragment: textures2,
+        texture: './assets/images/galactic-core.webp',
+    },
+    "texture-techniques-3": {
+        ...base, 
+        title: "Texture techniques #3",
+        fragment: textures3,
         texture: './assets/images/galactic-core.webp',
     }
 };
