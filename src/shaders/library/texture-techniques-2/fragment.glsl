@@ -80,6 +80,7 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
+// https://iquilezles.org/articles/distfunctions2d/
 float sdCircle(vec2 p, float r) {
     return length(p) - r;
 }
