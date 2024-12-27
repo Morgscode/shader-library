@@ -10,5 +10,10 @@ void main()
 { 
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
-    gl_FragColor = vec4(uv.x, smoothstep(0.0, 0.1, sin(uv.x * uv.y * pow(u_time, PI) * 1.30)), uv.y, 1.0);
+    gl_FragColor = vec4(
+        uv.x, 
+        smoothstep(0.0, 0.1, sin(uv.x * uv.y * pow(u_time, PI) * 1.30)), 
+        uv.y, 
+        1.0
+    );
 }
