@@ -47,7 +47,7 @@ void main()
     /// store local ref to uv cords for screen
     vec2 l_uv = v_uv * 2.0 - 1.0;
     l_uv.x *= u_resolution.x / u_resolution.y;
-    float angle = u_time / (BPM * 0.1);
+    float angle = u_time * (BPM * 0.0005);
 
     for (float i = 0.0; i < 3.0; i += 1.0) {
         /// scale the absolute values from pixel cords, fract, center them and scale again
