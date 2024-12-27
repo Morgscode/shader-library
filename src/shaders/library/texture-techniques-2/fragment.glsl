@@ -1,3 +1,6 @@
+#define PI 3.1415926535
+#define BPM 130.0
+
 varying vec2 v_uv;
 
 uniform float u_time;
@@ -82,30 +85,34 @@ float sdCircle(vec2 p, float r) {
 }
 
 void main() {
-  vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-  float noise_sample = fbm(vec3(pixel_coords, 0.0) * 0.005, 4, 0.5, 2.0);
-  float size = smoothstep(0.00, 15.0, u_time) * (50.0 + length(u_resolution) * 0.5);
-  float d = sdCircle(pixel_coords + 50.0 * noise_sample, size);
+    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
+    float noise_sample = fbm(
+        vec3(pixel_coords, 0.0) * 0.005, 
+        4, 
+        0.5, 
+        2.0
+    );
+    float time_cycle = mod(u_time * (BPM * 0.01), 15.0); 
+    float grow = smoothstep(0.0, 7.5, time_cycle); 
+    float shrink = smoothstep(7.5, 15.0, time_cycle); 
+    float phase = 1.0 - shrink;
+    float size = grow * phase * (50.0 + length(u_resolution) * 0.5);
+    
+    float d = sdCircle(pixel_coords + 50.0 * noise_sample, size);
+    vec2 distortion = noise_sample / u_resolution;
+    distortion = distortion * 20.0 * smoothstep(80.0, 20.0, d);
+    vec3 sample1 = texture2D(u_texturemap, v_uv + distortion).xyz;
 
-  vec2 distortion = noise_sample / u_resolution;
-  distortion = distortion * 20.0 * smoothstep(80.0, 20.0, d);
-  vec2 uv = 1.0 - mod((v_uv - 0.5) * sin(u_time / 5.0) + 0.5, 1.0);
-  vec3 sample1 = texture2D(u_texturemap, v_uv + distortion).xyz;
-  vec3 sample2 = texture2D(u_texturemap, uv).xyz;
-  vec3 color = sample1;
+    vec2 uv = 1.0 - mod((v_uv - 0.5) * sin(u_time * (BPM * 0.01) / 5.0) + 0.5, 1.0);
+    vec3 sample2 = (texture2D(u_texturemap, uv) * u_tint).xyz;
 
-  // dark burning effect
-  float burn = 1.0 - exp(-d * d * 0.001);
-  color = mix(vec3(0.0), color, burn);
-
-  vec3 FIRE = vec3(1.0, 0.5, 0.2);
-  float orange = smoothstep(0.0, 10.0, d);
-  orange = pow(orange, 0.25);
-  color = mix(FIRE, color, orange);
-  color = mix(sample2, color, smoothstep(0.0, 1.0, d));
-  float glow = smoothstep(0.0, 32.0, abs(d));
-  glow = 1.0 - pow(glow, 0.125);
-  color += glow * vec3(1.0, 0.2, 0.05);
-
-  gl_FragColor = vec4(color, 1.0);
+    float warp = 1.0 - exp(-d * d * 0.001);
+    vec3 color = mix(vec3(0.0), sample1, warp);
+    color = mix(sample2, color, smoothstep(0.0, 1.0, d));
+    
+    float glow = smoothstep(0.0, 32.0, abs(d));
+    glow = 1.0 - pow(glow, 0.125);
+    color += glow * u_tint.xyz;
+    
+    gl_FragColor = vec4(color, 1.0);
 }
