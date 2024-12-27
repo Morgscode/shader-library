@@ -31,19 +31,31 @@ void main()
             y_offset = paddle_bottom_min;
         }
         float d = sdBox(pixel_coords + vec2(paddle_x_offset, -y_offset), paddle_size);
-        color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
+        color = mix(
+            vec3(1.0), 
+            color, 
+            smoothstep(0.0, 0.1, d)
+        );
     }
 
     /// right paddle
     {
         float d = sdBox(pixel_coords + vec2(-(paddle_x_offset), 0.0), paddle_size);
-        color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
+        color = mix(
+            vec3(1.0), 
+            color, 
+            smoothstep(0.0, 0.1, d)
+        );
     }
 
     /// ball
     {
         float d = sdBox(pixel_coords, vec2(10.0, 10.0));
-        color = mix(vec3(1.0), color, smoothstep(0.0, 0.1, d));
+        color = mix(
+            vec3(1.0), 
+            color, 
+            smoothstep(0.0, 0.1, d)
+        );
     }
     
     gl_FragColor = vec4(color, 1.0);

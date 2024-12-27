@@ -57,7 +57,11 @@ void main()
         /// bring in the sdf we want the pixels to draw around
         float d = sdEquilateralTriangle(uv, fract(sin(angle)));
         vec3 color = palette(length(l_uv) + sin(angle));
-        final = mix(color, final, smoothstep(0.0, 0.015, fract(d)));
+        final = mix(
+            color, 
+            final, 
+            smoothstep(0.0, 0.015, fract(d))
+        );
     }
    
     gl_FragColor = vec4(final, 1.0);
