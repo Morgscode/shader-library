@@ -80,55 +80,9 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
-/// https://iquilezles.org/articles/distfunctions2d/
-float sdCircle(vec2 p, float r) 
-{
-    return length(p) - r;
-}
-
-float sdTriangleIsosceles( in vec2 p, in vec2 q )
-{
-    p.x = abs(p.x);
-    vec2 a = p - q*clamp( dot(p,q)/dot(q,q), 0.0, 1.0 );
-    vec2 b = p - q*vec2( clamp( p.x/q.x, 0.0, 1.0 ), 1.0 );
-    float s = -sign( q.y );
-    vec2 d = min( vec2( dot(a,a), s*(p.x*q.y-p.y*q.x) ),
-                  vec2( dot(b,b), s*(p.y-q.y)  ));
-    return -sqrt(d.x)*sign(d.y);
-}
-
 void main() 
-{
-    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-    float angle = u_time * (BPM * 0.01);
-    float noise_sample = fbm(
-        vec3(pixel_coords, 0.0) * 0.005, 
-        2, 
-        0.5, 
-        2.0
-    );
-    float time_cycle = mod(angle, 30.0); 
-    float grow = smoothstep(0.0, 15.0, time_cycle); 
-    float shrink = smoothstep(15.0, 30.0, time_cycle); 
-    float phase = 1.0 - shrink;
-    float size = grow * phase * (50.0 + length(pixel_coords) * 0.5);
-    
-    float d = sdTriangleIsosceles(pixel_coords * noise_sample, vec2(size, -size));
-    //float d = sdCircle(pixel_coords + 50.0 * noise_sample, size);
-    vec2 distortion = noise_sample / u_resolution;
-    distortion = distortion * 20.0 * smoothstep(80.0, 20.0, d);
-    vec3 sample1 = texture2D(u_texturemap, v_uv + distortion).xyz;
-
-    vec2 uv = 1.0 - mod((v_uv - 0.5) * sin(angle / 5.0) + 0.5, 1.0);
-    vec3 sample2 = (texture2D(u_texturemap, uv) * u_tint).xyz;
-
-    float warp = 1.0 - exp(-d * d * 0.1);
-    vec3 color = mix(vec3(0.0), sample1, warp);
-    color = mix(sample2, color, smoothstep(0.0, 1.0, d));
-    
-    float glow = smoothstep(0.0, 32.0, abs(d));
-    glow = 1.0 - pow(glow, 0.125);
-    color += glow * u_tint.xyz;
-    
-    gl_FragColor = vec4(color, 1.0);
+{   
+    vec4 t_sample = texture2D(u_texturemap, v_uv);
+    float y = smoothstep(0.0, 1.0, v_uv.y);
+    gl_FragColor = vec4(vec3(y), 1.0);
 }
