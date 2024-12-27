@@ -1,8 +1,8 @@
 import {
     EditorView, basicSetup
 } from "codemirror";
+import { cpp } from "@codemirror/lang-cpp";
 import { dracula } from 'thememirror';
-import { cpp } from "@codemirror/lang-cpp"
 import Renderer from "./renderer";
 import * as shaders from './shaders';
 import './style.css';
@@ -35,14 +35,12 @@ window.addEventListener('load', () => {
                 const editorEl = document.querySelector('div#editor') as HTMLDivElement;
                 if (editorEl) {
                     const updateListener = EditorView.updateListener.of((update) => {
-                        if (update.docChanged) {
-                            if (previewEl) {
-                                const fragment = update.state.doc.toString();
-                                previewEl.contentWindow?.postMessage({
-                                    type: "ShaderUpdate",
-                                    fragment,
-                                });
-                            }
+                        if (update.docChanged && previewEl) {
+                            const fragment = update.state.doc.toString();
+                            previewEl.contentWindow?.postMessage({
+                                type: "ShaderUpdate",
+                                fragment,
+                            });
                         }
                     });
                     new EditorView({
@@ -52,7 +50,7 @@ window.addEventListener('load', () => {
                     });
                 }
 
-                const titleEl = document.querySelector('h2#shader-name');
+                const titleEl = document.querySelector('h2#shader-name') as HTMLHeadingElement;
                 if (titleEl) {
                     titleEl.textContent = shader.title;
                 }
@@ -62,13 +60,6 @@ window.addEventListener('load', () => {
                     linkEl.href = path;
                 }
             }
-
-            window.addEventListener("message", (e: MessageEvent) => {
-                const event = e.data.type;
-                if (event === "ShaderUpdate" && renderer instanceof Renderer) {
-                    renderer.setFragmentShader(e.data.fragment);
-                }
-            });
         }
     }
 });
