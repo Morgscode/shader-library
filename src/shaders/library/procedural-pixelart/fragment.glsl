@@ -1,10 +1,11 @@
 #define PI 3.1415926535
 #define BPM 130.0
 
+varying vec2 v_uv;
+
 uniform float u_time;
 uniform vec2 u_resolution;
-
-varying vec2 v_uv;
+uniform vec2 u_mousepos;
 
 /// https://iquilezles.org/articles/distfunctions2d/
 float sdEquilateralTriangle( in vec2 p, in float r )

@@ -88,7 +88,7 @@ header.site-header a {
 #preview {
   display: inline-block;
   position: sticky;
-  top: 1rem;
+  top: 0;
   z-index: 100;
   left: 100%;
 }

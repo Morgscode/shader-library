@@ -3,8 +3,9 @@
 
 varying vec2 v_uv;
 
-uniform vec2 u_resolution;
 uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mousepos;
 
 /// https://github.com/Erkaman/glsl-cos-palette
 vec3 palette(float t) 
