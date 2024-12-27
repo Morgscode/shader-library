@@ -18,11 +18,13 @@ window.addEventListener('load', () => {
             const app = shaders as shaders.ShaderLibrary;
             const shader = (app[type] as Record<string, shaders.Shader>)[selection];
             const path = `/shader.html${window.location.search}`;
-            const shaderEl = document.querySelector('div#shader') as HTMLDivElement;
-            if (shaderEl) {
-                if (shader) {
-                    renderer = new Renderer(shader);
-                    renderer.render();
+            if (window.location.pathname.startsWith('/shader')) {
+                const shaderEl = document.querySelector('div#shader') as HTMLDivElement;
+                if (shaderEl) {
+                    if (shader) {
+                        renderer = new Renderer(shader);
+                        renderer.render();
+                    }
                 }
             }
 

@@ -50,8 +50,8 @@ export default class Renderer {
         window.addEventListener('mousemove', (e) => this.setMousePosition(e));
         window.addEventListener('touchmove', (e) => this.setTouchPosition(e));
         window.addEventListener("message", (e) => {
-            const event = e.data.type;
-            if (event === "ShaderUpdate") {
+            const type = e.data.type;
+            if (type === "ShaderUpdate") {
                 this.setFragmentShader(e.data.fragment);
             }
         });
