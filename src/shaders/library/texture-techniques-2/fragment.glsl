@@ -80,7 +80,7 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
-// https://iquilezles.org/articles/distfunctions2d/
+/// https://iquilezles.org/articles/distfunctions2d/
 float sdCircle(vec2 p, float r) {
     return length(p) - r;
 }
@@ -89,7 +89,7 @@ void main() {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     float noise_sample = fbm(
         vec3(pixel_coords, 0.0) * 0.005, 
-        4, 
+        2, 
         0.5, 
         2.0
     );
