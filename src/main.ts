@@ -18,6 +18,7 @@ window.addEventListener('load', () => {
             const app = shaders as shaders.ShaderLibrary;
             const shader = (app[type] as Record<string, shaders.Shader>)[selection];
             const path = `/shader.html${window.location.search}`;
+
             if (window.location.pathname.startsWith('/shader')) {
                 const shaderEl = document.querySelector('div#shader') as HTMLDivElement;
                 if (shaderEl) {
@@ -29,6 +30,16 @@ window.addEventListener('load', () => {
             }
 
             if (window.location.pathname.startsWith('/entry')) {
+                const titleEl = document.querySelector('h2#shader-name') as HTMLHeadingElement;
+                if (titleEl) {
+                    titleEl.textContent = shader.title;
+                }
+
+                const linkEl = document.querySelector('a#shader-link') as HTMLAnchorElement;
+                if (linkEl) {
+                    linkEl.href = path;
+                }
+
                 const previewEl = document.querySelector('iframe#shader-preview') as HTMLIFrameElement;
                 if (previewEl) {
                     previewEl.src = path;
@@ -50,16 +61,6 @@ window.addEventListener('load', () => {
                         parent: editorEl,
                         doc: shader.fragment,
                     });
-                }
-
-                const titleEl = document.querySelector('h2#shader-name') as HTMLHeadingElement;
-                if (titleEl) {
-                    titleEl.textContent = shader.title;
-                }
-
-                const linkEl = document.querySelector('a#shader-link') as HTMLAnchorElement;
-                if (linkEl) {
-                    linkEl.href = path;
                 }
             }
         }
