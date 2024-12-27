@@ -20,7 +20,7 @@ window.addEventListener('load', () => {
             const path = `/shader.html${window.location.search}`;
 
             if (window.location.pathname.startsWith('/shader')) {
-                const shaderEl = document.querySelector('div#shader') as HTMLDivElement;
+                const shaderEl = document.querySelector<HTMLDivElement>('div#shader');
                 if (shaderEl) {
                     if (shader) {
                         renderer = new Renderer(shader);
@@ -30,22 +30,22 @@ window.addEventListener('load', () => {
             }
 
             if (window.location.pathname.startsWith('/entry')) {
-                const titleEl = document.querySelector('h2#shader-name') as HTMLHeadingElement;
+                const titleEl = document.querySelector<HTMLHeadingElement>('h2#shader-name');
                 if (titleEl) {
                     titleEl.textContent = shader.title;
                 }
 
-                const linkEl = document.querySelector('a#shader-link') as HTMLAnchorElement;
+                const linkEl = document.querySelector<HTMLAnchorElement>('a#shader-link');
                 if (linkEl) {
                     linkEl.href = path;
                 }
 
-                const previewEl = document.querySelector('iframe#shader-preview') as HTMLIFrameElement;
+                const previewEl = document.querySelector<HTMLIFrameElement>('iframe#shader-preview');
                 if (previewEl) {
                     previewEl.src = path;
                 }
 
-                const editorEl = document.querySelector('div#editor') as HTMLDivElement;
+                const editorEl = document.querySelector<HTMLDivElement>('div#editor');
                 if (editorEl) {
                     const updateListener = EditorView.updateListener.of((update) => {
                         if (update.docChanged && previewEl) {
