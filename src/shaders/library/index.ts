@@ -9,6 +9,7 @@ import theVoid from './the-void/fragment.glsl';
 import fbmFractals from './fbm-fractals/fragment.glsl';
 import pong from './pong/fragment.glsl';
 import proceduralGeometry2 from './procedural-geometry-2/fragment.glsl';
+import textures2 from './texture-techniques-2/fragment.glsl';
 
 const base: Shader = {
     title: '',
@@ -65,5 +66,11 @@ export const shaders: Record<string, Shader> = {
         ...base,
         title: "Pong",
         fragment: pong,
+    },
+    "texture-techniques-2": {
+        ...base, 
+        title: "Texture Techniques 2",
+        fragment: textures2,
+        texture: './assets/images/galactic-core.webp',
     }
 };
