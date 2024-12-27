@@ -86,45 +86,32 @@ float sdCircle(vec2 p, float r)
     return length(p) - r;
 }
 
-float sdTriangleIsosceles( in vec2 p, in vec2 q )
-{
-    p.x = abs(p.x);
-    vec2 a = p - q*clamp( dot(p,q)/dot(q,q), 0.0, 1.0 );
-    vec2 b = p - q*vec2( clamp( p.x/q.x, 0.0, 1.0 ), 1.0 );
-    float s = -sign( q.y );
-    vec2 d = min( vec2( dot(a,a), s*(p.x*q.y-p.y*q.x) ),
-                  vec2( dot(b,b), s*(p.y-q.y)  ));
-    return -sqrt(d.x)*sign(d.y);
-}
-
 void main() 
 {
-    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     float angle = u_time * (BPM * 0.01);
+    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     float noise_sample = fbm(
-        vec3(pixel_coords, 0.0) * 0.005, 
+        vec3(pixel_coords, angle) * 0.005, 
         2, 
         0.5, 
-        2.0
+        sin(angle)
     );
-    float time_cycle = mod(angle, 30.0); 
-    float grow = smoothstep(0.0, 15.0, time_cycle); 
-    float shrink = smoothstep(15.0, 30.0, time_cycle); 
+    float time_cycle = mod(angle, 15.0); 
+    float grow = smoothstep(0.0, 7.5, time_cycle); 
+    float shrink = smoothstep(7.5, 15.0, time_cycle); 
     float phase = 1.0 - shrink;
-    float size = grow * phase * (50.0 + length(pixel_coords) * 0.5);
+    float size = grow * phase * (50.0 + length(u_resolution) * 0.5);
     
-    float d = sdTriangleIsosceles(pixel_coords * noise_sample, vec2(size, -size));
-    //float d = sdCircle(pixel_coords + 50.0 * noise_sample, size);
-    vec2 distortion = noise_sample / u_resolution;
-    distortion = distortion * 20.0 * smoothstep(80.0, 20.0, d);
+    float d = sdCircle(pixel_coords + 50.0 * noise_sample, size);
+    vec2 distortion = noise_sample / u_resolution * 20.0 * smoothstep(80.0, 20.0, d);
     vec3 sample1 = texture2D(u_texturemap, v_uv + distortion).xyz;
 
     vec2 uv = 1.0 - mod((v_uv - 0.5) * sin(angle / 5.0) + 0.5, 1.0);
-    vec3 sample2 = (texture2D(u_texturemap, uv) * u_tint).xyz;
+    vec4 sample2 = texture2D(u_texturemap, uv) * u_tint;
 
     float warp = 1.0 - exp(-d * d * 0.1);
     vec3 color = mix(vec3(0.0), sample1, warp);
-    color = mix(sample2, color, smoothstep(0.0, 1.0, d));
+    color = mix(sample2.xyz, color, smoothstep(0.0, 1.0, d));
     
     float glow = smoothstep(0.0, 32.0, abs(d));
     glow = 1.0 - pow(glow, 0.125);
