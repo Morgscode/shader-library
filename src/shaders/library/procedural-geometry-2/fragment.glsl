@@ -115,7 +115,7 @@ void main()
     uv.x *= u_resolution.x/u_resolution.y;  
     vec2 l_uv = uv; 
     vec3 final = vec3(0.0);
-    float angle = u_time / (BPM * 0.01);
+    float angle = u_time * (BPM * 0.005);
     float noise_sample = fbm(vec3(l_uv, angle) * 0.005, 2, 0.5, sin(angle));
     
     for (float i = 0.0; i < 3.0; i += 1.0)

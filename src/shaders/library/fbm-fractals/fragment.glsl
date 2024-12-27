@@ -93,7 +93,7 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
 void main() 
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-    float angle = u_time / (BPM * 0.1);
+    float angle = u_time * (BPM * 0.001);
     float noise_sample = fbm(
         vec3(pixel_coords, angle) * 0.005, 
         4, 
