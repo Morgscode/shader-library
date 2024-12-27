@@ -89,8 +89,16 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
-vec3 fractals(float angle, vec3 color, float noise_val) 
+void main() 
 {
+    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
+    float angle = u_time / (BPM * 0.1);
+    float noise_sample = fbm(
+        vec3(pixel_coords, angle) * 0.005, 
+        4, 
+        0.5, 
+        sin(angle)
+    );
     /// center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;
     /// make it responsive to the current screen size
@@ -105,22 +113,8 @@ vec3 fractals(float angle, vec3 color, float noise_val)
             sin(angle), cos(angle)
         );
         /// add noise
-        uv += noise_val;
+        uv += noise_sample;
     }
-    return vec3(color / PI * length(uv));
-}
-
-void main() 
-{
-    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-    float angle = u_time / (BPM * 0.1);
-    float noise_sample = fbm(
-        vec3(pixel_coords, angle) * 0.005, 
-        4, 
-        0.5, 
-        sin(angle)
-    );
     vec3 color = palette(angle + noise_sample);
-    color = fractals(angle, color, noise_sample);
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color / PI * length(uv), 1.0);
 }
