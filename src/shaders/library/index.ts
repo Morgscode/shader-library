@@ -1,7 +1,7 @@
 import type { Shader } from '../';
 import baseVertex from '../base-vertex.glsl';
 import proceduralGeometry1 from './procedural-geometry-1/fragment.glsl';
-import pixelart from './procedural-pixelart/fragment.glsl';
+import pixelart from './procedural-pixel-art-1/fragment.glsl';
 import horizontalSinWave from './horizontal-sinwave/fragment.glsl';
 import psychedellicVisuals1 from './psychedellic-visuals-1/fragment.glsl';
 import textures1 from './texture-techniques-1/fragment.glsl';
@@ -22,9 +22,9 @@ const base: Shader = {
 };
 
 export const shaders: Record<string, Shader> = {
-    "procedural-equilateral-triangle-pixel-art": {
+    "procedural-pixel-art-1": {
         ...base,
-        title: "Procedural pixel art",
+        title: "Procedural pixel art #1",
         fragment: pixelart,
     },
     "procedural-geometry-1": {
