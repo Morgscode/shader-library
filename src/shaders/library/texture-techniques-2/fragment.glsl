@@ -11,11 +11,9 @@ uniform vec4 u_tint;
 void main() 
 {   
     vec3 color = vec3(0.0);
-    {
-        vec2 uv = v_uv;
-        uv.y += (u_time * 0.001);
-        float t = smoothstep(0.75, 0.001, sin((uv.y) * 1000.0));
-        color = vec3(t);
-    }
-    gl_FragColor = texture2D(u_texturemap, v_uv) * vec4(color, 1.0);
+    vec2 uv = v_uv;
+    uv.y += (u_time * 0.002);
+    float t = smoothstep(1.0, 0.0, sin((-uv.y) * 1000.0));
+    color = vec3(t);
+    gl_FragColor = texture2D(u_texturemap, v_uv) * vec4(color, 0.1);
 }
