@@ -80,14 +80,42 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
+/// https://iquilezles.org/articles/distfunctions2d/
+float sdCircle(vec2 p, float r) 
+{
+    return length(p) - r;
+}
+
 void main() 
-{   
-    vec3 color = vec3(0.0);
-    {
-        vec2 uv = v_uv;
-        uv.y += (u_time * 0.001);
-        float t = smoothstep(0.75, 0.001, sin((uv.y) * 1000.0));
-        color = vec3(t);
-    }
-    gl_FragColor = texture2D(u_texturemap, v_uv) * vec4(color, 0.3);
+{
+    float angle = u_time * (BPM * 0.01);
+    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
+    float noise_sample = fbm(
+        vec3(pixel_coords, angle) * 0.005, 
+        2, 
+        0.5, 
+        sin(angle)
+    );
+    float time_cycle = mod(angle, 15.0); 
+    float grow = smoothstep(0.0, 7.5, time_cycle); 
+    float shrink = smoothstep(7.5, 15.0, time_cycle); 
+    float phase = 1.0 - shrink;
+    float size = grow * phase * (50.0 + length(u_resolution) * 0.5);
+    
+    float d = sdCircle(pixel_coords + 50.0 * noise_sample, size);
+    vec2 distortion = noise_sample / u_resolution * 20.0 * smoothstep(80.0, 20.0, d);
+    vec3 sample1 = texture2D(u_texturemap, v_uv + distortion).xyz;
+
+    vec2 uv = 1.0 - mod((v_uv - 0.5) * sin(angle / 5.0) + 0.5, 1.0);
+    vec4 sample2 = texture2D(u_texturemap, uv) * u_tint;
+
+    float warp = 1.0 - exp(-d * d * 0.1);
+    vec3 color = mix(vec3(0.0), sample1, warp);
+    color = mix(sample2.xyz, color, smoothstep(0.0, 1.0, d));
+    
+    float glow = smoothstep(0.0, 32.0, abs(d));
+    glow = 1.0 - pow(glow, 0.125);
+    color += glow * u_tint.xyz;
+    
+    gl_FragColor = vec4(color, 1.0);
 }
