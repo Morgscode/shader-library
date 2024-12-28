@@ -82,9 +82,12 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
 
 void main() 
 {   
-    vec2 uv = v_uv;
-    uv.y += (u_time * 0.001);
-    float t = smoothstep(0.0, 0.025, sin((uv.y) * 1000.0));
-    vec3 color = vec3(t);
+    vec3 color = vec3(0.0);
+    {
+        vec2 uv = v_uv;
+        uv.y += (u_time * 0.001);
+        float t = smoothstep(0.75, 0.001, sin((uv.y) * 1000.0));
+        color = vec3(t);
+    }
     gl_FragColor = texture2D(u_texturemap, v_uv) * vec4(color, 0.3);
 }
