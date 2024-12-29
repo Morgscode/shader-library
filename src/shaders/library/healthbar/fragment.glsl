@@ -6,6 +6,17 @@ varying vec2 v_uv;
 uniform float u_time;
 uniform vec2 u_resolution;
 
+float i_lerp(float value, float minVal, float maxVal)
+{
+    return (value - minVal) / (maxVal - minVal);
+}
+
+float remap(float value, float inMin, float inMax, float outMin, float outMax)
+{
+    float t = i_lerp(value, inMin, inMax);
+    return mix(outMin, outMax, t);
+}
+
 // https://iquilezles.org/articles/distfunctions2d/
 float sdBox( in vec2 p, in vec2 b )
 {
@@ -42,7 +53,7 @@ void main()
 
         vec3 red = vec3(1.0, 0.0, 0.0);
         vec3 green = vec3(0.0, 1.0, 0.0);
-        vec3 health_color = mix(red, green, time_cycle);
+        vec3 health_color = mix(red, green, remap(health, 0.0, 300.0, 0.0, 1.0));
         color = mix(
             health_color, 
             color, 
