@@ -10,22 +10,6 @@ float sdBox( in vec2 p, in vec2 b )
     return length(max(d,0.0)) + min(max(d.x,d.y),0.0);
 }
 
-float _clamp(float t, float minVal, float maxVal)
-{
-    float _min = max(t, minVal);
-    float _max = min(t, maxVal);
-
-    if (t < _min) {
-        return _min;
-    }
-
-    if (t > _max) {
-        return _max;
-    }
-
-    return t;
-}
-
 void main() 
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
