@@ -90,7 +90,7 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
-// https://en.wikipedia.org/wiki/Rotation_matrix
+/// https://en.wikipedia.org/wiki/Rotation_matrix
 mat2 rotate2d(float angle) 
 {
     return mat2(
