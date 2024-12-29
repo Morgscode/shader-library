@@ -50,10 +50,12 @@ void main()
             pixel_coords + vec2(hbar_length - health, 0.0), 
             vec2(health, hbar_height)
         );
-
-        vec3 red = vec3(1.0, 0.0, 0.0);
-        vec3 green = vec3(0.0, 1.0, 0.0);
-        vec3 health_color = mix(red, green, remap(health, 0.0, 300.0, 0.0, 1.0));
+        vec3 health_color = mix(
+            vec3(1.0, 0.0, 0.0), 
+            vec3(0.0, 1.0, 0.0), 
+            remap(health, 0.0, hbar_length, 0.0, 1.0)
+        );
+        
         color = mix(
             health_color, 
             color, 
