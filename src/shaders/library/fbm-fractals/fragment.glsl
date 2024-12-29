@@ -90,6 +90,17 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
+float i_lerp(float value, float minVal, float maxVal)
+{
+    return (value - minVal) / (maxVal - minVal);
+}
+
+float remap(float value, float inMin, float inMax, float outMin, float outMax)
+{
+    float t = i_lerp(value, inMin, inMax);
+    return mix(outMin, outMax, t);
+}
+
 void main() 
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
@@ -98,7 +109,7 @@ void main()
         vec3(pixel_coords, angle) * 0.005, 
         4, 
         0.5, 
-        sin(angle)
+        remap(sin(angle), -1.0, 1.0, 0.0, 2.0)
     );
     /// center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;

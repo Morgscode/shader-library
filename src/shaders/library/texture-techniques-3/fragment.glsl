@@ -86,6 +86,17 @@ float sdCircle(vec2 p, float r)
     return length(p) - r;
 }
 
+float i_lerp(float value, float minVal, float maxVal)
+{
+    return (value - minVal) / (maxVal - minVal);
+}
+
+float remap(float value, float inMin, float inMax, float outMin, float outMax)
+{
+    float t = i_lerp(value, inMin, inMax);
+    return mix(outMin, outMax, t);
+}
+
 void main() 
 {
     float angle = u_time * (BPM * 0.01);
@@ -94,7 +105,7 @@ void main()
         vec3(pixel_coords, angle) * 0.005, 
         2, 
         0.5, 
-        sin(angle)
+        remap(sin(angle), -1.0, 1.0, 0.0, 2.0)
     );
     float time_cycle = mod(angle, 15.0); 
     float grow = smoothstep(0.0, 7.5, time_cycle); 
