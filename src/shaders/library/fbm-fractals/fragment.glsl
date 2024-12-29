@@ -90,15 +90,24 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
-float i_lerp(float value, float minVal, float maxVal)
+// https://en.wikipedia.org/wiki/Rotation_matrix
+mat2 rotate2d(float angle) 
 {
-    return (value - minVal) / (maxVal - minVal);
+    return mat2(
+        cos(angle), -sin(angle),
+        sin(angle), cos(angle)
+    );
 }
 
-float remap(float value, float inMin, float inMax, float outMin, float outMax)
+float i_lerp(float value, float min_val, float max_val)
 {
-    float t = i_lerp(value, inMin, inMax);
-    return mix(outMin, outMax, t);
+    return (value - min_val) / (max_val - min_val);
+}
+
+float remap(float value, float in_min, float in_max, float out_min, float out_max)
+{
+    float t = i_lerp(value, in_min, in_max);
+    return mix(out_min, out_max, t);
 }
 
 void main() 
@@ -120,10 +129,7 @@ void main()
         uv = abs(uv);
         uv -= 0.5;
         uv *= 1.1;
-        uv *= mat2(
-            cos(angle), -sin(angle),
-            sin(angle), cos(angle)
-        );
+        uv *= rotate2d(angle);
         /// add noise
         uv += noise_sample;
     }
