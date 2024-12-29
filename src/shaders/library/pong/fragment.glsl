@@ -23,13 +23,8 @@ void main()
     {
         /// normalize the mouse/touch position to the paddle position
         float y_offset = u_resolution.y / 2.0 - u_mousepos.y;
-        /// prevent paddle overflow to the top and bottom
-        if (y_offset > paddle_top_max) {
-            y_offset = paddle_top_max;
-        }
-        if (y_offset < paddle_bottom_min) {
-            y_offset = paddle_bottom_min;
-        }
+        y_offset = max(y_offset, paddle_bottom_min);
+        y_offset = min(paddle_top_max, y_offset);
         float d = sdBox(pixel_coords + vec2(paddle_x_offset, -y_offset), paddle_size);
         color = mix(
             vec3(1.0), 
