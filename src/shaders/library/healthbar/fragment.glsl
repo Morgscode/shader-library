@@ -56,7 +56,7 @@ void main()
         vec3 health_color = mix(
             red, 
             green, 
-            remap(health, 0.0, 300.0, 0.0, 1.0)
+            remap(health, 0.0, hbar_length, 0.0, 1.0)
         );
         
         color = mix(
