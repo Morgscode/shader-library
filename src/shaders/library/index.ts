@@ -12,6 +12,7 @@ import proceduralGeometry2 from './procedural-geometry-2/fragment.glsl';
 import textures2 from './texture-techniques-2/fragment.glsl';
 import textures3 from './texture-techniques-3/fragment.glsl';
 import healthbar from './healthbar/fragment.glsl';
+import grid from './grid/fragment.glsl';
 
 const base: Shader = {
     title: '',
@@ -70,20 +71,25 @@ export const shaders: Record<string, Shader> = {
         fragment: pong,
     },
     "texture-techniques-2": {
-        ...base, 
+        ...base,
         title: "Texture techniques #2",
         fragment: textures2,
         texture: './assets/images/galactic-core.webp',
     },
     "texture-techniques-3": {
-        ...base, 
+        ...base,
         title: "Texture techniques #3",
         fragment: textures3,
         texture: './assets/images/galactic-core.webp',
     },
     "healthbar": {
-        ...base, 
+        ...base,
         title: "Healthbar",
         fragment: healthbar,
+    },
+    "grid": {
+        ...base,
+        title: "GLSL Grid example",
+        fragment: grid,
     }
 };
