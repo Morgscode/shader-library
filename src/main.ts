@@ -7,8 +7,6 @@ import Renderer from "./renderer";
 import * as shaders from './shaders';
 import './style.css';
 
-let renderer: Renderer | null = null;
-
 window.addEventListener('load', () => {
     if (window.location.search) {
         const search = new URLSearchParams(window.location.search);
@@ -22,7 +20,7 @@ window.addEventListener('load', () => {
             if (window.location.pathname.startsWith('/shader')) {
                 const shaderEl = document.querySelector<HTMLDivElement>('div#shader');
                 if (shaderEl && shader) {
-                    renderer = new Renderer(shader);
+                    const renderer = new Renderer(shader);
                     renderer.render();
                 }
             }
