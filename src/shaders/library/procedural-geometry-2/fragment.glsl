@@ -109,15 +109,15 @@ float sdHexagon( in vec2 p, in float r )
     return length(p)*sign(p.y);
 }
 
-float i_lerp(float value, float minVal, float maxVal)
+float i_lerp(float value, float min_val, float max_val)
 {
-    return (value - minVal) / (maxVal - minVal);
+    return (value - min_val) / (max_val - min_val);
 }
 
-float remap(float value, float inMin, float inMax, float outMin, float outMax)
+float remap(float value, float in_min, float in_max, float out_min, float out_max)
 {
-    float t = i_lerp(value, inMin, inMax);
-    return mix(outMin, outMax, t);
+    float t = i_lerp(value, in_min, in_max);
+    return mix(out_min, out_max, t);
 }
 
 void main() 
