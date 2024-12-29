@@ -109,6 +109,17 @@ float sdHexagon( in vec2 p, in float r )
     return length(p)*sign(p.y);
 }
 
+float i_lerp(float value, float minVal, float maxVal)
+{
+    return (value - minVal) / (maxVal - minVal);
+}
+
+float remap(float value, float inMin, float inMax, float outMin, float outMax)
+{
+    float t = i_lerp(value, inMin, inMax);
+    return mix(outMin, outMax, t);
+}
+
 void main() 
 {
     vec2 uv = v_uv * 2.0 - 1.0;
@@ -120,7 +131,7 @@ void main()
         vec3(l_uv, angle) * 0.005, 
         2, 
         0.5, 
-        sin(angle)
+        remap(sin(angle), -1.0, 1.0, 0.0, 2.0)
     );
     
     for (float i = 0.0; i < 3.0; i += 1.0)
