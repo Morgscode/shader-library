@@ -109,7 +109,7 @@ void main()
         vec3(pixel_coords, angle) * 0.005, 
         4, 
         0.5, 
-        remap(sin(angle), -1.0, 1.0, 0.0, 2.0)
+        remap(sin(angle), -0.5, 0.5, 0.0, 2.0)
     );
     /// center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;
