@@ -89,7 +89,7 @@ export const shaders: Record<string, Shader> = {
     },
     "grid": {
         ...base,
-        title: "GLSL Grid example",
+        title: "GLSL grid example",
         fragment: grid,
     }
 };
