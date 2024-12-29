@@ -34,8 +34,12 @@ void main()
 
     // healthbar bg
     {
-        float d = sdBox(pixel_coords, vec2(hbar_length, hbar_height));
-        color = mix(vec3(1.0), color, smoothstep(0.0, 0.002, d));
+        float d = sdBox(pixel_coords, vec2(hbar_length, hbar_height) + 3.0) - 3.0;
+        color = mix(vec3(0.0), color, smoothstep(0.0, 1.0, d));
+    }
+    {
+        float d = sdBox(pixel_coords, vec2(hbar_length, hbar_height)) - 3.0;
+        color = mix(vec3(1.0), color, smoothstep(0.0, 1.0, d));
     }
 
     // health bar
@@ -47,8 +51,8 @@ void main()
         float health = shrink * phase * hbar_length;
         health = clamp(0.0, health, hbar_length);
         float d = sdBox(
-            pixel_coords + vec2(hbar_length - health, 0.0), 
-            vec2(health, hbar_height)
+            pixel_coords + vec2((hbar_length + 3.0) - health, 0.0), 
+            vec2(health, (hbar_height + 3.0))
         );
         vec3 health_color = mix(
             vec3(1.0, 0.0, 0.0), 
@@ -59,7 +63,7 @@ void main()
         color = mix(
             health_color, 
             color, 
-            smoothstep(0.0, 0.002, d)
+            smoothstep(0.0, 1.0, d)
         );
     }
 
