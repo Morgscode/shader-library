@@ -49,7 +49,7 @@ void main()
         float shrink = smoothstep(0.0, 7.5, time_cycle); 
         float phase = 1.0 - grow;
         float health = shrink * phase * hbar_length;
-        health = clamp(0.0, health, hbar_length);
+        health = hbar_length - clamp(0.0, health, hbar_length);
         float d = sdBox(
             pixel_coords + vec2((hbar_length + 3.0) - health, 0.0), 
             vec2(health, (hbar_height + 3.0))
