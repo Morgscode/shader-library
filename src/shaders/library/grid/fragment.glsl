@@ -27,7 +27,7 @@ void main()
         color = mix(
             vec3(0.0, 0.0, 1.0),
             color, 
-            smoothstep(0.0, 0.0002, line)
+            smoothstep(0.0, 0.0001, line)
         );
     }
 
@@ -37,7 +37,7 @@ void main()
         color = mix(
             vec3(1.0, 0.0, 0.0),
             color, 
-            smoothstep(0.0, 0.0002, line)
+            smoothstep(0.0, 0.0001, line)
         );
     }
 
