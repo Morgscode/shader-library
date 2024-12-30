@@ -35,11 +35,19 @@ void main()
     /// healthbar bg
     {
         float d = sdBox(pixel_coords, vec2(hbar_length, hbar_height) + 3.0) - 3.0;
-        color = mix(vec3(0.0), color, smoothstep(0.0, 1.0, d));
+        color = mix(
+            vec3(0.0), 
+            color, 
+            smoothstep(0.0, 1.0, d)
+        );
     }
     {
         float d = sdBox(pixel_coords, vec2(hbar_length, hbar_height)) - 3.0;
-        color = mix(vec3(1.0), color, smoothstep(0.0, 1.0, d));
+        color = mix(
+            vec3(1.0), 
+            color, 
+            smoothstep(0.0, 1.0, d)
+        );
     }
 
     /// health bar
