@@ -6,7 +6,6 @@ varying vec2 v_uv;
 uniform float u_time;
 uniform vec2  u_resolution;
 uniform sampler2D u_texturemap;
-uniform vec4 u_tint;
 
 void main() 
 {   
