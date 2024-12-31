@@ -75,7 +75,7 @@ void main()
         );
 
         float glow = smoothstep(0.0, remap(u_time, 0.0, u_time, 0.0, 32.0), d);
-        glow = 1.0 - pow(glow, 0.125);
+        glow = 1.0 - pow(glow, remap(u_time, 0.0, u_time, 0.0, 0.125));
         color += glow * health_color;
     }
 
