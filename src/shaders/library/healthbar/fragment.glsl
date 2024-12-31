@@ -73,6 +73,10 @@ void main()
             color, 
             smoothstep(0.0, 1.0, d)
         );
+
+        float glow = smoothstep(0.0, remap(u_time, 0.0, u_time, 0.0, 32.0), d) + 1.0 - remap(health, 0.0, health, -1.0, 1.0);
+        glow = 1.0 - pow(glow, 0.125);
+        color += glow * health_color;
     }
 
     gl_FragColor = vec4(color, 1.0);
