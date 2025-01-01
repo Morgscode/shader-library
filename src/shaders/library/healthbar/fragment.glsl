@@ -31,6 +31,7 @@ void main()
     float hbar_height = (u_resolution.y / 2.0) / 100.0 * 10.0;
     vec3 color = vec3(0.3, 0.5, 0.9);
     float time = u_time * (BPM * 0.01);
+    float glow_outline = 32.0;
 
     /// healthbar bg
     {
@@ -74,8 +75,8 @@ void main()
             smoothstep(0.0, 1.0, d)
         );
 
-        float glow = smoothstep(0.0, remap(u_time, 0.0, u_time, 0.0, 32.0), d);
-        glow = 1.0 - pow(glow, remap(u_time, 0.0, u_time, 0.0, 0.15));
+        float glow = smoothstep(0.0, remap(health, 0.0, health, 0.0, glow_outline), d);
+        glow = 1.0 - pow(glow, remap(health, 0.0, health + glow_outline, 0.0, 0.15));
         color += glow * health_color;
     }
 
