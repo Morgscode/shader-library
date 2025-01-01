@@ -75,8 +75,15 @@ void main()
             smoothstep(0.0, 1.0, d)
         );
 
-        float glow = smoothstep(0.0, remap(health, 0.0, health, 0.0, glow_outline), d);
-        glow = 1.0 - pow(glow, remap(health, 0.0, health + glow_outline, 0.0, 0.15));
+        float glow = smoothstep(
+            0.0, 
+            remap(health, 0.0, health, 0.0, glow_outline), 
+            d
+        );
+        glow = 1.0 - pow(
+            glow, 
+            remap(health, 0.0, health + glow_outline, 0.0, 0.15)
+        );
         color += glow * health_color;
     }
 
