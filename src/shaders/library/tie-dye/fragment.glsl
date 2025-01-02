@@ -120,9 +120,9 @@ void main()
     float angle = u_time * (BPM * 0.001);
     float noise_sample = turbulence_fbm(
         vec3(pixel_coords, BPM) * 0.005, 
-        4, 
+        2, 
         0.5, 
-        remap(angle, 0.0, angle, -2.0, 2.0)
+        remap(angle, 0.0, angle, -4.0, 4.0)
     );
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
