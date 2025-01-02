@@ -1,18 +1,19 @@
 #define PI 3.1415926535
-#define BPM 130.0
+#define BPM 125.0
 
 varying vec2 v_uv;
 
 uniform float u_time;
 uniform vec2 u_resolution;
+uniform vec2 u_mousepos;
 
 /// https://github.com/Erkaman/glsl-cos-palette
 vec3 palette(float t) 
 {
-        vec3 a = vec3(0.8, 0.3, 0.2);
-        vec3 b = vec3(0.6, 0.4, 0.8);
-        vec3 c = vec3(0.6, 0.3, 0.2);
-        vec3 d = vec3(2.9, 3.02, -0.27);
+        vec3 a = vec3(0.6, 0.5, 0.5);
+        vec3 b = vec3(0.5, 0.6, 0.5);
+        vec3 c = vec3(0.6, 0.6, 0.5);
+        vec3 d = vec3(0.2, 0.0, 0.5);
 
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
@@ -68,21 +69,21 @@ float noise( in vec3 p )
     );
 }
 
-/// https://www.shadertoy.com/view/ss2cDK
-float fbm(
+float turbulence_fbm(
     vec3 p, 
     int octaves, 
     float persistence, 
     float lacunarity
 ) {
-  float amplitude = 0.5;
-  float frequency = 1.0;
+  float amplitude = 1.5;
+  float frequency = 0.5;
   float total = 0.0;
   float normalization = 0.0;
 
   for (int i = 0; i < octaves; ++i) {
-    float noise_value = noise(p * frequency);
-    total += noise_value * amplitude;
+    float noiseValue = noise(p * frequency);
+    noiseValue = abs(noiseValue);
+    total += noiseValue * amplitude;
     normalization += amplitude;
     amplitude *= persistence;
     frequency *= lacunarity;
@@ -94,7 +95,7 @@ float fbm(
 }
 
 /// https://en.wikipedia.org/wiki/Rotation_matrix
-mat2 rotate2d(float angle) 
+mat2 rotate2d(float angle)
 {
     return mat2(
         cos(angle), -sin(angle),
@@ -117,25 +118,25 @@ void main()
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     float angle = u_time * (BPM * 0.001);
-    float noise_sample = fbm(
-        vec3(pixel_coords, angle) * 0.005, 
+    float noise_sample = turbulence_fbm(
+        vec3(pixel_coords, BPM) * 0.005, 
         4, 
         0.5, 
-        remap(sin(angle), -0.5, 0.5, 0.0, 2.0)
+        remap(angle, 0.0, angle, -2.0, 2.0)
     );
-    /// center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;
-    /// make it responsive to the current screen size
     uv.x *= u_resolution.x / u_resolution.y;
-    /// start the fractal process
-    for (float i = 0.0; i < 64.0; i += 1.0) {
+    vec2 l_uv = uv;
+
+    for (float i; i < 64.0; i += 1.0)
+    {
         uv = abs(uv);
         uv -= 0.5;
         uv *= 1.1;
         uv *= rotate2d(angle);
-        /// add noise
-        uv += noise_sample;
+        uv *= noise_sample;
     }
-    vec3 color = palette(angle + noise_sample);
-    gl_FragColor = vec4(color / PI * length(uv), 1.0);
+
+    vec3 color = palette(angle - noise_sample);
+    gl_FragColor = vec4(color * (length(uv) + distance(l_uv, uv)), 0.0);
 }

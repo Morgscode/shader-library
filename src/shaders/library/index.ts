@@ -13,6 +13,7 @@ import textures2 from './texture-techniques-2/fragment.glsl';
 import textures3 from './texture-techniques-3/fragment.glsl';
 import healthbar from './healthbar/fragment.glsl';
 import grid from './grid/fragment.glsl';
+import tieDIe from './tie-dye/fragment.glsl';
 
 const base: Shader = {
     title: '',
@@ -91,5 +92,10 @@ export const shaders: Record<string, Shader> = {
         ...base,
         title: "GLSL grid example",
         fragment: grid,
+    },
+    "tie-dye": {
+        ...base, 
+        title: "Tie Dye",
+        fragment: tieDIe
     }
 };
