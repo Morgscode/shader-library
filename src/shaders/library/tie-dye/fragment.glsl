@@ -138,5 +138,5 @@ void main()
     }
 
     vec3 color = palette(angle - noise_sample);
-    gl_FragColor = vec4(color * (length(uv) + distance(l_uv, uv)), 0.0);
+    gl_FragColor = vec4(color * (length(uv) + exp(-distance(l_uv, uv))), 0.0);
 }
