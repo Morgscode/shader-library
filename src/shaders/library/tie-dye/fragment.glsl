@@ -141,5 +141,5 @@ void main()
     float l = length(uv) + exp(-length(l_uv));
     vec3 color = palette(angle - noise_sample);
 
-    gl_FragColor = vec4((color / PI) / l, 1.0);
+    gl_FragColor = vec4(color / PI / smoothstep(0.0, 0.002, abs(l)), 1.0);
 }
