@@ -69,6 +69,7 @@ float noise( in vec3 p )
     );
 }
 
+/// https://www.shadertoy.com/view/ss2cDK
 float turbulence_fbm(
     vec3 p, 
     int octaves, 
@@ -138,5 +139,5 @@ void main()
     }
 
     vec3 color = palette(angle - noise_sample);
-    gl_FragColor = vec4(color * (length(uv) + exp(-distance(l_uv, uv))), 0.0);
+    gl_FragColor = vec4(color * (length(uv) + exp(-distance(l_uv, uv))), 1.0);
 }
