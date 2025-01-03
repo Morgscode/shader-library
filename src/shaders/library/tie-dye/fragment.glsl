@@ -69,6 +69,7 @@ float noise( in vec3 p )
     );
 }
 
+/// https://www.shadertoy.com/view/ss2cDK
 float turbulence_fbm(
     vec3 p, 
     int octaves, 
