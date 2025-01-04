@@ -79,25 +79,23 @@ void main() {
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
     vec2 l_uv = uv;
-    float angle = u_time * (BPM * 0.0025);
+    float angle = u_time * (BPM * 0.01);
     float noise_sample = turbulence_fbm(
         vec3(pixel_coords, angle) * 0.005, 
         2, 
         0.5, 
-        remap(-sin(angle), -1.0, 1.0, 4.0, -4.0)
+        2.0
     );
  
     uv = abs(uv);
-    uv -= 0.5;
-    uv *= 1.1;
     uv *= noise_sample;
 
     float l = length(uv) + exp(-length(l_uv));
-    float dye = l + angle + noise_sample;
+    float dye = l + (angle * 0.1) + noise_sample;
     l = sin(dye);
     l = sin(abs(l));
-    l = mod(0.1 / l, PI);
-    vec3 color = palette(dye + remap(-sin(l), -1.0, 1.0, 5.0, -5.0));
+    l = mod(0.01 / l, 1.5);
+    vec3 color = palette(dye * 2.0 + l) / PI;
 
-    gl_FragColor = vec4(color / PI, 1.0);
+    gl_FragColor = vec4(color, 1.0);
 }
