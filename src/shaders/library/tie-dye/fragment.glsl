@@ -86,7 +86,8 @@ void main() {
         0.5, 
         2.0
     );
- 
+    
+    uv = (fract(uv * 2.0) - 0.5) * 1.1;
     uv = abs(uv);
     uv *= noise_sample;
 
