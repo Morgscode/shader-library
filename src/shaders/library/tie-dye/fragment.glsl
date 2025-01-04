@@ -74,7 +74,8 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
     return mix(out_min, out_max, t);
 }
 
-void main() {
+void main() 
+{
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
