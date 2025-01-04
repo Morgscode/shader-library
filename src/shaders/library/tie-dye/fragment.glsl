@@ -93,7 +93,7 @@ void main() {
     l = sin(dye);
     l = sin(abs(l));
     l = mod(0.01 / l, PI);
-    vec3 color = palette(dye);
+    vec3 color = palette(dye + l);
 
     gl_FragColor = vec4(color / PI, 1.0);
 }
