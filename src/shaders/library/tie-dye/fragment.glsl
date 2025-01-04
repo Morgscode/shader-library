@@ -1,5 +1,5 @@
 #define PI 3.1415926535
-#define BPM 125.0
+#define BPM 130.0
 
 varying vec2 v_uv;
 
@@ -20,21 +20,53 @@ vec3 palette(float t)
 
 /// https://iquilezles.org/
 /// https://www.shadertoy.com/view/Xsl3Dl
-vec3 hash(vec3 p) 
+vec3 hash( vec3 p )
 {
-    p = vec3(dot(p, vec3(127.1, 311.7, 74.7)), dot(p, vec3(269.5, 183.3, 246.1)), dot(p, vec3(113.5, 271.9, 124.6)));
+	p = vec3( 
+        dot(p, vec3(127.1,311.7, 74.7)),
+        dot(p, vec3(269.5,183.3,246.1)),
+        dot(p, vec3(113.5,271.9,124.6))
+    );
 
-    return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
+	return - 1.0 + 2.0 * fract(sin(p) * 43758.5453123);
 }
 
 /// https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
-float noise(in vec3 p) 
+float noise( in vec3 p )
 {
     vec3 i = floor(p);
     vec3 f = fract(p);
     vec3 u = f * f * (3.0 - 2.0 * f);
 
-    return mix(mix(mix(dot(hash(i + vec3(0.0, 0.0, 0.0)), f - vec3(0.0, 0.0, 0.0)), dot(hash(i + vec3(1.0, 0.0, 0.0)), f - vec3(1.0, 0.0, 0.0)), u.x), mix(dot(hash(i + vec3(0.0, 1.0, 0.0)), f - vec3(0.0, 1.0, 0.0)), dot(hash(i + vec3(1.0, 1.0, 0.0)), f - vec3(1.0, 1.0, 0.0)), u.x), u.y), mix(mix(dot(hash(i + vec3(0.0, 0.0, 1.0)), f - vec3(0.0, 0.0, 1.0)), dot(hash(i + vec3(1.0, 0.0, 1.0)), f - vec3(1.0, 0.0, 1.0)), u.x), mix(dot(hash(i + vec3(0.0, 1.0, 1.0)), f - vec3(0.0, 1.0, 1.0)), dot(hash(i + vec3(1.0, 1.0, 1.0)), f - vec3(1.0, 1.0, 1.0)), u.x), u.y), u.z);
+    return mix( 
+        mix( 
+            mix( 
+                dot(hash(i + vec3(0.0,0.0,0.0)), f - vec3(0.0,0.0,0.0)), 
+                dot(hash(i + vec3(1.0,0.0,0.0)), f - vec3(1.0,0.0,0.0)), 
+                u.x
+            ),
+            mix( 
+                dot(hash(i + vec3(0.0,1.0,0.0)), f - vec3(0.0,1.0,0.0)), 
+                dot(hash(i + vec3(1.0,1.0,0.0) ), f - vec3(1.0,1.0,0.0)),
+                u.x
+            ), 
+            u.y
+        ),
+        mix( 
+            mix(
+                dot(hash(i + vec3(0.0,0.0,1.0)), f - vec3(0.0,0.0,1.0)), 
+                dot(hash(i + vec3(1.0,0.0,1.0)), f - vec3(1.0,0.0,1.0)), 
+                u.x
+            ),
+            mix( 
+                dot(hash(i + vec3(0.0,1.0,1.0)), f - vec3(0.0,1.0,1.0)), 
+                dot(hash(i + vec3(1.0,1.0,1.0)), f - vec3(1.0,1.0,1.0)), 
+                u.x
+            ), 
+            u.y
+        ),
+        u.z 
+    );
 }
 
 /// https://www.shadertoy.com/view/ss2cDK
@@ -61,17 +93,6 @@ float turbulence_fbm(
     total /= normalization;
 
     return total;
-}
-
-float i_lerp(float value, float min_val, float max_val) 
-{
-    return (value - min_val) / (max_val - min_val);
-}
-
-float remap(float value, float in_min, float in_max, float out_min, float out_max) 
-{
-    float t = i_lerp(value, in_min, in_max);
-    return mix(out_min, out_max, t);
 }
 
 void main() 
