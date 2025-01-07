@@ -95,6 +95,15 @@ float turbulence_fbm(
     return total;
 }
 
+/// https://en.wikipedia.org/wiki/Rotation_matrix
+mat2 rotate2d(float angle) 
+{
+    return mat2(
+        cos(angle), -sin(angle),
+        sin(angle), cos(angle)
+    );
+}
+
 void main() 
 {
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
@@ -115,7 +124,7 @@ void main()
     float l = length(uv) + exp(-length(l_uv));
     float dye = l + (angle * 0.1) + noise_sample;
     l = sin(dye);
-    l = sin(abs(l));
+    l = abs(l);
     l = mod(0.01 / l, 1.5);
     vec3 color = palette(dye * 2.0 + l) / PI;
 
