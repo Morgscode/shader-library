@@ -118,10 +118,10 @@ void main()
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     float angle = u_time * (BPM * 0.001);
     float noise_sample = fbm(
-        vec3(pixel_coords, angle) * 0.005, 
-        4, 
+        vec3(pixel_coords, angle) * 0.001, 
+        3, 
         0.5, 
-        remap(sin(angle), -0.5, 0.5, 2.0, 0.0)
+        remap(sin(angle), -0.5, 0.5, 2.0, -2.0)
     );
     /// center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;
