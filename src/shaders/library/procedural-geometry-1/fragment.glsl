@@ -60,7 +60,7 @@ void main()
         float d = sdVesica(l_uv, l, i);
         /// smooth out the visuals
         d = sin(d * 4.0 + i + angle) / 4.0;
-        d = sin(abs(d));
+        d = abs(d);
         d = mod(0.01 / d, 1.5);
 
         final = mix(final, color, d);
