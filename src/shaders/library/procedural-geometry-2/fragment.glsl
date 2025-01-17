@@ -138,13 +138,13 @@ void main()
     {
         uv = fract(uv * 2.0) - 0.5;
         uv = abs(uv);
-        uv *= -rotate2d(angle + noise_sample);
+        uv *= rotate2d(angle + noise_sample);
         uv += noise_sample;
 
         vec3 color = palette(length(uv) + angle + noise_sample);
         float l = length(uv) * exp(-length(l_uv));
         float d = sdHexagon(uv, l);
-        d = sin(d * 8.0 + angle) / 4.0;
+        d = sin(d * 8.0 + angle) / 2.0;
         d = abs(d);
         d = mod(0.01 / d, 2.0);
 
