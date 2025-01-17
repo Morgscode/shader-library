@@ -131,7 +131,7 @@ void main()
         vec3(l_uv, BPM) * 0.01, 
         2, 
         0.5, 
-        remap(sin(angle), -0.5, 0.5, 0.0, 4.0)
+        remap(sin(angle), -0.5, 0.5, 0.0, 2.0)
     );
     
     for (float i = 0.0; i < 3.0; i += 1.0)
