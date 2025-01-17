@@ -128,10 +128,10 @@ void main()
     vec3 final = vec3(0.0);
     float angle = u_time * (BPM * 0.005);
     float noise_sample = fbm(
-        vec3(l_uv, BPM) * 0.001, 
+        vec3(l_uv, BPM) * 0.01, 
         2, 
         0.5, 
-        remap(sin(angle), -1.0, 1.0, 0.0, 2.0)
+        remap(sin(angle), -0.5, 0.5, 0.0, 4.0)
     );
     
     for (float i = 0.0; i < 3.0; i += 1.0)
