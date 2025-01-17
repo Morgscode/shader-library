@@ -60,7 +60,7 @@ void main()
         final = mix(
             color, 
             final, 
-            smoothstep(0.0, 0.02, fract(d))
+            smoothstep(0.0, 0.04, fract(d))
         );
     }
    
