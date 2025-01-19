@@ -55,12 +55,12 @@ void main()
         /// begin rotation
         uv *= rotate2d(angle);
         /// bring in the sdf we want the pixels to draw around
-        float d = sdEquilateralTriangle(uv, fract(sin(angle)));
-        vec3 color = palette(length(l_uv) + sin(angle));
+        float d = sdEquilateralTriangle(uv, abs(sin(angle)));
+        vec3 color = palette(length(uv) + exp(-length(l_uv)));
         final = mix(
             color, 
             final, 
-            smoothstep(0.0, 0.04, fract(d))
+            smoothstep(0.00, 0.04, fract(d))
         );
     }
    
