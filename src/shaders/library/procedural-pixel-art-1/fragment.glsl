@@ -21,10 +21,10 @@ float sdEquilateralTriangle( in vec2 p, in float r )
 /// https://github.com/Erkaman/glsl-cos-palette
 vec3 palette(float t) 
 {
-        vec3 a = vec3(0.8, 0.3, 0.2);
-        vec3 b = vec3(0.6, 0.4, 0.8);
-        vec3 c = vec3(0.6, 0.3, 0.2);
-        vec3 d = vec3(2.9, 3.02, -0.27);
+        vec3 a = vec3(0.65, 0.5, 0.31);
+        vec3 b = vec3(-0.65, 0.5, 0.6);
+        vec3 c = vec3(0.333, 0.278, 0.278);
+        vec3 d = vec3(0.6, 0.0, 0.67);
 
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
@@ -49,16 +49,16 @@ void main()
     l_uv.x *= u_resolution.x / u_resolution.y;
     float angle = u_time * (BPM * 0.001);
 
-    for (float i = 0.0; i < 3.0; i += 1.0) {
+    for (float i = 0.0; i < 6.0; i += 1.0) {
         /// scale the absolute values from pixel cords, fract, center them and scale again
         vec2 uv = (fract(abs(pixel_cords) * PI) - 0.5) * 1.1;
         /// begin rotation
         uv *= rotate2d(angle);
         /// bring in the sdf we want the pixels to draw around
         float d = sdEquilateralTriangle(uv, abs(sin(angle)));
-        vec3 color = palette(length(uv) + exp(-length(l_uv)));
+        vec3 color = palette(length(uv) + exp(-length(l_uv)) + angle);
         final = mix(
-            color, 
+            smoothstep(0.2, 0.7, color), 
             final, 
             smoothstep(0.00, 0.04, fract(d))
         );
