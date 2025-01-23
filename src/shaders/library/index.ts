@@ -14,6 +14,7 @@ import textures3 from './texture-techniques-3/fragment.glsl';
 import healthbar from './healthbar/fragment.glsl';
 import grid from './grid/fragment.glsl';
 import tieDIe from './tie-dye/fragment.glsl';
+import circuleFBM from './circular-fbm/fragment.glsl';
 
 const base: Shader = {
     title: '',
@@ -94,8 +95,13 @@ export const shaders: Record<string, Shader> = {
         fragment: grid,
     },
     "tie-dye": {
-        ...base, 
+        ...base,
         title: "Tie Dye",
         fragment: tieDIe
+    },
+    "circular-fbm": {
+        ...base,
+        title: "Circule FBM",
+        fragment: circuleFBM,
     }
 };

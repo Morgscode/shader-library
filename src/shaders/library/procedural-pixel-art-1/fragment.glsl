@@ -40,21 +40,17 @@ mat2 rotate2d(float p)
 
 void main() 
 {
-    /// get responsive pixel coords for screen
     vec2 pixel_cords = (v_uv - 0.5) * u_resolution;
-    /// bg color
     vec3 final = vec3(0.0);
-    /// store local ref to uv cords for screen
+    float angle = u_time * (BPM * 0.001);
     vec2 l_uv = v_uv * 2.0 - 1.0;
     l_uv.x *= u_resolution.x / u_resolution.y;
-    float angle = u_time * (BPM * 0.001);
+   
 
-    for (float i = 0.0; i < 6.0; i += 1.0) {
-        /// scale the absolute values from pixel cords, fract, center them and scale again
+    for (float i = 0.0; i < 6.0; i += 1.0) 
+    {
         vec2 uv = (fract(abs(pixel_cords) * PI) - 0.5) * 1.1;
-        /// begin rotation
         uv *= rotate2d(angle);
-        /// bring in the sdf we want the pixels to draw around
         float d = sdEquilateralTriangle(uv, abs(sin(angle)));
         vec3 color = palette(length(uv) + exp(-length(l_uv)) + angle);
         final = mix(

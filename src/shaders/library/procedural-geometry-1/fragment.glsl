@@ -38,13 +38,10 @@ mat2 rotate2d(float p)
 
 void main() 
 {
-    /// center our uvs
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
-    /// store ref of original centered uvs
     vec2 l_uv = uv;
     vec3 final = vec3(0.0);
-    /// overall speed of the animation - tweaked to bpm
     float angle = u_time * (BPM * 0.01);
 
     for (float i = 0.0; i < 3.0; i += 1.0) 
@@ -54,10 +51,9 @@ void main()
         uv *= rotate2d(sin(angle));
 
         vec3 color = palette(length(l_uv) + angle);
-        /// this is the length we'll pass to any sdf
         float l =  length(uv) * exp(-length(l_uv));
-        /// any sdf can go here
         float d = sdVesica(l_uv, l, i);
+        
         /// smooth out the visuals
         d = sin(d * 4.0 + i + angle) / 4.0;
         d = abs(d);
