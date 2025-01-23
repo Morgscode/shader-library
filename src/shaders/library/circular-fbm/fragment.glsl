@@ -1,21 +1,10 @@
 #define PI 3.1415926535
-#define BPM 130.0
+#define BPM 155.0
 
 varying vec2 v_uv;
 
-uniform float u_time;
 uniform vec2 u_resolution;
-
-/// https://github.com/Erkaman/glsl-cos-palette
-vec3 palette(float t) 
-{
-        vec3 a = vec3(0.8, 0.3, 0.2);
-        vec3 b = vec3(0.6, 0.4, 0.8);
-        vec3 c = vec3(0.6, 0.3, 0.2);
-        vec3 d = vec3(2.9, 3.02, -0.27);
-
-        return a + b * cos((PI * 2.0) * (c * t + d));
-}
+uniform float u_time;
 
 /// https://iquilezles.org/
 /// https://www.shadertoy.com/view/Xsl3Dl
@@ -93,8 +82,18 @@ float fbm(
   return total;
 }
 
-/// https://en.wikipedia.org/wiki/Rotation_matrix
-mat2 rotate2d(float angle) 
+/// https://github.com/Erkaman/glsl-cos-palette
+vec3 palette(float t) 
+{
+        vec3 a = vec3(0.8, 0.3, 0.2);
+        vec3 b = vec3(0.6, 0.4, 0.8);
+        vec3 c = vec3(0.6, 0.3, 0.2);
+        vec3 d = vec3(2.9, 3.02, -0.27);
+
+        return a + b * cos((PI * 2.0) * (c * t + d));
+}
+
+mat2 rotate2d(float angle)
 {
     return mat2(
         cos(angle), -sin(angle),
@@ -113,26 +112,32 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
     return mix(out_min, out_max, t);
 }
 
-void main() 
+void main()
 {
-    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
+    vec2 px_coords =  (v_uv - 0.5) * u_resolution;
+    vec2 uv = (v_uv - 0.5) * 1.1;
+    uv.x *= u_resolution.x/u_resolution.y;
     float angle = u_time * (BPM * 0.001);
     float noise_sample = fbm(
-        vec3(pixel_coords, angle) * 0.001, 
-        3, 
+        vec3(px_coords, angle) * 0.001, 
+        2, 
         0.5, 
-        remap(sin(angle), -0.5, 0.5, 2.0, -2.0)
+        remap(sin(angle), -0.5, 0.5, 4.0, -4.0)
     );
-    vec2 uv = v_uv * 2.0 - 1.0;
-    uv.x *= u_resolution.x / u_resolution.y;
-    for (float i = 0.0; i < 64.0; i += 1.0) 
+    vec2 l_uv;
+
+
+    
+    for (float i = 1.0; i < 64.0; i += 1.0)
     {
         uv = abs(uv);
         uv -= 0.5;
         uv *= 1.1;
-        uv *= rotate2d(angle);
-        uv += noise_sample;
+        uv *= rotate2d(angle + length(uv - noise_sample) + noise_sample);
     }
-    vec3 color = palette(angle + noise_sample - length(uv));
+
+    float l = length(l_uv) * exp(-length(uv));
+
+    vec3 color = palette(angle + length(sin(noise_sample)));
     gl_FragColor = vec4(color / PI * length(uv), 1.0);
 }
