@@ -46,7 +46,6 @@ void main()
     vec2 l_uv = v_uv * 2.0 - 1.0;
     l_uv.x *= u_resolution.x / u_resolution.y;
    
-
     for (float i = 0.0; i < 6.0; i += 1.0) 
     {
         vec2 uv = (fract(abs(pixel_cords) * PI) - 0.5) * 1.1;
