@@ -127,9 +127,7 @@ void main()
     uv.x *= u_resolution.x / u_resolution.y;
     for (float i = 0.0; i < 64.0; i += 1.0) 
     {
-        uv = abs(uv);
-        uv -= 0.5;
-        uv *= 1.1;
+        uv = (abs(uv) - 0.5) * 1.1;
         uv *= rotate2d(angle);
         uv += noise_sample;
     }
