@@ -112,7 +112,7 @@ void main()
     vec2 l_uv = uv;
     float angle = u_time * (BPM * 0.01);
     float noise_sample = turbulence_fbm(
-        vec3(pixel_coords, angle) * 0.005, 
+        vec3(pixel_coords, 1.0 - (u_mousepos.x - u_mousepos.y)) * 0.005, 
         2, 
         0.5, 
         2.0
