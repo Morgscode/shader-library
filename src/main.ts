@@ -15,7 +15,7 @@ window.addEventListener('load', () => {
         if (type && selection) {
             const app = shaders as shaders.ShaderLibrary;
             const shader = (app[type] as Record<string, shaders.Shader>)[selection];
-            const path = `/shader.html${window.location.search}`;
+            const path = `/shader${window.location.search}`;
 
             if (window.location.pathname.startsWith('/shader')) {
                 const shaderEl = document.querySelector<HTMLDivElement>('div#shader');
