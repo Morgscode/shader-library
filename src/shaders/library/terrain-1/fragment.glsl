@@ -138,13 +138,29 @@ vec3 hilltops()
 vec3 terrain(float elevation) 
 {
     if (elevation < 0.4) {
-        return mix(deep_water(), shallow_water(), smoothstep(0.2, 0.4, elevation));
+        return mix(
+            deep_water(), 
+            shallow_water(), 
+            smoothstep(0.2, 0.4, elevation)
+        );
     } else if (elevation < 0.5) {
-        return mix(sand(), grass(), smoothstep(0.4, 0.5, elevation));
+        return mix(
+            sand(), 
+            grass(), 
+            smoothstep(0.4, 0.5, elevation)
+        );
     } else if (elevation < 0.65) {
-        return mix(grass(), hills(), smoothstep(0.5, 0.65, elevation));
+        return mix(
+            grass(), 
+            hills(), 
+            smoothstep(0.5, 0.65, elevation)
+        );
     } else {
-        return mix(hills(), hilltops(), smoothstep(0.65, 0.75, elevation));
+        return mix(
+            hills(), 
+            hilltops(), 
+            smoothstep(0.65, 0.75, elevation)    
+        );
     }
 }
 
