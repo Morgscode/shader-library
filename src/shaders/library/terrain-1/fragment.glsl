@@ -1,12 +1,21 @@
-#define PI 3.1415926535
-#define BPM 130.0
+#define PI 3.1415626535
 
 varying vec2 v_uv;
 
 uniform float u_time;
-uniform vec2  u_resolution;
-uniform sampler2D u_texturemap;
-uniform vec4 u_tint;
+uniform vec2 u_resolution;
+uniform vec2 u_mousepos;
+
+/// https://github.com/Erkaman/glsl-cos-palette
+vec3 palette(float t) 
+{
+        vec3 a = vec3(0.8, 0.3, 0.2);
+        vec3 b = vec3(0.6, 0.4, 0.8);
+        vec3 c = vec3(0.6, 0.3, 0.2);
+        vec3 d = vec3(2.9, 3.02, -0.27);
+
+        return a + b * cos((PI * 2.0) * (c * t + d));
+}
 
 /// https://iquilezles.org/
 /// https://www.shadertoy.com/view/Xsl3Dl
@@ -61,8 +70,12 @@ float noise( in vec3 p )
 }
 
 /// https://www.shadertoy.com/view/ss2cDK
-float fbm(vec3 p, int octaves, float persistence, float lacunarity) 
-{
+float fbm(
+    vec3 p, 
+    int octaves, 
+    float persistence, 
+    float lacunarity
+) {
   float amplitude = 0.5;
   float frequency = 1.0;
   float total = 0.0;
@@ -81,12 +94,6 @@ float fbm(vec3 p, int octaves, float persistence, float lacunarity)
   return total;
 }
 
-/// https://iquilezles.org/articles/distfunctions2d/
-float sdCircle(vec2 p, float r) 
-{
-    return length(p) - r;
-}
-
 float i_lerp(float value, float min_val, float max_val)
 {
     return (value - min_val) / (max_val - min_val);
@@ -98,36 +105,61 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
     return mix(out_min, out_max, t);
 }
 
-void main() 
+vec3 deep_water()
 {
-    float angle = u_time * (BPM * 0.01);
-    vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
-    float noise_sample = fbm(
-        vec3(pixel_coords, angle) * 0.005, 
-        2, 
+    return vec3(0.0, 0.2, 1.0);
+}
+
+vec3 shallow_water()
+{
+    return vec3(0.3, 0.5, 0.9);
+}
+
+vec3 sand()
+{
+    return vec3(0.9, 0.8, 0.2);
+}
+
+vec3 grass()
+{
+    return vec3(0.2, 0.6, 0.2);
+}
+
+vec3 hills()
+{
+    return vec3(0.4, 0.4, 0.4);
+}
+
+vec3 hilltops()
+{
+    return vec3(0.5, 0.35, 0.5);
+}
+
+vec3 terrain(float elevation) 
+{
+    if (elevation < 0.4) {
+        return mix(deep_water(), shallow_water(), smoothstep(0.2, 0.4, elevation));
+    } else if (elevation < 0.5) {
+        return mix(sand(), grass(), smoothstep(0.4, 0.5, elevation));
+    } else if (elevation < 0.65) {
+        return mix(grass(), hills(), smoothstep(0.5, 0.65, elevation));
+    } else {
+        return mix(hills(), hilltops(), smoothstep(0.65, 0.75, elevation));
+    }
+}
+
+void main()
+{
+    vec2 px_coords = ((v_uv) - 0.5) * u_resolution;
+    vec2 pos = u_mousepos;
+    pos.y = 1.0 - pos.y;
+    float n_sample = fbm(
+        vec3((px_coords + pos), u_resolution.x/u_resolution.y) * 0.01,
+        8, 
         0.5, 
-        remap(sin(angle), -1.0, 1.0, 0.0, 2.0)
+        2.0
     );
-    float time_cycle = mod(angle, 15.0); 
-    float grow = smoothstep(0.0, 7.5, time_cycle); 
-    float shrink = smoothstep(7.5, 15.0, time_cycle); 
-    float phase = 1.0 - shrink;
-    float size = grow * phase * (50.0 + length(u_resolution) * 0.5);
-    
-    float d = sdCircle(pixel_coords + 50.0 * noise_sample, size);
-    vec2 distortion = noise_sample / u_resolution * 20.0 * smoothstep(80.0, 20.0, d);
-    vec3 sample1 = texture2D(u_texturemap, v_uv + distortion).xyz;
-
-    vec2 uv = 1.0 - mod((v_uv - 0.5) * sin(angle / 5.0) + 0.5, 1.0);
-    vec4 sample2 = texture2D(u_texturemap, uv) * u_tint;
-
-    float warp = 1.0 - exp(-d * d * 0.1);
-    vec3 color = mix(vec3(0.0), sample1, warp);
-    color = mix(sample2.xyz, color, smoothstep(0.0, 1.0, d));
-    
-    float glow = smoothstep(0.0, 32.0, abs(d));
-    glow = 1.0 - pow(glow, 0.125);
-    color += glow * u_tint.xyz;
-    
+    n_sample = remap(n_sample, -1.0, 1.0, 0.0, 1.0);
+    vec3 color = terrain(n_sample);
     gl_FragColor = vec4(color, 1.0);
 }
