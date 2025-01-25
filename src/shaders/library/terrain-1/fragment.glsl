@@ -105,61 +105,85 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
     return mix(out_min, out_max, t);
 }
 
-vec3 deep_water()
+vec3 deep_water(float edge1, float edge2, float depth)
 {
-    return vec3(0.0, 0.2, 1.0);
+    return mix(
+        vec3(0.0, 0.1, 1.0),
+        vec3(0.0, 0.2, 1.0),
+        smoothstep(edge1, edge2, depth)
+    );
 }
 
-vec3 shallow_water()
+vec3 shallow_water(float edge1, float edge2, float depth)
 {
-    return vec3(0.3, 0.5, 0.9);
+    return mix(
+        vec3(0.2, 0.3, 0.7),
+        vec3(0.3, 0.5, 0.9),
+        smoothstep(edge1, edge2, depth)
+    );
 }
 
-vec3 sand()
+vec3 sand(float edge1, float edge2, float depth)
 {
-    return vec3(0.9, 0.8, 0.2);
+    return mix(
+        vec3(0.9, 0.8, 0.2),
+        vec3(0.6, 0.5, 0.1),
+        smoothstep(edge1, edge2, depth)
+    );
 }
 
-vec3 grass()
+vec3 grass(float edge1, float edge2, float depth)
 {
-    return vec3(0.2, 0.6, 0.2);
+    return mix(
+        vec3(0.2, 0.6, 0.1),
+        vec3(0.2, 0.6, 0.2),
+        smoothstep(edge1, edge2, depth)
+    );
 }
 
-vec3 hills()
+vec3 hills(float edge1, float edge2, float depth)
 {
-    return vec3(0.4, 0.4, 0.4);
+    return mix(
+        vec3(0.45, 0.45, 0.45),
+        vec3(0.4, 0.4, 0.4),
+        smoothstep(edge1, edge2, depth)
+    );
 }
 
-vec3 hilltops()
-{
-    return vec3(0.5, 0.35, 0.5);
+vec3 hilltops(float edge1, float edge2, float depth)
+{  
+    return mix(
+        vec3(0.8, 0.9, 1.0),
+        vec3(1.0, 1.0, 1.0),
+        smoothstep(edge1, edge2, depth)
+    );
 }
 
 vec3 terrain(float elevation) 
 {
     if (elevation < 0.4) {
         return mix(
-            deep_water(), 
-            shallow_water(), 
+            deep_water(0.3, 0.4, elevation), 
+            shallow_water(0.3, 0.4, elevation), 
             smoothstep(0.3, 0.4, elevation)
         );
     } else if (elevation < 0.5) {
         return mix(
-            sand(), 
-            grass(), 
+            sand(0.4, 0.5, elevation), 
+            grass(0.4, 0.5, elevation), 
             smoothstep(0.4, 0.5, elevation)
         );
     } else if (elevation < 0.6) {
         return mix(
-            grass(), 
-            hills(), 
+            grass(0.5, 0.6, elevation), 
+            hills(0.5, 0.6, elevation), 
             smoothstep(0.5, 0.6, elevation)
         );
     } else {
         return mix(
-            hills(), 
-            hilltops(), 
-            smoothstep(0.6, 0.7, elevation)    
+            hills(0.6, 0.8, elevation), 
+            hilltops(0.6, 0.8, elevation), 
+            smoothstep(0.6, 0.8, elevation)    
         );
     }
 }
