@@ -130,9 +130,9 @@ vec3 hills()
     return vec3(0.4, 0.4, 0.4);
 }
 
-vec3 snow()
+vec3 hilltops()
 {
-    return vec3(1.0, 1.0, 1.0);
+    return vec3(0.5, 0.35, 0.5);
 }
 
 vec3 terrain(float elevation) 
@@ -141,10 +141,10 @@ vec3 terrain(float elevation)
         return mix(deep_water(), shallow_water(), smoothstep(0.2, 0.4, elevation));
     } else if (elevation < 0.5) {
         return mix(sand(), grass(), smoothstep(0.4, 0.5, elevation));
-    } else if (elevation < 0.7) {
-        return mix(grass(), hills(), smoothstep(0.5, 0.7, elevation));
+    } else if (elevation < 0.65) {
+        return mix(grass(), hills(), smoothstep(0.5, 0.65, elevation));
     } else {
-        return mix(hills(), snow(), smoothstep(0.7, 0.75, elevation));
+        return mix(hills(), hilltops(), smoothstep(0.65, 0.75, elevation));
     }
 }
 
@@ -155,7 +155,7 @@ void main()
     pos.y = 1.0 - pos.y;
     float n_sample = fbm(
         vec3((px_coords + pos), u_resolution.x/u_resolution.y) * 0.01,
-        4, 
+        8, 
         0.5, 
         2.0
     );
