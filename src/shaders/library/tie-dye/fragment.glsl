@@ -31,7 +31,8 @@ vec3 hash( vec3 p )
 	return - 1.0 + 2.0 * fract(sin(p) * 43758.5453123);
 }
 
-/// https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
+/// https://iquilezles.org/
+/// https://www.shadertoy.com/view/Xsl3Dl
 float noise( in vec3 p )
 {
     vec3 i = floor(p);
@@ -111,8 +112,10 @@ void main()
     uv.x *= u_resolution.x / u_resolution.y;
     vec2 l_uv = uv;
     float angle = u_time * (BPM * 0.01);
+    vec2 pos = u_mousepos;
+    pos.y = 1.0 - pos.y;
     float noise_sample = turbulence_fbm(
-        vec3(pixel_coords, 1.0 - (u_mousepos.x - u_mousepos.y) + angle) * 0.005, 
+        vec3(pixel_coords + pos, 1.0 - (u_mousepos.x + u_mousepos.y) + angle * 4.0) * 0.005, 
         2, 
         0.5, 
         2.0
