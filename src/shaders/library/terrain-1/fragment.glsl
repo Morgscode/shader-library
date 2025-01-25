@@ -141,7 +141,7 @@ vec3 terrain(float elevation)
         return mix(
             deep_water(), 
             shallow_water(), 
-            smoothstep(0.2, 0.4, elevation)
+            smoothstep(0.3, 0.4, elevation)
         );
     } else if (elevation < 0.5) {
         return mix(
@@ -149,17 +149,17 @@ vec3 terrain(float elevation)
             grass(), 
             smoothstep(0.4, 0.5, elevation)
         );
-    } else if (elevation < 0.65) {
+    } else if (elevation < 0.6) {
         return mix(
             grass(), 
             hills(), 
-            smoothstep(0.5, 0.65, elevation)
+            smoothstep(0.5, 0.6, elevation)
         );
     } else {
         return mix(
             hills(), 
             hilltops(), 
-            smoothstep(0.65, 0.75, elevation)    
+            smoothstep(0.6, 0.7, elevation)    
         );
     }
 }
