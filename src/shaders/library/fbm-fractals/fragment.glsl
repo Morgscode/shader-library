@@ -120,9 +120,9 @@ void main()
     float angle = u_time * (BPM * 0.001);
     float noise_sample = fbm(
         vec3(pixel_coords, angle) * 0.001, 
-        9, 
+        2, 
         0.5, 
-        remap(sin(angle), -1.0, 1.0, 2.0, -2.0)
+        remap(sin(angle), -1.0, 1.0, -4.0, 4.0)
     );
     vec2 uv = v_uv * 2.0 - 1.0;
     vec2 l_uv = uv;
@@ -134,6 +134,6 @@ void main()
         uv += noise_sample;
     }
     float l = exp(length(uv)) * exp(-length(l_uv));
-    vec3 color = palette(sin(angle) / (l * remap(noise_sample, -1.0, 1.0, 0.0, 1.0)));
+    vec3 color = palette(-cos(angle) / (l * remap(noise_sample, -1.0, 1.0, 0.0, 1.0)));
     gl_FragColor = vec4(color / PI * length(uv), 1.0);
 }
