@@ -142,8 +142,9 @@ void main()
         uv *= rotate2d(angle + noise_sample);
         uv += noise_sample;
 
-        vec3 color = palette(length(uv) + angle + noise_sample);
         float l = length(uv) * exp(-length(l_uv));
+        vec3 color = palette(-cos(angle) / (l * remap(noise_sample, -1.0, 1.0, 0.0, 1.0)));
+   
         float d = sdHexagon(uv, l);
         d = sin(d * 8.0 + angle) / 2.0;
         d = abs(d);

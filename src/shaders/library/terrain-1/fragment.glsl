@@ -123,11 +123,11 @@ vec3 shallow_water(float edge1, float edge2, float depth)
     );
 }
 
-vec3 sand(float edge1, float edge2, float depth)
+vec3 earth(float edge1, float edge2, float depth)
 {
     return mix(
-        vec3(0.9, 0.8, 0.2),
-        vec3(0.6, 0.5, 0.1),
+        vec3(0.85, 0.75, 0.55),  // Light earthy tone (beige/earth-like)
+        vec3(0.6, 0.5, 0.3),     // Slightly darker earthy tone
         smoothstep(edge1, edge2, depth)
     );
 }
@@ -169,7 +169,7 @@ vec3 terrain(float elevation)
         );
     } else if (elevation < 0.5) {
         return mix(
-            sand(0.4, 0.5, elevation), 
+            earth(0.4, 0.5, elevation), 
             grass(0.4, 0.5, elevation), 
             smoothstep(0.4, 0.5, elevation)
         );
@@ -194,7 +194,7 @@ void main()
     vec2 pos = u_mousepos;
     pos.y = 1.0 - pos.y;
     float n_sample = fbm(
-        vec3((px_coords + pos), u_resolution.x/u_resolution.y) * 0.01,
+        vec3((px_coords + pos), pow(u_resolution.x/u_resolution.y, PI)) * 0.01,
         8, 
         0.5, 
         2.0
