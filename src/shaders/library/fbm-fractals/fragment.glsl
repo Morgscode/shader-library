@@ -119,21 +119,24 @@ void main()
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     float angle = u_time * (BPM * 0.001);
     float noise_sample = fbm(
-        vec3(pixel_coords, angle) * 0.001, 
-        2, 
+        vec3(pixel_coords, cos(angle) * PI) * 0.001, 
+        3, 
         0.5, 
-        remap(sin(angle), -1.0, 1.0, -4.0, 4.0)
+        remap(sin(angle), -1.0, 1.0, 4.0, -4.0)
     );
     vec2 uv = v_uv * 2.0 - 1.0;
     vec2 l_uv = uv;
     uv.x *= u_resolution.x / u_resolution.y;
+
     for (float i = 0.0; i < 64.0; i += 1.0) 
     {
         uv = (abs(uv) - 0.5) * 1.1;
         uv *= rotate2d(angle);
         uv += noise_sample;
     }
+
     float l = exp(length(uv)) * exp(-length(l_uv));
     vec3 color = palette(-cos(angle) / (l * remap(noise_sample, -1.0, 1.0, 0.0, 1.0)));
-    gl_FragColor = vec4(color / PI * length(uv), 1.0);
+
+    gl_FragColor = vec4(color * length(uv), 1.0);
 }
