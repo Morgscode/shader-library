@@ -7,7 +7,12 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      input: ["index.html", "entry.html", "shader.html", "/library/2/index.html"],
+      input: [
+        "index.html",
+        "entry.html",
+        "shader.html",
+        "/library/2/index.html"
+      ],
     },
   },
   plugins: [
