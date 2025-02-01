@@ -15,6 +15,7 @@ import healthbar from './healthbar/fragment.glsl';
 import grid from './grid/fragment.glsl';
 import tieDIe from './tie-dye/fragment.glsl';
 import terrain1 from './terrain-1/fragment.glsl';
+import quadracticJuliaSet from './quadratic-julia-set/fragment.glsl';
 
 const base: Shader = {
     title: '',
@@ -103,5 +104,10 @@ export const shaders: Record<string, Shader> = {
         ...base,
         title: "Terrain #1",
         fragment: terrain1,
+    },
+    "quadratic-julia-set": {
+        ...base,
+        title: "Quadratic Julia Set",
+        fragment: quadracticJuliaSet,
     }
 };
