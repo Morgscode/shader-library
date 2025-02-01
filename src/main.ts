@@ -77,14 +77,35 @@ window.addEventListener("DOMContentLoaded", () => {
             const keys = Object.keys(library);
             const matches = keys.filter(key => query && key.includes(query.trim()));
             const list = document.createElement('ul');
-            const links = matches.map((key) => `<li>${shaderLink(key)}</li>`);
+            const links = matches.map((match) => shaderSearchResult(match));
             list.innerHTML = links.join("");
             results.appendChild(list);
         });
     }
+
+    const pagination = document.querySelector('nav#pagination');
+    if (pagination) {
+        const pages = Math.ceil(Object.keys(shaders["library"]).length / 6);
+        const links = [];
+        for (let i = 0; i < pages; i++) {
+            links[i] = paginationItem(i + 1);
+        }
+        const list = document.createElement('ul');
+        list.innerHTML = links.join("");
+        pagination.appendChild(list);
+    }
 });
 
-function shaderLink(key: string) {
+function shaderSearchResult(key: string) {
     const shader = shaders["library"][key];
-    return `<span>${shader.title} - </span><a href="/shader.html?type=library&shader=${key}">Shader</a>&nbsp;|&nbsp;<a href="/entry.html?type=library&shader=${key}">Entry</a>`;
+    return `<li>
+                <span>${shader.title} - </span>
+                    <a href="/shader.html?type=library&shader=${key}">Shader</a>
+                    &nbsp;|&nbsp;
+                    <a href="/entry.html?type=library&shader=${key}">Entry</a>
+            </li>`;
+}
+
+function paginationItem(page: number) {
+    return `<li><a href="/?page=${page}">${page}</a></li>`;
 }
