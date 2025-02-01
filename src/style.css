@@ -102,6 +102,28 @@ header.site-header a {
   margin-top: 3rem;
 }
 
+form#search-form {
+  width: 100%;
+}
+
+form#search-form input[name="query"] {
+  width: 100%;
+  padding: 12px 22px;
+}
+
+#search-results {
+  padding-top: 2rem;
+}
+
+#search-results ul {
+  list-style: none;
+}
+
+#search-results ul li {
+  padding: 12px 22px;
+  border-bottom: 2px solid rgb(220, 221, 225, 0.75);
+}
+
 @media only screen and (min-width: 1280px) {
   #preview iframe {
     width: 650px;
@@ -120,6 +142,11 @@ header.site-header a {
   body {
     color: #EDEDED;
     background-color: #121212;
+  }
+
+  form#search-form input[name="query"] {
+    color: #EDEDED;
+    background-color: rgb(50, 50, 50);
   }
 
   header.site-header {

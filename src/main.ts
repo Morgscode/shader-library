@@ -62,3 +62,29 @@ window.addEventListener('load', () => {
         }
     }
 });
+
+window.addEventListener("DOMContentLoaded", () => {
+    const search = document.querySelector<HTMLFormElement>("form#search-form");
+    if (search) {
+        search.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const results = document.querySelector<HTMLDivElement>("#search-results");
+            if (!results) return;
+            results.innerHTML = "";
+            const data = new FormData(e.target as HTMLFormElement);
+            const query = data.get('query') as string;
+            const library = shaders["library"];
+            const keys = Object.keys(library);
+            const matches = keys.filter(key => query && key.includes(query.trim()));
+            const list = document.createElement('ul');
+            const links = matches.map((key) => `<li>${shaderLink(key)}</li>`);
+            list.innerHTML = links.join("");
+            results.appendChild(list);
+        });
+    }
+});
+
+function shaderLink(key: string) {
+    const shader = shaders["library"][key];
+    return `<span>${shader.title} - </span><a href="/shader.html?type=library&shader=${key}">Shader</a>&nbsp;|&nbsp;<a href="/entry.html?type=library&shader=${key}">Entry</a>`;
+}
