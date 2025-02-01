@@ -42,7 +42,7 @@ export const shaders: Record<string, Shader> = {
         title: "Procedural geometry #2",
         fragment: proceduralGeometry2,
     },
-    "progressive-horizontal-sinwave": {
+    "horizontal-sinwave": {
         ...base,
         title: "Horizontal sinwave (130 BPM)",
         fragment: horizontalSinWave,

@@ -64,9 +64,9 @@ window.addEventListener('load', () => {
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-    const search = document.querySelector<HTMLFormElement>("form#search-form");
-    if (search) {
-        search.addEventListener("submit", (e) => {
+    const searchForm = document.querySelector<HTMLFormElement>("form#search-form");
+    if (searchForm) {
+        searchForm.addEventListener("submit", (e) => {
             e.preventDefault();
             const results = document.querySelector<HTMLDivElement>("#search-results");
             if (!results) return;
@@ -75,7 +75,7 @@ window.addEventListener("DOMContentLoaded", () => {
             const query = data.get('query') as string;
             const library = shaders["library"];
             const keys = Object.keys(library);
-            const matches = keys.filter(key => query && key.includes(query.trim()));
+            const matches = keys.filter(key => query && key.toLowerCase().includes(query.toLowerCase().trim()));
             const list = document.createElement('ul');
             const links = matches.map((match) => shaderSearchResult(match));
             list.innerHTML = links.join("");

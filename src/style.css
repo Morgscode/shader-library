@@ -109,6 +109,9 @@ form#search-form {
 form#search-form input[name="query"] {
   width: 100%;
   padding: 12px 22px;
+  background-color: rgb(220, 221, 225);
+  color: #222222;
+  border: none;
 }
 
 #search-results {
