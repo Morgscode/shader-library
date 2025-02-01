@@ -9,10 +9,10 @@ uniform vec2 u_resolution;
 /// https://github.com/Erkaman/glsl-cos-palette
 vec3 palette(float t) 
 {
-        vec3 a = vec3(0.8, 0.3, 0.2);
-        vec3 b = vec3(0.6, 0.4, 0.8);
-        vec3 c = vec3(0.6, 0.3, 0.2);
-        vec3 d = vec3(2.9, 3.02, -0.27);
+        vec3 a = vec3(0.821, 0.328, 0.242);
+        vec3 b = vec3(0.659, 0.481, 0.896);
+        vec3 c = vec3(0.612, 0.340, 0.296);
+        vec3 d = vec3(2.820, 3.026, -0.273);
 
         return a + b * cos((PI * 2.0) * (c * t + d));
 }

@@ -13,7 +13,7 @@ vec3 palette(float t)
         vec3 a = vec3(0.5, 0.5, 0.5);
         vec3 b = vec3(0.5, 0.5, 0.5);
         vec3 c = vec3(1.0, 1.0, 1.0);
-        vec3 d = vec3(0.0, 0.3, 0.6);
+        vec3 d = vec3(0.0, 0.333, 0.667);
 
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
