@@ -181,7 +181,10 @@ export default class Renderer {
         if (!this.model) throw new Error("Tried to load an undefined model");
         this.gltfLoader.load(this.model, (gltf) => {
             gltf.scene.traverse(c => {
-                c.material = this.material
+                type C = THREE.Object3D & {
+                    material: THREE.ShaderMaterial
+                };
+                (c as C).material = this.material
             });
             this.scene.add(gltf.scene);
         });
