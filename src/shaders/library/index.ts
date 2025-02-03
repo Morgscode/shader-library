@@ -24,23 +24,21 @@ const base: Shader = {
     cameraType: "orthographic",
     geometry: "plane",
     controls: false,
+    hidden: false,
 };
 
 export const shaders: Record<string, Shader> = {
-    "procedural-pixel-art-1": {
+    "grid": {
         ...base,
-        title: "Procedural pixel art #1",
-        fragment: pixelart,
+        title: "GLSL grid example",
+        fragment: grid,
+        hidden: true,
     },
-    "procedural-geometry-1": {
+    "pong": {
         ...base,
-        title: "Procedural geometry #1",
-        fragment: proceduralGeometry1,
-    },
-    "procedural-geometry-2": {
-        ...base,
-        title: "Procedural geometry #2",
-        fragment: proceduralGeometry2,
+        title: "Pong",
+        fragment: pong,
+        hidden: true,
     },
     "horizontal-sinwave": {
         ...base,
@@ -63,21 +61,31 @@ export const shaders: Record<string, Shader> = {
         fragment: textures1,
         texture: './assets/images/galactic-core.webp',
     },
-    "fbm-fractals": {
-        ...base,
-        title: "Fractals with FBM",
-        fragment: fbmFractals,
-    },
-    "pong": {
-        ...base,
-        title: "Pong",
-        fragment: pong,
-    },
     "texture-techniques-2": {
         ...base,
         title: "Texture techniques #2",
         fragment: textures2,
         texture: './assets/images/galactic-core.webp',
+    },
+    "procedural-pixel-art-1": {
+        ...base,
+        title: "Procedural pixel art #1",
+        fragment: pixelart,
+    },
+    "procedural-geometry-1": {
+        ...base,
+        title: "Procedural geometry #1",
+        fragment: proceduralGeometry1,
+    },
+    "procedural-geometry-2": {
+        ...base,
+        title: "Procedural geometry #2",
+        fragment: proceduralGeometry2,
+    },
+    "fbm-fractals": {
+        ...base,
+        title: "Fractals with FBM",
+        fragment: fbmFractals,
     },
     "texture-techniques-3": {
         ...base,
@@ -89,11 +97,6 @@ export const shaders: Record<string, Shader> = {
         ...base,
         title: "Healthbar",
         fragment: healthbar,
-    },
-    "grid": {
-        ...base,
-        title: "GLSL grid example",
-        fragment: grid,
     },
     "tie-dye": {
         ...base,

@@ -10,6 +10,7 @@ export type Shader = {
     cameraType: CameraType;
     geometry: false | GeometryOption;
     controls: boolean;
+    hidden: boolean;
     texture?: string;
     cubeTexture?: Array<string>;
     model?: string;

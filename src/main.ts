@@ -94,15 +94,63 @@ window.addEventListener("DOMContentLoaded", () => {
         list.innerHTML = links.join("");
         pagination.appendChild(list);
     }
+
+    if (window.location.search) {
+
+        const search = new URLSearchParams(window.location.search);
+        const page = parseInt(search.get('page') ?? "0");
+        const list = document.querySelector<HTMLUListElement>('ul#shader-list');
+        if (page && list) {
+            const pageSize = 6;
+            const pages = Math.ceil(Object.keys(shaders["library"]).length / 6);
+            const library = Object.entries(shaders["library"]).reverse();
+
+            if (page < 1 || page > pages) {
+                console.log('failed');
+            }
+
+            const startIndex = (page - 1) * 6;
+            const selection = library.slice(startIndex, startIndex + pageSize);
+            list.innerHTML = "";
+            selection.forEach(item => {
+                const shader = shaderListItem(item);
+                shader && list.append(shader);
+            });
+
+        }
+    }
 });
+
+
+function shaderListItem(entry: [string, shaders.Shader]) {
+    const [key, shader] = entry;
+    if (shader.hidden) return false;
+
+    const li = document.createElement('li');
+    const markup = `
+        <iframe
+            title="${shader.title}"
+            src="/shader?type=library&shader=${key}"
+            frameborder="0"
+        ></iframe>
+        <a href="/shader?type=library&shader=${key}"
+        >${shader.title}</a>
+        |
+        <a href="/entry?type=library&shader=${key}"
+        >Explore/Edit</a>
+    `;
+    li.innerHTML = markup;
+    return li;
+}
+
 
 function shaderSearchResult(key: string) {
     const shader = shaders["library"][key];
     return `<li>
                 <span>${shader.title} - </span>
-                    <a href="/shader.html?type=library&shader=${key}">Shader</a>
-                    &nbsp;|&nbsp;
-                    <a href="/entry.html?type=library&shader=${key}">Entry</a>
+                <a href="/shader.html?type=library&shader=${key}">Shader</a>
+                &nbsp;|&nbsp;
+                <a href="/entry.html?type=library&shader=${key}">Entry</a>
             </li>`;
 }
 
