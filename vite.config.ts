@@ -11,7 +11,6 @@ export default defineConfig({
         "index.html",
         "entry.html",
         "shader.html",
-        "/library/2/index.html"
       ],
     },
   },
