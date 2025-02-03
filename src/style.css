@@ -109,6 +109,9 @@ form#search-form {
 form#search-form input[name="query"] {
   width: 100%;
   padding: 12px 22px;
+  background-color: rgb(220, 221, 225);
+  color: #222222;
+  border: none;
 }
 
 #search-results {
@@ -122,6 +125,22 @@ form#search-form input[name="query"] {
 #search-results ul li {
   padding: 12px 22px;
   border-bottom: 2px solid rgb(220, 221, 225, 0.75);
+}
+
+nav#pagination ul {
+  display: flex;
+  list-style: none;
+}
+
+nav#pagination ul li {
+  margin: 1rem;
+  border-bottom: 2px solid rgb(220, 221, 225, 0.75);
+}
+
+nav#pagination ul li a{
+  padding: 1rem;
+  display: inline-block;
+  cursor: pointer;
 }
 
 @media only screen and (min-width: 1280px) {
