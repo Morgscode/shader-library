@@ -96,7 +96,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     if (window.location.search) {
-
         const search = new URLSearchParams(window.location.search);
         const page = parseInt(search.get('page') ?? "0");
         const list = document.querySelector<HTMLUListElement>('ul#shader-list');
@@ -104,11 +103,7 @@ window.addEventListener("DOMContentLoaded", () => {
             const pageSize = 6;
             const pages = Math.ceil(Object.keys(shaders["library"]).length / 6);
             const library = Object.entries(shaders["library"]).reverse();
-
-            if (page < 1 || page > pages) {
-                console.log('failed');
-            }
-
+            if (page < 1 || page > pages) return;
             const startIndex = (page - 1) * 6;
             const selection = library.slice(startIndex, startIndex + pageSize);
             list.innerHTML = "";
@@ -116,7 +111,6 @@ window.addEventListener("DOMContentLoaded", () => {
                 const shader = shaderListItem(item);
                 shader && list.append(shader);
             });
-
         }
     }
 });
