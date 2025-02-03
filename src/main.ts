@@ -101,10 +101,10 @@ window.addEventListener("DOMContentLoaded", () => {
         const list = document.querySelector<HTMLUListElement>('ul#shader-list');
         if (page && list) {
             const pageSize = 6;
-            const pages = Math.ceil(Object.keys(shaders["library"]).length / 6);
-            const library = Object.entries(shaders["library"]).reverse();
+            const pages = Math.ceil(Object.keys(shaders["library"]).length / pageSize);
+            const startIndex = (page - 1) * pageSize;
             if (page < 1 || page > pages) return;
-            const startIndex = (page - 1) * 6;
+            const library = Object.entries(shaders["library"]).reverse();
             const selection = library.slice(startIndex, startIndex + pageSize);
             list.innerHTML = "";
             selection.forEach(item => {
@@ -114,7 +114,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
-
 
 function shaderListItem(entry: [string, shaders.Shader]) {
     const [key, shader] = entry;
@@ -136,7 +135,6 @@ function shaderListItem(entry: [string, shaders.Shader]) {
     li.innerHTML = markup;
     return li;
 }
-
 
 function shaderSearchResult(key: string) {
     const shader = shaders["library"][key];
