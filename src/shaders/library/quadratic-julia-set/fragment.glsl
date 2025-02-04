@@ -17,12 +17,23 @@ vec3 palette(float t)
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
 
+float i_lerp(float value, float min_val, float max_val)
+{
+    return (value - min_val) / (max_val - min_val);
+}
+
+float remap(float value, float in_min, float in_max, float out_min, float out_max)
+{
+    float t = i_lerp(value, in_min, in_max);
+    return mix(out_min, out_max, t);
+}
+
 void main()
 {
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
     float angle = u_time * (BPM * 0.001);
-    vec2 z = uv;
+    vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 1.0, PI);
     vec2 c = vec2(
         -0.8 + 0.2 * cos(angle), 
         0.156 + 0.2 * sin(angle)
