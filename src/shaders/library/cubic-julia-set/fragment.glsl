@@ -28,15 +28,25 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
     return mix(out_min, out_max, t);
 }
 
+/// https://en.wikipedia.org/wiki/Rotation_matrix
+mat2 rotate2d(float angle) 
+{
+    return mat2(
+        cos(angle), -sin(angle),
+        sin(angle), cos(angle)
+    );
+}
+
 void main()
 {
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
-    float angle = u_time * (BPM * 0.001);
-    vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 1.0, PI);
+    float angle = u_time * (BPM * 0.00025);
+    uv *= rotate2d(angle);
+    vec2 z = uv / remap(sin(angle), -1.0, 1.0, 1.0, PI / 2.0);
     vec2 c = vec2(
-        -0.8 + 0.2 * cos(angle), 
-        0.156 + 0.2 * sin(angle)
+        0.5 * cos(2.0 * angle / 8.0), 
+        0.5 * sin(3.0 * angle / 8.0)
     );
     float r = 4.0;
     float iterations = 0.0;
@@ -44,16 +54,17 @@ void main()
     for (float i = 0.0; i < BPM; i++) 
     {
         if (dot(z, z) > r) break;
+        float x2 = z.x * z.x - z.y * z.y;
+        float y2 = 2.0 * z.x * z.y;
         z = vec2(
-            z.x * z.x - z.y * z.y, 
-            2.0 * z.x * z.y
+            x2 * z.x - y2 * z.y,  // Real part of (z^3)
+            x2 * z.y + y2 * z.x   // Imaginary part of (z^3)
         ) + c;
-        iterations += 1.0;
     }
 
     float t = iterations / BPM;
     float l = length(z) * exp(-length(z));
-    vec3 color = palette(l +  t);
+    vec3 color = palette(mod(l, PI) + t + remap(sin(angle), -1.0, 1.0, -0.5, 0.5));
 
     gl_FragColor = vec4(color, 1.0);
 }
