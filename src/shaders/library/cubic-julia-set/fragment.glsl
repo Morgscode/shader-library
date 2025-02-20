@@ -46,8 +46,8 @@ void main()
     uv.y -= remap(sin(angle), -1.0, 1.0, 0.0, 0.25);
     vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 2.0, 1.0);
     vec2 c = vec2(
-        0.5 * remap(cos(2.0 * angle / 8.0), -1.0, 1.0, 0.9, 1.0), 
-        0.5 * remap(sin(3.0 * angle / 8.0), -1.0, 1.0, 0.9, 1.0)
+        0.5 * remap(cos(2.0 * angle), -1.0, 1.0, 0.9, 1.0), 
+        0.5 * remap(sin(3.0 * angle), -1.0, 1.0, 0.9, 1.0)
     );
     float r = 4.0;
     float iterations = 0.0;
