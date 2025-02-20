@@ -42,6 +42,8 @@ void main()
     float r = 4.0;
     float iterations = 0.0;
     
+    /// https://en.wikipedia.org/wiki/Julia_set
+    /// https://www.shadertoy.com/view/NdSGRG
     for (float i = 0.0; i < BPM; i++) 
     {
         if (dot(z, z) > r) break;
