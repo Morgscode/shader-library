@@ -33,9 +33,8 @@ void main()
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
     float angle = u_time * (BPM * 0.001);
-    uv.x -= remap(sin(angle), -1.0, 1.0, 0.5, 1.0);
-    uv.y -= remap(sin(angle), -1.0, 1.0, 0.0, 0.25);
-    vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 2.0, 1.0);
+    uv.x -= remap(sin(angle), -1.0, 1.0, 1.0, 0.5);
+    vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 5.0, 1.0);
     vec2 c = vec2(
         -0.8 + 0.2 * remap(cos(angle), -1.0, 1.0, 0.0, 0.25), 
         0.156 + 0.2 * remap(sin(angle), -1.0, 1.0, -0.25, 0.0)
@@ -54,8 +53,8 @@ void main()
     }
 
     float t = iterations / BPM;
-    float l = length(z) * exp(-length(z));
-    vec3 color = palette(l +  t);
+    float l = length(uv) * exp(-length(z));
+    vec3 color = 1.0 - palette(l + t);
 
     gl_FragColor = vec4(color, 1.0);
 }
