@@ -41,12 +41,13 @@ void main()
 {
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
-    float angle = u_time * (BPM * 0.00025);
-    uv *= rotate2d(angle);
-    vec2 z = uv / remap(sin(angle), -1.0, 1.0, 1.0, PI / 2.0);
+    float angle = u_time * (BPM * 0.001);
+    uv.x -= remap(sin(angle), -1.0, 1.0, 0.0, 1.0);
+    uv.y -= remap(sin(angle), -1.0, 1.0, 0.0, 0.25);
+    vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 2.0, 1.0);
     vec2 c = vec2(
-        0.5 * cos(2.0 * angle / 8.0), 
-        0.5 * sin(3.0 * angle / 8.0)
+        0.5 * remap(cos(2.0 * angle), -1.0, 1.0, 0.9, 1.0), 
+        0.5 * remap(sin(3.0 * angle), -1.0, 1.0, 0.9, 1.0)
     );
     float r = 4.0;
     float iterations = 0.0;
@@ -56,15 +57,17 @@ void main()
         if (dot(z, z) > r) break;
         float x2 = z.x * z.x - z.y * z.y;
         float y2 = 2.0 * z.x * z.y;
+        vec2 lz = z;
+        lz *= rotate2d(angle / 2.0);
         z = vec2(
-            x2 * z.x - y2 * z.y,  // Real part of (z^3)
-            x2 * z.y + y2 * z.x   // Imaginary part of (z^3)
+            x2 * lz.x - y2 * lz.y,
+            x2 * lz.y + y2 * lz.x 
         ) + c;
     }
 
     float t = iterations / BPM;
-    float l = length(z) * exp(-length(z));
-    vec3 color = palette(mod(l, PI) + t + remap(sin(angle), -1.0, 1.0, -0.5, 0.5));
+    float l = length(uv) * exp(-length(z));
+    vec3 color = palette(smoothstep(0.0, 0.5, l) - smoothstep(0.5, 1.0, t));
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color  / (length(uv) + remap(sin(angle),-1.0, 1.0, 1.0, 0.0)), 1.0);
 }
