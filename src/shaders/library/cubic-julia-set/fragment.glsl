@@ -9,10 +9,10 @@ uniform vec2 u_resolution;
 /// https://github.com/Erkaman/glsl-cos-palette
 vec3 palette(float t) 
 {
-        vec3 a = vec3(0.821, 0.328, 0.242);
-        vec3 b = vec3(0.659, 0.481, 0.896);
-        vec3 c = vec3(0.612, 0.340, 0.296);
-        vec3 d = vec3(2.820, 3.026, -0.273);
+        vec3 a = vec3(0.667, 0.5, 0.5);
+        vec3 b = vec3(0.500, 0.667, 0.5);
+        vec3 c = vec3(0.667, 0.666, 0.5);
+        vec3 d = vec3(0.2, 0.0, 0.5);
 
         return a + b * cos((PI * 2.0) * (c * t + d));
 }
@@ -42,14 +42,14 @@ void main()
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
     float angle = u_time * (BPM * 0.001);
-    uv.x -= remap(sin(angle), -1.0, 1.0, 0.0, 2.0);
-    uv.y -= remap(sin(angle), -1.0, 1.0, -0.5, 0.5);
+    uv.x -= remap(sin(angle), -1.0, 1.0, -0.5, 2.0);
+    uv.y -= remap(sin(angle), -1.0, 1.0, -0.15, 0.15);
     uv *= rotate2d(angle / 2.0);
     vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 5.0, 2.0);
   
     /// https://en.wikipedia.org/wiki/Julia_set
     /// https://www.shadertoy.com/view/NdSGRG
-      vec2 c = vec2(
+    vec2 c = vec2(
         0.5 * remap(cos(2.0 * angle), -1.0, 1.0, 0.95, 1.0), 
         0.5 * remap(sin(3.0 * angle), -1.0, 1.0, 0.95, 1.0)
     );
@@ -68,7 +68,8 @@ void main()
 
     float t = iterations / BPM;
     float l = length(uv) * exp(-length(z));
+    float l2 = (length(uv) + remap(sin(angle), -1.0, 1.0, 3.0, 2.0) / 2.0);
     vec3 color = palette(l) + t;
 
-    gl_FragColor = vec4(color / ((length(uv) + remap(sin(angle), -1.0, 1.0, 3.0, 1.0) / 2.0)), 1.0);
+    gl_FragColor = vec4(color / l2, 1.0);
 }
