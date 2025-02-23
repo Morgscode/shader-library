@@ -42,8 +42,8 @@ void main()
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.x *= u_resolution.x / u_resolution.y;
     float angle = u_time * (BPM * 0.001);
-    uv.x -= remap(sin(angle), -1.0, 1.0, -0.5, 2.0);
-    uv.y -= remap(sin(angle), -1.0, 1.0, -0.15, 0.15);
+    uv.x -= remap(sin(angle), -1.0, 1.0, -1.0, 2.0);
+    uv.y -= remap(sin(angle), -1.0, 1.0, -0.25, 0.25);
     uv *= rotate2d(angle / 2.0);
     vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 5.0, 2.0);
   
