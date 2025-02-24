@@ -95,7 +95,7 @@ void main()
    
     vec2 uv = v_uv * 2.0 - 1.0;
     vec2 px_coords = (v_uv - 0.5) * u_resolution;
-    uv.y += u_time * remap(sin(u_time / BPM), -1.0, 1.0, -0.25, 0.25);
+    uv.y += u_time * remap(sin(u_time), -1.0, 1.0, 0.0, 0.005);
     
     float noise_sample = fbm(
         vec3(px_coords, u_time) * 0.005, 
