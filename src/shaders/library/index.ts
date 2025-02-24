@@ -17,6 +17,7 @@ import tieDIe from './tie-dye/fragment.glsl';
 import terrain1 from './terrain-1/fragment.glsl';
 import quadracticJuliaSet from './quadratic-julia-set/fragment.glsl';
 import cubicJuliaSet from './cubic-julia-set/fragment.glsl';
+import textures4 from './texture-techniques-4/fragment.glsl';
 
 const base: Shader = {
     title: '',
@@ -118,5 +119,11 @@ export const shaders: Record<string, Shader> = {
         ...base,
         title: "Cubic Julia Set",
         fragment: cubicJuliaSet
+    },
+    "texture-techniques-4": {
+        ...base,
+        title: "Texture Techniques 4",
+        fragment: textures4,
+        texture: './assets/images/model.jpg',
     }
 };
