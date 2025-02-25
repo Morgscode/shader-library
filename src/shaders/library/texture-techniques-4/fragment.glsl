@@ -1,4 +1,5 @@
 #define BPM 130.0
+#define PI 3.1415926535
 
 varying vec2 v_uv;
 
@@ -93,28 +94,27 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
 
 void main()
 {
-   
     vec2 uv = v_uv * 2.0 - 1.0;
+    uv.y += u_time * 0.001;
     vec2 px_coords = (v_uv - 0.5) * u_resolution;
-    uv.y += u_time * 0.01;
-    
+      
     float noise_sample = fbm(
-        vec3(px_coords, remap(tan(u_time), -1.0, 1.0, 1.0, 1.5)) * 0.005, 
+        vec3(px_coords, remap(cos(u_time / BPM), -1.0, 1.0, 1.0, 2.0)) * 0.0025, 
         2, 
         0.5, 
         remap(tan(u_time), -1.0, 1.0, 0.0, 2.0)
     );
     float line = smoothstep(
-            -1.0, 
-            0.0001, 
-            sin(uv.y * u_resolution.y) / noise_sample
+        -1.0, 
+        0.0001, 
+        sin(uv.y * u_resolution.y)
     );
 
     float z = remap(noise_sample, -1.0, 1.0, -0.25, 0.25);
     vec4 t_sample = texture2D(u_texturemap, v_uv + (z / u_resolution * BPM));
 
-    vec3 color = t_sample.xyz * (line + noise_sample);
+    vec3 color = t_sample.xyz * line;
     float l = length(uv) * exp(-length(uv));
-    float l2 = l * remap(sin(u_time), -1.0, 1.0, 0.3, 0.5);
-    gl_FragColor = vec4(color / l2, 1.0);   
+    float l2 = l * remap(sin(u_time), -1.0, 1.0, 0.5, 1.0);
+    gl_FragColor = vec4(color / (l2 * PI), 1.0);   
 }
