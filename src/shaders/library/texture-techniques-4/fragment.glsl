@@ -4,6 +4,7 @@ varying vec2 v_uv;
 
 uniform float u_time;
 uniform vec2 u_resolution;
+uniform vec2 u_mousepos;
 uniform sampler2D u_texturemap;
 
 /// https://iquilezles.org/
@@ -95,24 +96,24 @@ void main()
    
     vec2 uv = v_uv * 2.0 - 1.0;
     vec2 px_coords = (v_uv - 0.5) * u_resolution;
-    uv.y += u_time * remap(sin(u_time), -1.0, 1.0, 0.0, 0.005);
+    uv.y += u_time * 0.01;
     
     float noise_sample = fbm(
-        vec3(px_coords, u_time) * 0.005, 
+        vec3(px_coords, remap(tan(u_time), -1.0, 1.0, 1.0, 1.5)) * 0.005, 
         2, 
         0.5, 
-        remap(sin(u_time), -1.0, 1.0, 0.0, 2.0)
+        remap(tan(u_time), -1.0, 1.0, 0.0, 2.0)
     );
     float line = smoothstep(
-            1.0, 
-            0.01, 
-            sin(uv.y * u_resolution.y)
+            -1.0, 
+            0.0001, 
+            sin(uv.y * u_resolution.y) / noise_sample
     );
 
     float z = remap(noise_sample, -1.0, 1.0, -0.25, 0.25);
     vec4 t_sample = texture2D(u_texturemap, v_uv + (z / u_resolution * BPM));
 
-    vec3 color = t_sample.xyz * line;
+    vec3 color = t_sample.xyz * (line + noise_sample);
     float l = length(uv) * exp(-length(uv));
     float l2 = l * remap(sin(u_time), -1.0, 1.0, 0.3, 0.5);
     gl_FragColor = vec4(color / l2, 1.0);   
