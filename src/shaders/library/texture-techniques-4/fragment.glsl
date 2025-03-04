@@ -1,4 +1,4 @@
-#define BPM 130.0
+#define BPM 30.0
 #define PI 3.1415926535
 
 varying vec2 v_uv;
@@ -107,14 +107,14 @@ void main()
     float line = smoothstep(
         1.0, 
         0.01, 
-        sin(uv.y * u_resolution.y)
+        sin((uv.y + uv.x) * u_resolution.y / PI)
     );
 
-    float z = remap(noise_sample, -1.0, 1.0, -0.5, 0.5);
+    float z = noise_sample * PI;
     vec4 t_sample = texture2D(u_texturemap, v_uv + (z / u_resolution * BPM));
 
     vec3 color = t_sample.xyz * line;
     float l = length(uv) * exp(-length(uv));
-    float l2 = l * remap(tan(u_time * (BPM / PI)), -1.0, 1.0, -0.5, 0.5);
+    float l2 = l * remap(tan(u_time * (BPM / PI)), -1.0, 1.0, -2.0, 2.0);
     gl_FragColor = vec4(color / (l2 * PI), 1.0);   
 }
