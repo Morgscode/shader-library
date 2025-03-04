@@ -102,12 +102,12 @@ void main()
         vec3(px_coords, BPM) * 0.0025, 
         2, 
         0.5, 
-        remap(tan(u_time), -1.0, 1.0, 0.0, 2.0)
+        remap(sin(u_time), -1.0, 1.0, 0.0, 2.0)
     );
     float line = smoothstep(
         1.0, 
         0.01, 
-        sin(uv.y * u_resolution.y)
+        sin((uv.y + uv.x) * u_resolution.y / PI)
     );
 
     float z = remap(noise_sample, -1.0, 1.0, -0.5, 0.5);
@@ -115,6 +115,6 @@ void main()
 
     vec3 color = t_sample.xyz * line;
     float l = length(uv) * exp(-length(uv));
-    float l2 = l * remap(tan(u_time * (BPM / PI)), -1.0, 1.0, -0.5, 0.5);
+    float l2 = l * remap(tan(u_time * (BPM / PI)), -1.0, 1.0, -2.0, 2.0);
     gl_FragColor = vec4(color / (l2 * PI), 1.0);   
 }
