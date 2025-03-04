@@ -1,4 +1,4 @@
-#define BPM 130.0
+#define BPM 30.0
 #define PI 3.1415926535
 
 varying vec2 v_uv;
@@ -102,7 +102,7 @@ void main()
         vec3(px_coords, BPM) * 0.0025, 
         2, 
         0.5, 
-        remap(sin(u_time), -1.0, 1.0, 0.0, 2.0)
+        remap(tan(u_time), -1.0, 1.0, 0.0, 2.0)
     );
     float line = smoothstep(
         1.0, 
@@ -110,7 +110,7 @@ void main()
         sin((uv.y + uv.x) * u_resolution.y / PI)
     );
 
-    float z = remap(noise_sample, -1.0, 1.0, -0.5, 0.5);
+    float z = noise_sample * PI;
     vec4 t_sample = texture2D(u_texturemap, v_uv + (z / u_resolution * BPM));
 
     vec3 color = t_sample.xyz * line;
