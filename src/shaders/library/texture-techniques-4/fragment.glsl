@@ -95,14 +95,14 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
 void main()
 {
     vec2 uv = v_uv * 2.0 - 1.0;
-    uv.y += u_time * 0.01;
+    uv.y += u_time * 0.001;
     vec2 px_coords = (v_uv - 0.5) * u_resolution;
       
     float noise_sample = fbm(
         vec3(px_coords, BPM) * 0.0025, 
         2, 
         0.5, 
-        remap(tan(u_time), -1.0, 1.0, 0.0, 2.0)
+        remap(sin(u_time) * PI, -1.0, 1.0, 0.0, 2.0)
     );
     float line = smoothstep(
         1.0, 
@@ -115,6 +115,6 @@ void main()
 
     vec3 color = t_sample.xyz * line;
     float l = length(uv) * exp(-length(uv));
-    float l2 = l * remap(tan(u_time * (BPM / PI)), -1.0, 1.0, -2.0, 2.0);
-    gl_FragColor = vec4(color / (l2 * PI), 1.0);   
+    float l2 = l * remap(tan(u_time * (BPM / PI)), -1.0, 1.0, -3.0, 1.0);
+    gl_FragColor = vec4((color - l) / (l * PI), 1.0);   
 }
