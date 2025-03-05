@@ -116,5 +116,9 @@ void main()
     vec3 color = t_sample.xyz * line;
     float l = length(uv) * exp(-length(uv));
     float l2 = l * remap(tan(u_time * (BPM / PI)), -1.0, 1.0, -3.0, 1.0);
-    gl_FragColor = vec4((color - l) / (l * PI), 1.0);   
+    if (fract(u_time * BPM) > 0.70) {
+         gl_FragColor = vec4((color - l) * (l2 * PI), 1.0); 
+    } else {
+        gl_FragColor = vec4((color - l) / (l * PI), 1.0);
+    }
 }
