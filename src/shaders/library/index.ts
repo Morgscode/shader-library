@@ -118,6 +118,6 @@ export const shaders: Record<string, Shader> = {
         ...base,
         title: "Texture Techniques 4",
         fragment: textures4,
-        texture: './assets/images/model.jpg',
+        texture: './assets/images/model.webp',
     }
 };
