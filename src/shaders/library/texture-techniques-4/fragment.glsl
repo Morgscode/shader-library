@@ -96,7 +96,7 @@ void main()
 {
     vec2 uv = v_uv * 2.0 - 1.0;
     vec2 l_uv = uv;
-    uv.y += u_time * 0.01;
+    uv.y += u_time * 0.025;
     vec2 px_coords = uv * u_resolution;
     float noise_sample = fbm(
         vec3(px_coords, 0.0) * 0.005, 
@@ -106,7 +106,7 @@ void main()
     );
     float line = smoothstep(
         1.0, 
-        0.01, 
+        0.1, 
         sin((uv.y + uv.x) * u_resolution.y / PI)
     );
 
