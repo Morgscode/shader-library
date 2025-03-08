@@ -13,8 +13,8 @@ void main()
     vec2 uv = v_uv * 2.0 - 1.0;
     uv.y += u_time * 0.001;
     float line = smoothstep(
-        -1.0, 
-        0.001, 
+        1.0, 
+        0.1, 
         sin(uv.y * u_resolution.y)
     );
     vec3 color = mix(vec3(0.0), sample1.xyz, line);
