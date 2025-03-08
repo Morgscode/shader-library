@@ -4,7 +4,6 @@ import proceduralGeometry1 from './procedural-geometry-1/fragment.glsl';
 import pixelart from './procedural-pixel-art-1/fragment.glsl';
 import horizontalSinWave from './horizontal-sinwave/fragment.glsl';
 import psychedellicVisuals1 from './psychedellic-visuals-1/fragment.glsl';
-import textures1 from './texture-techniques-1/fragment.glsl';
 import theVoid from './the-void/fragment.glsl';
 import fbmFractals from './fbm-fractals/fragment.glsl';
 import pong from './pong/fragment.glsl';
@@ -55,12 +54,6 @@ export const shaders: Record<string, Shader> = {
         ...base,
         title: "The Void",
         fragment: theVoid,
-    },
-    "texture-techniques-1": {
-        ...base,
-        title: "Texture techniques #1",
-        fragment: textures1,
-        texture: './assets/images/galactic-core.webp',
     },
     "texture-techniques-2": {
         ...base,

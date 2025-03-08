@@ -96,7 +96,7 @@ void main()
 {
     vec2 uv = v_uv * 2.0 - 1.0;
     vec2 l_uv = uv;
-    uv.y += u_time * 0.01;
+    uv.y += u_time * 0.025;
     vec2 px_coords = uv * u_resolution;
     float noise_sample = fbm(
         vec3(px_coords, 0.0) * 0.005, 
@@ -106,19 +106,23 @@ void main()
     );
     float line = smoothstep(
         1.0, 
-        0.01, 
+        0.1, 
         sin((uv.y + uv.x) * u_resolution.y / PI)
     );
 
     float z = remap(noise_sample, -1.0, 1.0, 0.0, PI);
-    vec4 t_sample = texture2D(u_texturemap, v_uv + (z / u_resolution * 20.0));
+    vec4 t_sample; 
+    if (fract(u_time * BPM) > 0.8) {
+        t_sample = texture2D(u_texturemap, v_uv - (z / u_resolution * 10.0)); 
+    } else {
+        t_sample = texture2D(u_texturemap, v_uv + (z / u_resolution * 20.0));
+    }
 
     vec3 color = mix(vec3(0.0), t_sample.xyz, line);
     float l = length(l_uv) * exp(-length(l_uv));
-    float l2 = l * remap(tan(u_time), -1.0, 1.0, 0.0, 2.0);
-
+    float l2 = l * remap(tan(u_time), -1.0, 1.0, 0.0, 0.25);
     if (fract(u_time * BPM) > 0.8) {
-         gl_FragColor = vec4((color - l) * (l2 * PI), 1.0); 
+        gl_FragColor = vec4((color - l) * (l2 * PI), 1.0); 
     } else {
         gl_FragColor = vec4((color - l) / (l * PI), 1.0);
     }
