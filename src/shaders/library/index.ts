@@ -8,14 +8,14 @@ import theVoid from './the-void/fragment.glsl';
 import fbmFractals from './fbm-fractals/fragment.glsl';
 import pong from './pong/fragment.glsl';
 import proceduralGeometry2 from './procedural-geometry-2/fragment.glsl';
-import textures2 from './texture-techniques-2/fragment.glsl';
-import textures3 from './texture-techniques-3/fragment.glsl';
+import texture2 from './texture-2/fragment.glsl';
+import texture3 from './texture-3/fragment.glsl';
 import healthbar from './healthbar/fragment.glsl';
 import grid from './grid/fragment.glsl';
 import tieDIe from './tie-dye/fragment.glsl';
 import terrain1 from './terrain-1/fragment.glsl';
-import quadracticJuliaSet from './quadratic-julia-set/fragment.glsl';
-import textures4 from './texture-techniques-4/fragment.glsl';
+import juliaSet from './julia-set/fragment.glsl';
+import texture4 from './texture-4/fragment.glsl';
 
 const base: Shader = {
     title: '',
@@ -55,10 +55,10 @@ export const shaders: Record<string, Shader> = {
         title: "The Void",
         fragment: theVoid,
     },
-    "texture-techniques-2": {
+    "texture-2": {
         ...base,
-        title: "Texture techniques #2",
-        fragment: textures2,
+        title: "Texture #2",
+        fragment: texture2,
         texture: './assets/images/galactic-core.webp',
     },
     "procedural-pixel-art-1": {
@@ -81,10 +81,10 @@ export const shaders: Record<string, Shader> = {
         title: "Fractals with FBM",
         fragment: fbmFractals,
     },
-    "texture-techniques-3": {
+    "texture-3": {
         ...base,
-        title: "Texture techniques #3",
-        fragment: textures3,
+        title: "Texture #3",
+        fragment: texture3,
         texture: './assets/images/galactic-core.webp',
     },
     "healthbar": {
@@ -104,13 +104,13 @@ export const shaders: Record<string, Shader> = {
     },
     "quadratic-julia-set": {
         ...base,
-        title: "Quadratic Julia Set",
-        fragment: quadracticJuliaSet,
+        title: "Julia Set",
+        fragment: juliaSet,
     },
-    "texture-techniques-4": {
+    "texture-4": {
         ...base,
-        title: "Texture Techniques 4",
-        fragment: textures4,
+        title: "Texture #4",
+        fragment: texture4,
         texture: './assets/images/model.webp',
     }
 };
