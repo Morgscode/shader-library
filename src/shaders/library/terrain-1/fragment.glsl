@@ -1,4 +1,4 @@
-#define PI 3.1415626535
+#define PI 3.1415926535
 
 varying vec2 v_uv;
 

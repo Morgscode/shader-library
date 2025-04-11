@@ -73,6 +73,16 @@ a {
   color: #3498db;
 }
 
+/* utilities */
+
+.aspect-4-3 {
+  aspect-ratio: 4/3;
+}
+
+.aspect-16-9 {
+  aspect-ratio: 16/9;
+}
+
 /* components */
 
 header.site-header {
