@@ -47,8 +47,8 @@ void main()
     vec2 c = (remap(cos(angle), -1.0, 1.0, 0.8, 1.0) / 2.0) + (uv * 2.0 - vec2(2.0)) * (remap(sin(angle), -1.0, 1.0, 0.8, 1.0) / 4.0);
     for (float i = 0.0; i < BPM; i++) 
     {
-        /// if length of z*z is greater than 5 then stop painting
-        if (dot(z, z) > 5.0) break;
+        /// if length of z*z is greater than 4 then stop painting
+        if (dot(z, z) > 4.0) break;
         /// z*z+c
         float x = (z.x * z.x - z.y * z.y) + c.x;
         float y = (2.0 * z.x * z.y) + c.y;
