@@ -30,29 +30,34 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
 
 void main()
 {
+    /// center texture coords
     vec2 uv = v_uv * 2.0 - 1.0;
+    /// make viewport responsive
     uv.x *= u_resolution.x / u_resolution.y;
+    /// shift focal point left
     uv.x -= 1.0;
     float angle = u_time * (BPM * 0.001);
-    vec2 l_uv = uv;
+    /// add phased shift on x-axis
     uv.x -= remap(sin(angle), -1.0, 1.0, 1.0, 1.5);
-    vec2 z = l_uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
     /// https://en.wikipedia.org/wiki/Mandelbrot_sets
     ///https://gpfault.net/posts/mandelbrot-webgl.txt.html
+    vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
     float iterations = 0.0;
+    /// ensure c is always remapped to it's most "trippy" values
     vec2 c = (remap(cos(angle), -1.0, 1.0, 0.8, 1.0) / 2.0) + (uv * 2.0 - vec2(2.0)) * (remap(sin(angle), -1.0, 1.0, 0.8, 1.0) / 4.0);
     for (float i = 0.0; i < BPM; i++) 
     {
+        /// if length of z*z is greater than 5 then stop painting
         if (dot(z, z) > 5.0) break;
+        /// z*z+c
         float x = (z.x * z.x - z.y * z.y) + c.x;
         float y = (2.0 * z.x * z.y) + c.y;
         z = vec2(x, y);
         iterations += 1.0;
     }
 
-    float t = iterations;
-    float l = length(l_uv + c) * exp(-length(z));
-    vec3 color = 1.0 - palette(l) + sin(t);
+    float l = length(z + c) * exp(-length(z));
+    vec3 color = 1.0 - palette(l) + sin(iterations);
 
     gl_FragColor = vec4(color, 1.0);
 }
