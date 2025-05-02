@@ -66,6 +66,7 @@ ul.shader-list li {
   font-size: 1.25rem;
   list-style: none;
   border-bottom: 2px solid rgba(220, 221, 225, 0.75);
+  line-height: 1.5;
 }
 
 iframe {
