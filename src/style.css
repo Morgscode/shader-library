@@ -6,6 +6,11 @@
   margin: 0px;
 }
 
+main {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 body {
   font-family: 'Courier New', Courier, monospace;
   font-size: 1rem;
@@ -13,6 +18,7 @@ body {
   color: #222222;
   background-color: #F9F9F9;
   position: relative;
+  text-align: center;
 }
 
 body#shader-page {
@@ -24,7 +30,7 @@ body#shader-page {
 
 section {
   position: relative;
-  padding: 3rem 1rem;
+  padding: 2rem 1rem;
 }
 
 section header {
@@ -57,12 +63,13 @@ ul, ol {
 
 ul.shader-list li {
   padding: 1.5rem 0;
+  font-size: 1.25rem;
   list-style: none;
-  border-bottom: 2px solid rgb(220, 221, 225, 0.75);
+  border-bottom: 2px solid rgba(220, 221, 225, 0.75);
 }
 
 iframe {
-  width: 600px;
+  width: 800px;
   aspect-ratio: 16/9;
   max-width: 100%;
   display: block;
@@ -133,18 +140,20 @@ form#search-form input[name="query"] {
 }
 
 #search-results ul li {
+  font-size: 1.2rem;
   padding: 12px 22px;
-  border-bottom: 2px solid rgb(220, 221, 225, 0.75);
+  border-bottom: 2px solid rgba(220, 221, 225, 0.75);
 }
 
 nav#pagination ul {
   display: flex;
+  justify-content: center;
   list-style: none;
 }
 
 nav#pagination ul li {
   margin: 1rem;
-  border-bottom: 2px solid rgb(220, 221, 225, 0.75);
+  border-bottom: 2px solid rgba(220, 221, 225, 0.75);
 }
 
 nav#pagination ul li a{
@@ -188,6 +197,7 @@ nav#pagination ul li a{
   }
 
   ul.shader-list li {
+    font-size: 1rem;
     border-bottom: 2px solid rgba(50, 50, 50, 0.75);
   }
 }
