@@ -35,12 +35,12 @@ void main()
     uv.x *= u_resolution.x / u_resolution.y;
     vec2 l_uv = uv;
     float angle = u_time * (BPM * 0.001);
-     uv.x -= remap(sin(angle), -1.0, 1.0, 2.0, 0.0);
+    uv.x -= remap(sin(angle), -1.0, 1.0, -0.1, 0.1);
     vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
     /// https://en.wikipedia.org/wiki/Julia_set
     /// https://gpfault.net/posts/mandelbrot-webgl.txt.html
     float iterations = 0.0;
-    vec2 c = (remap(cos(angle), -1.0, 1.0, 0.9, 1.0) / 2.0) + (l_uv * PI - vec2(2.0)) * (remap(sin(angle), -1.0, 1.0, 0.9, 1.0) / 4.0);
+    vec2 c = (remap(cos(angle), -1.0, 1.0, 0.75, 1.0) / 2.0) + (l_uv * PI - vec2(2.0)) * (remap(sin(angle), -1.0, 1.0, 0.75, 1.0) / 4.0);
     for (float i = 0.0; i < BPM; i++) 
     {
         if (dot(z, z) > 4.0) break;
