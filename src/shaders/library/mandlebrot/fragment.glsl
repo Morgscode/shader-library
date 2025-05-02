@@ -43,6 +43,7 @@ void main()
     ///https://gpfault.net/posts/mandelbrot-webgl.txt.html
     vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
     float iterations = 0.0;
+    /// ensure c is always remapped to it's most "trippy" values
     vec2 c = (remap(cos(angle), -1.0, 1.0, 0.8, 1.0) / 2.0) + (uv * 2.0 - vec2(2.0)) * (remap(sin(angle), -1.0, 1.0, 0.8, 1.0) / 4.0);
     for (float i = 0.0; i < BPM; i++) 
     {
