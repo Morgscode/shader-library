@@ -16,6 +16,7 @@ import tieDIe from './tie-dye/fragment.glsl';
 import terrain1 from './terrain-1/fragment.glsl';
 import juliaSet from './julia-set/fragment.glsl';
 import texture4 from './texture-4/fragment.glsl';
+import mandlebrot from './mandlebrot/fragment.glsl';
 
 const base: Shader = {
     title: '',
@@ -112,5 +113,10 @@ export const shaders: Record<string, Shader> = {
         title: "Texture #4",
         fragment: texture4,
         texture: './assets/images/model.webp',
+    },
+    "mandlebrot": {
+        ...base,
+        title: "Mandlebrot set",
+        fragment: mandlebrot,
     }
 };
