@@ -29,7 +29,7 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
     return mix(out_min, out_max, t);
 }
 
- /// ensure c is always remapped to it's most "trippy" values
+/// ensure c is always remapped to it's most "trippy" values
 vec2 set_c(float t)
 {
     return vec2(

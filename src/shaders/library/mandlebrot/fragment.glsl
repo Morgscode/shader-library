@@ -1,4 +1,4 @@
-#define BPM 130.0
+#define BPM 80.0
 #define MAX_ITERATIONS 50.0
 #define PI 3.1415926535
 
