@@ -61,24 +61,10 @@ ul, ol {
   list-style-position: inside;
 }
 
-ul.shader-list li {
-  padding: 1.5rem 0;
-  font-size: 1.25rem;
-  list-style: none;
-  border-bottom: 2px solid rgba(220, 221, 225, 0.75);
-  line-height: 1.5;
-  text-align: center;
-}
-
 iframe {
   width: 100%;
-  max-width: 800px;
   aspect-ratio: 16/9;
   display: block;
-}
-
-ul.shader-list li iframe {
-  margin: 1rem auto;
 }
 
 a {
@@ -89,7 +75,6 @@ a {
 
 .aspect-3-4 {
   aspect-ratio: 3/4 !important;
-  max-width: 400px !important;
 }
 
 .aspect-16-9 {
@@ -117,7 +102,6 @@ header.site-header a {
 }
 
 #preview iframe {
-  width: 350px;
   margin-left: auto;
 }
 
@@ -151,6 +135,27 @@ form#search-form input[name="query"] {
   border-bottom: 2px solid rgba(220, 221, 225, 0.75);
 }
 
+ul.shader-list li {
+  padding: 1.5rem 0;
+  font-size: 1.25rem;
+  list-style: none;
+  border-bottom: 2px solid rgba(220, 221, 225, 0.75);
+  line-height: 1.5;
+  text-align: center;
+}
+
+ul.shader-list li iframe {
+  margin: 1rem auto;
+}
+
+iframe.aspect-16-9 {
+  max-width: 800px;
+}
+
+iframe.aspect-3-4 {
+  max-width: 600px;
+}
+
 nav#pagination ul {
   display: flex;
   justify-content: center;
@@ -169,18 +174,6 @@ nav#pagination ul li a{
 }
 
 /* media queries */
-
-@media only screen and (min-width: 1280px) {
-  #preview iframe {
-    width: 650px;
-  }
-}
-
-@media only screen and (min-width: 1800px) {
-  #preview iframe {
-    width: 850px;
-  }
-}
 
 @media (prefers-color-scheme: dark) {
   body {
