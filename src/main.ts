@@ -17,11 +17,11 @@ window.addEventListener('load', () => {
             const shader = (app[type] as Record<string, shaders.Shader>)[selection];
             const path = `/shader${window.location.search}`;
 
-            if (window.location.pathname.startsWith('/shader')) {
+            if (isShaderPage()) {
                 shaderPage(shader);
             }
 
-            if (window.location.pathname.startsWith('/library-entry')) {
+            if (isLibraryEntryPage()) {
                 libraryEntryPage(shader, path);
             }
         }
@@ -44,7 +44,7 @@ window.addEventListener("DOMContentLoaded", () => {
         buildPagination(pagination);
     }
 
-    if (window.location.search) {
+    if (window.location.search && isIndexPage()) {
         const search = new URLSearchParams(window.location.search);
         const page = parseInt(search.get('page') ?? "0");
         const list = document.querySelector<HTMLUListElement>('ul#shader-list');
@@ -53,6 +53,18 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+
+function isIndexPage() {
+    return window.location.pathname === "/"
+}
+
+function isShaderPage() {
+    return window.location.pathname === "/shader"
+}
+
+function isLibraryEntryPage() {
+    return window.location.pathname === "/library-entry"
+}
 
 function buildPagination(pagination: HTMLElement) {
     const pages = Math.ceil(Object.keys(shaders["library"]).length / 6);
