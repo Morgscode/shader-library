@@ -121,7 +121,7 @@ void main()
     uv.x *= u_resolution.x / u_resolution.y;
     /// copy centered coords for color generation later
     vec2 l_uv = uv;
-     /// calc pixel coords on texture
+    /// calc pixel coords on texture
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
 
     float angle = u_time * (BPM * 0.001);
