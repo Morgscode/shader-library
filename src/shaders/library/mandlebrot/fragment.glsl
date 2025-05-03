@@ -1,4 +1,5 @@
 #define BPM 130.0
+#define MAX_ITERATIONS 50.0
 #define PI 3.1415926535
 
 varying vec2 v_uv;
@@ -46,14 +47,13 @@ void main()
     float angle = u_time * (BPM * 0.001);
     /// addd phased shift
     uv.x -= remap(sin(angle), -1.0, 1.0, 1.75, 0.0);
-    /// https://en.wikipedia.org/wiki/Julia_set
-    /// https://www.shadertoy.com/view/NdSGRG
+    /// https://en.wikipedia.org/wiki/Mandelbrot_set
+    /// https://gpfault.net/posts/mandelbrot-webgl.txt.html
     vec2 z_uv = uv;
     vec2 z = z_uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
-    float max_iterartions = 50.0;
     float iterations = 0.0;
     vec2 c = set_c(angle, uv);
-    for (float i = 0.0; i < max_iterartions; i++) 
+    for (float i = 0.0; i < MAX_ITERATIONS; i++) 
     {
         /// if sqrt of z*z > 4.0 then stop painting
         if (dot(z, z) > 4.0) break;
@@ -64,7 +64,7 @@ void main()
         iterations += 1.0;
     }
 
-    float t = iterations / max_iterartions;
+    float t = iterations / MAX_ITERATIONS;
     float l = length(l_uv) * exp(-length(z));
     vec3 color = 1.0 - palette(l + t);
 
