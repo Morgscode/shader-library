@@ -119,15 +119,16 @@ void main()
     vec2 pixel_coords = (v_uv - 0.5) * u_resolution;
     float angle = u_time * (BPM * 0.001);
     float noise_sample = fbm(
-        vec3(pixel_coords, cos(angle) * PI) * 0.001, 
+        vec3(pixel_coords, 0.0) * 0.001, 
         4, 
         0.5, 
-        remap(sin(angle), -1.0, 1.0, 0.0, 4.0)
+        remap(sin(angle), -1.0, 1.0, -2.0, 2.0)
     );
     vec2 uv = v_uv * 2.0 - 1.0;
     vec2 l_uv = uv;
     uv.x *= u_resolution.x / u_resolution.y;
 
+    /// https://en.wikipedia.org/wiki/Koch_snowflake
     for (float i = 0.0; i < 64.0; i += 1.0) 
     {
         uv = (abs(uv) - 0.5) * 1.1;
