@@ -9,7 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: [
         "index.html",
-        "entry.html",
+        "library-entry.html",
         "shader.html",
       ],
     },
