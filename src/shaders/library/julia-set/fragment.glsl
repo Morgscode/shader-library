@@ -43,6 +43,7 @@ void main()
     /// https://www.shadertoy.com/view/NdSGRG
     vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
     float iterations = 0.0;
+     /// ensure c is always remapped to it's most "trippy" values
     vec2 c = vec2(
         -0.8 + 0.2 * remap(cos(angle), -1.0, 1.0, 0.0, 0.25), 
         0.156 + 0.2 * remap(sin(angle), -1.0, 1.0, -0.25, 0.0)
