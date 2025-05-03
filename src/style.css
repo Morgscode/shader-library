@@ -99,6 +99,8 @@ header.site-header a {
   top: 0;
   z-index: 100;
   left: 100%;
+  width: 100%;
+  max-width: 800px;
 }
 
 #preview iframe {
