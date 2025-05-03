@@ -44,7 +44,7 @@ window.addEventListener("DOMContentLoaded", () => {
         buildPagination(pagination);
     }
 
-    if (window.location.search && isIndexPage()) {
+    if (isIndexPage() && window.location.search) {
         const search = new URLSearchParams(window.location.search);
         const page = parseInt(search.get('page') ?? "0");
         const list = document.querySelector<HTMLUListElement>('ul#shader-list');
@@ -64,6 +64,50 @@ function isShaderPage() {
 
 function isLibraryEntryPage() {
     return window.location.pathname === "/library-entry"
+}
+
+function shaderPage(shader: shaders.Shader) {
+    const shaderEl = document.querySelector<HTMLDivElement>('div#shader');
+    if (shaderEl && shader) {
+        const renderer = new Renderer(shader);
+        renderer.render();
+    }
+}
+
+function libraryEntryPage(shader: shaders.Shader, path: string,) {
+    const titleEl = document.querySelector<HTMLHeadingElement>('h2#shader-name');
+    if (titleEl) {
+        titleEl.textContent = shader.title;
+    }
+
+    const linkEl = document.querySelector<HTMLAnchorElement>('a#shader-link');
+    if (linkEl) {
+        linkEl.href = path;
+    }
+
+    const previewEl = document.querySelector<HTMLIFrameElement>('iframe#shader-preview');
+    if (previewEl) {
+        previewEl.src = path;
+        previewEl.classList.add(shader.previewAspectRatio);
+    }
+
+    const editorEl = document.querySelector<HTMLDivElement>('div#editor');
+    if (editorEl) {
+        const updateListener = EditorView.updateListener.of((update) => {
+            if (update.docChanged && previewEl) {
+                const fragment = update.state.doc.toString();
+                previewEl.contentWindow?.postMessage({
+                    type: "ShaderUpdate",
+                    fragment,
+                });
+            }
+        });
+        new EditorView({
+            extensions: [basicSetup, dracula, cpp(), updateListener],
+            parent: editorEl,
+            doc: shader.fragment,
+        });
+    }
 }
 
 function buildPagination(pagination: HTMLElement) {
@@ -138,48 +182,4 @@ function shaderSearchResult(key: string) {
 
 function paginationItem(page: number) {
     return `<li><a href="/?page=${page}">${page}</a></li>`;
-}
-
-function shaderPage(shader: shaders.Shader) {
-    const shaderEl = document.querySelector<HTMLDivElement>('div#shader');
-    if (shaderEl && shader) {
-        const renderer = new Renderer(shader);
-        renderer.render();
-    }
-}
-
-function libraryEntryPage(shader: shaders.Shader, path: string,) {
-    const titleEl = document.querySelector<HTMLHeadingElement>('h2#shader-name');
-    if (titleEl) {
-        titleEl.textContent = shader.title;
-    }
-
-    const linkEl = document.querySelector<HTMLAnchorElement>('a#shader-link');
-    if (linkEl) {
-        linkEl.href = path;
-    }
-
-    const previewEl = document.querySelector<HTMLIFrameElement>('iframe#shader-preview');
-    if (previewEl) {
-        previewEl.src = path;
-        previewEl.classList.add(shader.previewAspectRatio);
-    }
-
-    const editorEl = document.querySelector<HTMLDivElement>('div#editor');
-    if (editorEl) {
-        const updateListener = EditorView.updateListener.of((update) => {
-            if (update.docChanged && previewEl) {
-                const fragment = update.state.doc.toString();
-                previewEl.contentWindow?.postMessage({
-                    type: "ShaderUpdate",
-                    fragment,
-                });
-            }
-        });
-        new EditorView({
-            extensions: [basicSetup, dracula, cpp(), updateListener],
-            parent: editorEl,
-            doc: shader.fragment,
-        });
-    }
 }
