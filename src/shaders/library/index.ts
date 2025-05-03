@@ -103,9 +103,9 @@ export const shaders: Record<string, Shader> = {
         title: "Terrain #1",
         fragment: terrain1,
     },
-    "quadratic-julia-set": {
+    "julia-set": {
         ...base,
-        title: "Julia Set",
+        title: "Julia set",
         fragment: juliaSet,
     },
     "texture-4": {
@@ -114,7 +114,7 @@ export const shaders: Record<string, Shader> = {
         fragment: texture4,
         texture: './assets/images/model.webp',
     },
-    "mandlebrot": {
+    "mandlebrot-set": {
         ...base,
         title: "Mandlebrot set",
         fragment: mandlebrot,
