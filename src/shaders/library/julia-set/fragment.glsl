@@ -1,4 +1,5 @@
 #define BPM 130.0
+#define MAX_ITERATIONS 150.0
 #define PI 3.1415926535
 
 varying vec2 v_uv;
@@ -53,11 +54,9 @@ void main()
     /// https://www.shadertoy.com/view/NdSGRG
     vec2 z_uv = uv;
     vec2 z = z_uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
-    float max_iterartions = 150.0;
     float iterations = 0.0;
-    /// ensure c is always remapped to it's most "trippy" values
     vec2 c = set_c(angle);
-    for (float i = 0.0; i < max_iterartions; i++) 
+    for (float i = 0.0; i < MAX_ITERATIONS; i++) 
     {
         /// if sqrt of z*z > 4.0 then stop painting
         if (dot(z, z) > 4.0) break;
@@ -68,7 +67,7 @@ void main()
         iterations += 1.0;
     }
 
-    float t = iterations / max_iterartions;
+    float t = iterations / MAX_ITERATIONS;
     float l = length(l_uv) * exp(-length(z));
     vec3 color = 1.0 - palette(l + t);
 
