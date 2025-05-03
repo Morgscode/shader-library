@@ -28,26 +28,34 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
     return mix(out_min, out_max, t);
 }
 
+ /// ensure c is always remapped to it's most "trippy" values
+vec2 set_c(float t, vec2 uv)
+{
+    return (remap(cos(t), -1.0, 1.0, 0.8, 1.0) / 2.0) + (uv * 2.0 - vec2(2.0)) * (remap(sin(t), -1.0, 1.0, 0.8, 1.0) / 4.0);
+}
+
 void main()
 {
-    /// center texture coords
+     /// center texture coords
     vec2 uv = v_uv * 2.0 - 1.0;
-    /// make viewport responsive
+    /// make screen responsive
     uv.x *= u_resolution.x / u_resolution.y;
-    /// shift focal point left
+    vec2 l_uv = uv;
+    /// shift view left
     uv.x -= 1.0;
     float angle = u_time * (BPM * 0.001);
-    /// add phased shift on x-axis
-    uv.x -= remap(sin(angle), -1.0, 1.0, 1.0, 1.5);
-    /// https://en.wikipedia.org/wiki/Mandelbrot_sets
-    ///https://gpfault.net/posts/mandelbrot-webgl.txt.html
-    vec2 z = uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
+    /// addd phased shift
+    uv.x -= remap(sin(angle), -1.0, 1.0, 1.75, 0.0);
+    /// https://en.wikipedia.org/wiki/Julia_set
+    /// https://www.shadertoy.com/view/NdSGRG
+    vec2 z_uv = uv;
+    vec2 z = z_uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
+    float max_iterartions = 50.0;
     float iterations = 0.0;
-    /// ensure c is always remapped to it's most "trippy" values
-    vec2 c = (remap(cos(angle), -1.0, 1.0, 0.8, 1.0) / 2.0) + (uv * 2.0 - vec2(2.0)) * (remap(sin(angle), -1.0, 1.0, 0.8, 1.0) / 4.0);
-    for (float i = 0.0; i < BPM; i++) 
+    vec2 c = set_c(angle, uv);
+    for (float i = 0.0; i < max_iterartions; i++) 
     {
-        /// if sqrt of z*z > 4 then stop painting
+        /// if sqrt of z*z > 4.0 then stop painting
         if (dot(z, z) > 4.0) break;
         /// z*z+c
         float x = (z.x * z.x - z.y * z.y) + c.x;
@@ -56,8 +64,9 @@ void main()
         iterations += 1.0;
     }
 
-    float l = length(z + c) * exp(-length(z));
-    vec3 color = 1.0 - palette(l) + sin(iterations);
+    float t = iterations / max_iterartions;
+    float l = length(l_uv) * exp(-length(z));
+    vec3 color = 1.0 - palette(l + t);
 
     gl_FragColor = vec4(color, 1.0);
 }

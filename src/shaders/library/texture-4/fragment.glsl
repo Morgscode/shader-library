@@ -112,9 +112,9 @@ void main()
     float z = remap(noise_sample, -1.0, 1.0, 1.0, PI);
     vec4 t_sample; 
     if (fract(u_time) > 0.8) {
-        t_sample = texture2D(u_texturemap, v_uv - (z / u_resolution * 10.0)); 
+        t_sample = texture2D(u_texturemap, v_uv + (z / u_resolution * 10.0)); 
     } else {
-        t_sample = texture2D(u_texturemap, v_uv + (z / u_resolution * 20.0));
+        t_sample = texture2D(u_texturemap, v_uv - (z / u_resolution * 20.0));
     }
 
     vec3 color = mix(vec3(0.0), t_sample.xyz, line);
