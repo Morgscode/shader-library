@@ -135,7 +135,7 @@ function performSearch(query: string) {
 }
 
 function paginateShaderList(page: number, list: HTMLUListElement) {
-    const pageSize = 6;
+    const pageSize = 5;
     const pages = Math.ceil(Object.keys(shaders["library"]).length / pageSize);
     const startIndex = (page - 1) * pageSize;
     if (page < 1 || page > pages) return;
