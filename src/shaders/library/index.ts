@@ -26,6 +26,7 @@ const base: Shader = {
     geometry: "plane",
     controls: false,
     hidden: false,
+    previewAspectRatio: "aspect-16-9",
 };
 
 export const shaders: Record<string, Shader> = {
@@ -113,6 +114,7 @@ export const shaders: Record<string, Shader> = {
         title: "Texture #4",
         fragment: texture4,
         texture: './assets/images/model.webp',
+        previewAspectRatio: "aspect-3-4",
     },
     "mandlebrot-set": {
         ...base,

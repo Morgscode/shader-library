@@ -13,10 +13,11 @@ body {
   color: #222222;
   background-color: #F9F9F9;
   position: relative;
+  padding-bottom: 2rem;
 }
 
 body#front-page main {
-  width: 800px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -29,7 +30,7 @@ body#shader-page {
 
 section {
   position: relative;
-  padding: 2rem 1rem;
+  padding: 2rem 1rem 0 1rem;
 }
 
 section header {
@@ -69,11 +70,10 @@ ul.shader-list li {
 }
 
 iframe {
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   aspect-ratio: 16/9;
-  max-width: 100%;
   display: block;
-  margin-bottom: 1rem;
 }
 
 a {
@@ -82,8 +82,10 @@ a {
 
 /* utilities */
 
-.aspect-4-3 {
-  aspect-ratio: 4/3;
+.aspect-3-4 {
+  aspect-ratio: 3/4;
+  max-width: 66%;
+  margin: 0 auto;
 }
 
 .aspect-16-9 {
@@ -131,7 +133,7 @@ form#search-form input[name="query"] {
   border: none;
 }
 
-#search-results {
+#search-results:not(:empty) {
   padding-top: 2rem;
 }
 
