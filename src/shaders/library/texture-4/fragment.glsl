@@ -93,9 +93,9 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
 
 void main()
 {
+    /// center texture coords
     vec2 uv = v_uv * 2.0 - 1.0;
-    vec2 l_uv = uv;
-    uv.y += u_time * 0.025;
+    /// get texture based px coords
     vec2 px_coords = uv * u_resolution;
     float noise_sample = fbm(
         vec3(px_coords, 0.0) * 0.005, 
@@ -103,23 +103,31 @@ void main()
         0.5, 
         2.0
     );
+
+    /// add time-based shift for the monitor filter
+    vec2 l_uv = uv;
+    l_uv.y += u_time * 0.025;
+    /// draw a line for the monitor filter
     float line = smoothstep(
         1.0, 
-        0.1, 
-        sin((uv.y - u_time * 0.09) * u_resolution.y) / PI
+        0.1,
+        sin((l_uv.y - u_time * 0.09) * u_resolution.y) / PI
     );
 
-    float z = remap(noise_sample, -1.0, 1.0, 1.0, PI);
+    float distortion = remap(noise_sample, -1.0, 1.0, 0.0, PI);
     vec4 t_sample; 
+    /// position the image based on time and apply distorion
     if (fract(u_time) > 0.8) {
-        t_sample = texture2D(u_texturemap, v_uv + (z / u_resolution * 10.0)); 
+        t_sample = texture2D(u_texturemap, v_uv + (distortion / u_resolution * 10.0)); 
     } else {
-        t_sample = texture2D(u_texturemap, v_uv - (z / u_resolution * 20.0));
+        t_sample = texture2D(u_texturemap, v_uv - (distortion / u_resolution * 20.0));
     }
 
     vec3 color = mix(vec3(0.0), t_sample.xyz, line);
-    float l = length(l_uv) * exp(-length(l_uv));
+    float l = length(uv) * exp(-length(uv));
     float l2 = l * remap(tan(u_time), -1.0, 1.0, 0.0, 0.33);
+
+    /// alter the lighting based on time and paint the pixel
     if (fract(u_time) > 0.7) {
         gl_FragColor = vec4((color - l) * (l2 * PI), 1.0); 
     } else {
