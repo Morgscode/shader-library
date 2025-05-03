@@ -39,6 +39,7 @@ window.addEventListener('load', () => {
                 const previewEl = document.querySelector<HTMLIFrameElement>('iframe#shader-preview');
                 if (previewEl) {
                     previewEl.src = path;
+                    previewEl.classList.add(shader.previewAspectRatio);
                 }
 
                 const editorEl = document.querySelector<HTMLDivElement>('div#editor');
@@ -125,6 +126,7 @@ function shaderListItem(entry: [string, shaders.Shader]) {
             title="${shader.title}"
             src="/shader?type=library&shader=${key}"
             frameborder="0"
+            class="${shader.previewAspectRatio}"
         ></iframe>
         <a href="/shader?type=library&shader=${key}"
         >${shader.title}</a>

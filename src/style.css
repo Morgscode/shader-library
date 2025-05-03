@@ -67,6 +67,7 @@ ul.shader-list li {
   list-style: none;
   border-bottom: 2px solid rgba(220, 221, 225, 0.75);
   line-height: 1.5;
+  text-align: center;
 }
 
 iframe {
@@ -76,6 +77,10 @@ iframe {
   display: block;
 }
 
+ul.shader-list li iframe {
+  margin: 1rem auto;
+}
+
 a {
   color: #3498db;
 }
@@ -83,13 +88,12 @@ a {
 /* utilities */
 
 .aspect-3-4 {
-  aspect-ratio: 3/4;
-  max-width: 66%;
-  margin: 0 auto;
+  aspect-ratio: 3/4 !important;
+  max-width: 400px !important;
 }
 
 .aspect-16-9 {
-  aspect-ratio: 16/9;
+  aspect-ratio: 16/9 !important;
 }
 
 /* components */
@@ -164,6 +168,8 @@ nav#pagination ul li a{
   cursor: pointer;
 }
 
+/* media queries */
+
 @media only screen and (min-width: 1280px) {
   #preview iframe {
     width: 650px;
@@ -175,8 +181,6 @@ nav#pagination ul li a{
     width: 850px;
   }
 }
-
-/* media queries */
 
 @media (prefers-color-scheme: dark) {
   body {
