@@ -118,7 +118,7 @@ form#search-form {
 
 form#search-form input[name="query"] {
   width: 100%;
-  padding: 12px 22px;
+  padding: 0.75rem 1.375rem;
   background-color: rgb(220, 221, 225);
   color: #222222;
   border: none;
@@ -134,7 +134,7 @@ form#search-form input[name="query"] {
 
 #search-results ul li {
   font-size: 1.2rem;
-  padding: 12px 22px;
+  padding: 0px 1.375rem 0.75rem 1.375rem;
   border-bottom: 2px solid rgba(220, 221, 225, 0.75);
 }
 
