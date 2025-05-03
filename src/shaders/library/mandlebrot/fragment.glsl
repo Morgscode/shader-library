@@ -28,6 +28,7 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
     return mix(out_min, out_max, t);
 }
 
+ /// ensure c is always remapped to it's most "trippy" values
 vec2 set_c(float t, vec2 uv)
 {
     return (remap(cos(t), -1.0, 1.0, 0.8, 1.0) / 2.0) + (uv * 2.0 - vec2(2.0)) * (remap(sin(t), -1.0, 1.0, 0.8, 1.0) / 4.0);
@@ -51,7 +52,6 @@ void main()
     vec2 z = z_uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
     float max_iterartions = 50.0;
     float iterations = 0.0;
-    /// ensure c is always remapped to it's most "trippy" values
     vec2 c = set_c(angle, uv);
     for (float i = 0.0; i < max_iterartions; i++) 
     {
