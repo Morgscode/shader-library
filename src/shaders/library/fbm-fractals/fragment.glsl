@@ -127,7 +127,7 @@ void main()
     float angle = u_time * (BPM * 0.001);
     float noise_sample = fbm(
         vec3(pixel_coords, 0.0) * 0.001, 
-        4, 
+        8, 
         0.5, 
         remap(sin(angle), -1.0, 1.0, -2.0, 2.0)
     );
@@ -136,8 +136,11 @@ void main()
     /// https://www.youtube.com/watch?v=8bbTkNZYdQ8
     for (float i = 0.0; i < 64.0; i += 1.0) 
     {
+        /// draw fractal
         uv = (abs(uv) - 0.5) * 1.1;
+        /// add rotation
         uv *= rotate2d(angle);
+        /// add noise
         uv += noise_sample;
     }
 
