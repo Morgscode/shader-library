@@ -99,17 +99,17 @@ void main()
     vec2 px_coords = uv * u_resolution;
     float noise_sample = fbm(
         vec3(px_coords, 0.0) * 0.005, 
-        4, 
+        8, 
         0.5, 
         2.0
     );
     float line = smoothstep(
         1.0, 
         0.1, 
-        sin((uv.y + uv.x) * u_resolution.y / PI)
+        sin((uv.y - u_time * 0.09) * u_resolution.y) / PI
     );
 
-    float z = remap(noise_sample, -1.0, 1.0, 0.0, PI);
+    float z = remap(noise_sample, -1.0, 1.0, 1.0, PI);
     vec4 t_sample; 
     if (fract(u_time) > 0.8) {
         t_sample = texture2D(u_texturemap, v_uv - (z / u_resolution * 10.0)); 
