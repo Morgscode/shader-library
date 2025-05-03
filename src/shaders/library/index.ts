@@ -97,7 +97,7 @@ export const shaders: Record<string, Shader> = {
     "tie-dye": {
         ...base,
         title: "Tie Dye",
-        fragment: tieDIe
+        fragment: tieDIe,
     },
     "terrain-1": {
         ...base,
