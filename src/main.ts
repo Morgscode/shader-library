@@ -17,48 +17,12 @@ window.addEventListener('load', () => {
             const shader = (app[type] as Record<string, shaders.Shader>)[selection];
             const path = `/shader${window.location.search}`;
 
-            if (window.location.pathname.startsWith('/shader')) {
-                const shaderEl = document.querySelector<HTMLDivElement>('div#shader');
-                if (shaderEl && shader) {
-                    const renderer = new Renderer(shader);
-                    renderer.render();
-                }
+            if (isShaderPage()) {
+                shaderPage(shader);
             }
 
-            if (window.location.pathname.startsWith('/entry')) {
-                const titleEl = document.querySelector<HTMLHeadingElement>('h2#shader-name');
-                if (titleEl) {
-                    titleEl.textContent = shader.title;
-                }
-
-                const linkEl = document.querySelector<HTMLAnchorElement>('a#shader-link');
-                if (linkEl) {
-                    linkEl.href = path;
-                }
-
-                const previewEl = document.querySelector<HTMLIFrameElement>('iframe#shader-preview');
-                if (previewEl) {
-                    previewEl.src = path;
-                    previewEl.classList.add(shader.previewAspectRatio);
-                }
-
-                const editorEl = document.querySelector<HTMLDivElement>('div#editor');
-                if (editorEl) {
-                    const updateListener = EditorView.updateListener.of((update) => {
-                        if (update.docChanged && previewEl) {
-                            const fragment = update.state.doc.toString();
-                            previewEl.contentWindow?.postMessage({
-                                type: "ShaderUpdate",
-                                fragment,
-                            });
-                        }
-                    });
-                    new EditorView({
-                        extensions: [basicSetup, dracula, cpp(), updateListener],
-                        parent: editorEl,
-                        doc: shader.fragment,
-                    });
-                }
+            if (isLibraryEntryPage()) {
+                libraryEntryPage(shader, path);
             }
         }
     }
@@ -71,33 +35,93 @@ window.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const data = new FormData(e.target as HTMLFormElement);
             const query = data.get('query') as string;
-            search(query);
+            performSearch(query);
         });
     }
 
-    const pagination = document.querySelector('nav#pagination');
+    const pagination = document.querySelector<HTMLElement>('nav#pagination');
     if (pagination) {
-        const pages = Math.ceil(Object.keys(shaders["library"]).length / 6);
-        const links = [];
-        for (let i = 0; i < pages; i++) {
-            links[i] = paginationItem(i + 1);
-        }
-        const list = document.createElement('ul');
-        list.innerHTML = links.join("");
-        pagination.appendChild(list);
+        buildPagination(pagination);
     }
 
-    if (window.location.search) {
+    if (isIndexPage() && window.location.search) {
         const search = new URLSearchParams(window.location.search);
         const page = parseInt(search.get('page') ?? "0");
         const list = document.querySelector<HTMLUListElement>('ul#shader-list');
         if (page && list) {
-            paginate(page, list);
+            paginateShaderList(page, list);
         }
     }
 });
 
-function search(query: string) {
+function isIndexPage() {
+    return window.location.pathname === "/"
+}
+
+function isShaderPage() {
+    return window.location.pathname === "/shader"
+}
+
+function isLibraryEntryPage() {
+    return window.location.pathname === "/library-entry"
+}
+
+function shaderPage(shader: shaders.Shader) {
+    const shaderEl = document.querySelector<HTMLDivElement>('div#shader');
+    if (shaderEl && shader) {
+        const renderer = new Renderer(shader);
+        renderer.render();
+    }
+}
+
+function libraryEntryPage(shader: shaders.Shader, path: string,) {
+    const titleEl = document.querySelector<HTMLHeadingElement>('h2#shader-name');
+    if (titleEl) {
+        titleEl.textContent = shader.title;
+    }
+
+    const linkEl = document.querySelector<HTMLAnchorElement>('a#shader-link');
+    if (linkEl) {
+        linkEl.href = path;
+    }
+
+    const previewEl = document.querySelector<HTMLIFrameElement>('iframe#shader-preview');
+    if (previewEl) {
+        previewEl.src = path;
+        previewEl.classList.add(shader.previewAspectRatio);
+    }
+
+    const editorEl = document.querySelector<HTMLDivElement>('div#editor');
+    if (editorEl) {
+        const updateListener = EditorView.updateListener.of((update) => {
+            if (update.docChanged && previewEl) {
+                const fragment = update.state.doc.toString();
+                previewEl.contentWindow?.postMessage({
+                    type: "ShaderUpdate",
+                    fragment,
+                });
+            }
+        });
+        new EditorView({
+            extensions: [basicSetup, dracula, cpp(), updateListener],
+            parent: editorEl,
+            doc: shader.fragment,
+        });
+    }
+}
+
+function buildPagination(pagination: HTMLElement) {
+    const pages = Math.ceil(Object.keys(shaders["library"]).length / 6);
+    const links = [];
+    for (let i = 0; i < pages; i++) {
+        links[i] = paginationItem(i + 1);
+    }
+    const list = document.createElement('ul');
+    list.innerHTML = links.join("");
+    pagination.appendChild(list);
+}
+
+function performSearch(query: string) {
     const results = document.querySelector<HTMLDivElement>("#search-results");
     if (!results) return;
     results.innerHTML = "";
@@ -110,7 +134,7 @@ function search(query: string) {
     results!.appendChild(list);
 }
 
-function paginate(page: number, list: HTMLUListElement) {
+function paginateShaderList(page: number, list: HTMLUListElement) {
     const pageSize = 6;
     const pages = Math.ceil(Object.keys(shaders["library"]).length / pageSize);
     const startIndex = (page - 1) * pageSize;
@@ -139,7 +163,7 @@ function shaderListItem(entry: [string, shaders.Shader]) {
         <a href="/shader?type=library&shader=${key}"
         >${shader.title}</a>
         |
-        <a href="/entry?type=library&shader=${key}"
+        <a href="/library-entry?type=library&shader=${key}"
         >Explore/Edit</a>
     `;
     li.innerHTML = markup;
@@ -152,7 +176,7 @@ function shaderSearchResult(key: string) {
                 <span>${shader.title} - </span>
                 <a href="/shader.html?type=library&shader=${key}">Shader</a>
                 &nbsp;|&nbsp;
-                <a href="/entry.html?type=library&shader=${key}">Entry</a>
+                <a href="/library-entry.html?type=library&shader=${key}">Entry</a>
             </li>`;
 }
 
