@@ -127,7 +127,7 @@ void main()
     float angle = u_time * (BPM * 0.001);
     float noise_sample = fbm(
         vec3(pixel_coords, 0.0) * 0.001, 
-        8, 
+        4, 
         0.5, 
         remap(sin(angle), -1.0, 1.0, -2.0, 2.0)
     );
