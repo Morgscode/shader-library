@@ -61,9 +61,10 @@ void main()
         /// if sqrt of z*z > 4.0 then stop painting
         if (dot(z, z) > 4.0) break;
         /// z*z+c
-        float x = (z.x * z.x - z.y * z.y) + c.x;
-        float y = (2.0 * z.x * z.y) + c.y;
-        z = vec2(x, y);
+        z = vec2(
+            z.x * z.x - z.y * z.y,
+            2.0 * z.x * z.y
+        ) + c;
         iterations += 1.0;
     }
 
