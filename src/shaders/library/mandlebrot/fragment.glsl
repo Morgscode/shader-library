@@ -29,7 +29,7 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
     return mix(out_min, out_max, t);
 }
 
- /// ensure c is always remapped to it's most "trippy" values
+/// ensure c is always remapped to it's most "trippy" values
 vec2 set_c(float t, vec2 uv)
 {
     return (remap(cos(t), -1.0, 1.0, 0.8, 1.0) / 2.0) + (uv * 2.0 - vec2(2.0)) * (remap(sin(t), -1.0, 1.0, 0.8, 1.0) / 4.0);
@@ -37,16 +37,16 @@ vec2 set_c(float t, vec2 uv)
 
 void main()
 {
-     /// center texture coords
+    /// center texture coords
     vec2 uv = v_uv * 2.0 - 1.0;
     /// make screen responsive
     uv.x *= u_resolution.x / u_resolution.y;
     vec2 l_uv = uv;
     /// fixed view shift left
-    uv.x -= 1.0;
+    uv.x -= 2.0;
     float angle = u_time * (BPM * 0.001);
     /// add phased shift
-    uv.x -= remap(sin(angle), -1.0, 1.0, 1.75, 0.0);
+    uv.x -= remap(sin(angle), -1.0, 1.0, 1.0, 0.0);
     /// https://en.wikipedia.org/wiki/Mandelbrot_set
     /// https://gpfault.net/posts/mandelbrot-webgl.txt.html
     vec2 z_uv = uv;
@@ -58,9 +58,10 @@ void main()
         /// if sqrt of z*z > 4.0 then stop painting
         if (dot(z, z) > 4.0) break;
         /// z*z+c
-        float x = (z.x * z.x - z.y * z.y) + c.x;
-        float y = (2.0 * z.x * z.y) + c.y;
-        z = vec2(x, y);
+        z = vec2(
+            z.x * z.x - z.y * z.y,
+            2.0 * z.x * z.y
+        ) + c;
         iterations += 1.0;
     }
 

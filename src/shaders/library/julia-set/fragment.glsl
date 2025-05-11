@@ -45,9 +45,9 @@ void main()
     /// make screen responsive
     uv.x *= u_resolution.x / u_resolution.y;
     vec2 l_uv = uv;
+    float angle = u_time * (BPM * 0.001);
     /// fixed view shift left
     uv.x -= 1.0;
-    float angle = u_time * (BPM * 0.001);
     /// add phased shift
     uv.x -= remap(sin(angle), -1.0, 1.0, 1.75, 0.0);
     /// https://en.wikipedia.org/wiki/Julia_set
@@ -61,9 +61,10 @@ void main()
         /// if sqrt of z*z > 4.0 then stop painting
         if (dot(z, z) > 4.0) break;
         /// z*z+c
-        float x = (z.x * z.x - z.y * z.y) + c.x;
-        float y = (2.0 * z.x * z.y) + c.y;
-        z = vec2(x, y);
+        z = vec2(
+            z.x * z.x - z.y * z.y,
+            2.0 * z.x * z.y
+        ) + c;
         iterations += 1.0;
     }
 
