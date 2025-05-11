@@ -45,14 +45,14 @@ void main()
     /// make screen responsive
     uv.x *= u_resolution.x / u_resolution.y;
     vec2 l_uv = uv;
+    vec2 z_uv = uv;
+    float angle = u_time * (BPM * 0.001);
     /// fixed view shift left
     uv.x -= 1.0;
-    float angle = u_time * (BPM * 0.001);
     /// add phased shift
     uv.x -= remap(sin(angle), -1.0, 1.0, 1.75, 0.0);
     /// https://en.wikipedia.org/wiki/Julia_set
     /// https://www.shadertoy.com/view/NdSGRG
-    vec2 z_uv = uv;
     vec2 z = z_uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
     float iterations = 0.0;
     vec2 c = set_c(angle);

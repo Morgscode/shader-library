@@ -115,6 +115,7 @@ void main()
         0.1,
         sin(l_uv.y * u_resolution.y) / PI
     );
+    
     float distortion = remap(noise_sample, -1.0, 1.0, 0.0, 1.0);
     vec4 t_sample; 
     /// position the image based on time and apply distorion
@@ -129,7 +130,7 @@ void main()
     float l2 = l * remap(tan(u_time), -1.0, 1.0, 0.0, 0.33);
 
     /// alter the lighting based on time and paint the pixel
-    if (fract(u_time) > 0.6) {
+    if (fract(u_time) > 0.5) {
         gl_FragColor = vec4((color - l) * (l2 * PI), 1.0); 
     } else {
         gl_FragColor = vec4((color - l) / (l * PI), 1.0);

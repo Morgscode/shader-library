@@ -29,6 +29,15 @@ float remap(float value, float in_min, float in_max, float out_min, float out_ma
     return mix(out_min, out_max, t);
 }
 
+/// https://en.wikipedia.org/wiki/Rotation_matrix
+mat2 rotate2d(float angle) 
+{
+    return mat2(
+        cos(angle), -sin(angle),
+        sin(angle), cos(angle)
+    );
+}
+
  /// ensure c is always remapped to it's most "trippy" values
 vec2 set_c(float t, vec2 uv)
 {
@@ -37,19 +46,21 @@ vec2 set_c(float t, vec2 uv)
 
 void main()
 {
-     /// center texture coords
+    /// center texture coords
     vec2 uv = v_uv * 2.0 - 1.0;
+    /// i don't know why this works but im glad i stunbled on it
+    uv *= rotate2d(PI) / u_time;
     /// make screen responsive
     uv.x *= u_resolution.x / u_resolution.y;
     vec2 l_uv = uv;
-    /// fixed view shift left
-    uv.x -= 1.0;
+    vec2 z_uv = uv;
     float angle = u_time * (BPM * 0.001);
+    /// fixed view shift left
+    uv.x -= 1.5;
     /// add phased shift
-    uv.x -= remap(sin(angle), -1.0, 1.0, 1.75, 0.0);
+    uv.x -= remap(sin(angle), -1.0, 1.0, 1.75, 1.0);
     /// https://en.wikipedia.org/wiki/Mandelbrot_set
     /// https://gpfault.net/posts/mandelbrot-webgl.txt.html
-    vec2 z_uv = uv;
     vec2 z = z_uv / remap(-sin(angle), -1.0, 1.0, 5.0, 3.0);
     float iterations = 0.0;
     vec2 c = set_c(angle, uv);
