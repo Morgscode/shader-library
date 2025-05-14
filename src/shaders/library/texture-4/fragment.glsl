@@ -115,13 +115,13 @@ void main()
         0.1,
         sin(l_uv.y * u_resolution.y) / PI
     );
-    float distortion = remap(noise_sample, -1.0, 1.0, 0.0, 1.0);
+    float distortion = remap(noise_sample, -1.0, 1.0, 0.0, PI);
     vec4 t_sample; 
     /// position the image based on time and apply distorion
     if (fract(u_time) > 0.8) {
         t_sample = texture2D(u_texturemap, v_uv); 
     } else {
-        t_sample = texture2D(u_texturemap, v_uv - (distortion / u_resolution * 50.0));
+        t_sample = texture2D(u_texturemap, v_uv - (distortion  / u_resolution * 20.0));
     }
 
     vec3 color = mix(vec3(0.0), t_sample.xyz, line);
